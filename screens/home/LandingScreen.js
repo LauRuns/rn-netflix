@@ -2,11 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { NFHeaderButton, Header, Card } from '../../components/atoms/index';
+import {
+	NFHeaderButton,
+	Header,
+	DefaultText
+} from '../../components/atoms/index';
+import { CardToContent } from '../../components/molecules/CardToContent';
 import Colors from '../../constants/Colors';
 
 export const LandingScreen = (props) => {
-	const selectItemHandler = () => {
+	const selectionHandler = () => {
 		props.navigation.navigate('ItemList');
 	};
 
@@ -17,11 +22,24 @@ export const LandingScreen = (props) => {
 				title="LandingScreen works!"
 				subHeader="New &amp; Expiring content"
 			/>
-			{/* <ScrollView style={styles.cardContainer}>
-
-
-            </ScrollView> */}
-			<Button title="ItemList" onPress={selectItemHandler} />
+			<ScrollView style={styles.cardContainer}>
+				<CardToContent onSelect={selectionHandler}>
+					<DefaultText size={20}>
+						New content for [insert-country-here]
+					</DefaultText>
+				</CardToContent>
+				<CardToContent onSelect={selectionHandler}>
+					<DefaultText size={20}>New content for Netherlands</DefaultText>
+				</CardToContent>
+				<CardToContent onSelect={selectionHandler}>
+					<DefaultText size={20}>
+						Expiring content for [insert-country-here]
+					</DefaultText>
+				</CardToContent>
+				<CardToContent onSelect={selectionHandler}>
+					<DefaultText size={20}>Expiring content for Netherlands</DefaultText>
+				</CardToContent>
+			</ScrollView>
 		</View>
 	);
 };
