@@ -5,15 +5,20 @@ import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import ReduxThunk from 'redux-thunk';
 
-// const rootReducer = combineReducers({});
+import { AppNavigator } from './navigation/AppNavigator';
+import { nfItemsReducer } from './store/reducers/nf-landing-data';
 
-// const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+const rootReducer = combineReducers({
+	nfItems: nfItemsReducer
+});
+
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
 	return Font.loadAsync({
 		'roboto-regular': require('./assets/fonts/RobotoCondensed-Regular.ttf'),
-		'roboto-light': require('./assets/fonts/RobotoCondensed-Light'),
-		'roboto-bold': require('./assets/fonts/RobotoCondensed-Bold')
+		'roboto-light': require('./assets/fonts/RobotoCondensed-Light.ttf'),
+		'roboto-bold': require('./assets/fonts/RobotoCondensed-Bold.ttf')
 	});
 };
 
