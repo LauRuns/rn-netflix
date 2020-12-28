@@ -13,7 +13,11 @@ import {
 	ItemDetail,
 	detailScreenOptions,
 	ItemList,
-	itemListScreenOptions
+	itemListScreenOptions,
+	CountriesScreen,
+	countriesScreenOptions,
+	CountryContentScreen,
+	countryContentScreenOptions
 } from '../screens/index';
 
 import Colors from '../constants/Colors';
@@ -56,6 +60,34 @@ export const LandingNavigator = () => {
 	);
 };
 
+const CountriesStackNavigator = createStackNavigator();
+export const CountriesNavigator = () => {
+	return (
+		<CountriesStackNavigator.Navigator screenOptions={defaultNavOptions}>
+			<CountriesStackNavigator.Screen
+				name="Countries"
+				component={CountriesScreen}
+				options={countriesScreenOptions}
+			/>
+			<CountriesStackNavigator.Screen
+				name="CountryContent"
+				component={CountryContentScreen}
+				options={countryContentScreenOptions}
+			/>
+			<CountriesStackNavigator.Screen
+				name="ItemList"
+				component={ItemList}
+				options={itemListScreenOptions}
+			/>
+			<CountriesStackNavigator.Screen
+				name="ItemDetail"
+				component={ItemDetail}
+				options={detailScreenOptions}
+			/>
+		</CountriesStackNavigator.Navigator>
+	);
+};
+
 const NFAppDrawerNavigator = createDrawerNavigator();
 export const NFAppNavigator = () => {
 	const dispatch = useDispatch();
@@ -84,8 +116,21 @@ export const NFAppNavigator = () => {
 				component={LandingNavigator}
 				options={{
 					drawerIcon: (props) => (
+						<Ionicons name="apps" size={23} color={props.color} />
+					)
+				}}
+			/>
+			<NFAppDrawerNavigator.Screen
+				name="Countries"
+				component={CountriesNavigator}
+				options={{
+					drawerIcon: (props) => (
 						<Ionicons
-							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+							name={
+								Platform.OS === 'android'
+									? 'compass-outline'
+									: 'compass-outline'
+							}
 							size={23}
 							color={props.color}
 						/>
