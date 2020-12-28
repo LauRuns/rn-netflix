@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { NFHeaderButton } from '../../components/atoms/index';
+import { NFHeaderButton, Header, Card } from '../../components/atoms/index';
 import Colors from '../../constants/Colors';
 
 export const LandingScreen = (props) => {
@@ -12,7 +12,15 @@ export const LandingScreen = (props) => {
 
 	return (
 		<View style={styles.screen}>
-			<Text>Landing screen works!</Text>
+			<Header
+				color={Colors.nfWhite}
+				title="LandingScreen works!"
+				subHeader="New &amp; Expiring content"
+			/>
+			{/* <ScrollView style={styles.cardContainer}>
+
+
+            </ScrollView> */}
 			<Button title="ItemList" onPress={selectItemHandler} />
 		</View>
 	);
@@ -38,7 +46,7 @@ export const landingScreenOptions = (navData) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	}
+		backgroundColor: Colors.backgroundDark
+	},
+	cardContainer: {}
 });

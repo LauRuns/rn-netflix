@@ -9,7 +9,16 @@ import {
 	CountryContentScreen,
 	countryContentScreenOptions
 } from './countryContent/CountryContentScreen';
-
+import { AccountScreen, accountScreenOptions } from './account/AccountScreen';
+import { AvatarScreen } from './account/avatar/AvatarScreen';
+import { CountryScreen } from './account/country/CountryScreen';
+import { PasswordScreen } from './account/password/PasswordScreen';
+import { UserNameEmailScreen } from './account/userNameEmail/UsernameEmailScreen';
+import { SearchScreen, searchScreenOptions } from './search/SearchScreen';
+import {
+	SearchResultScreen,
+	searchResultScreenOptions
+} from './search/SearchResultScreen';
 export {
 	LandingScreen,
 	ItemDetail,
@@ -20,5 +29,15 @@ export {
 	CountriesScreen,
 	countriesScreenOptions,
 	CountryContentScreen,
-	countryContentScreenOptions
+	countryContentScreenOptions,
+	AccountScreen,
+	accountScreenOptions,
+	AvatarScreen,
+	CountryScreen,
+	PasswordScreen,
+	UserNameEmailScreen,
+	SearchScreen,
+	searchScreenOptions,
+	SearchResultScreen,
+	searchResultScreenOptions
 };

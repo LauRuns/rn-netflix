@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform, SafeAreaView, Button, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
 	createDrawerNavigator,
 	DrawerItemList
@@ -17,7 +18,17 @@ import {
 	CountriesScreen,
 	countriesScreenOptions,
 	CountryContentScreen,
-	countryContentScreenOptions
+	countryContentScreenOptions,
+	AccountScreen,
+	accountScreenOptions,
+	AvatarScreen,
+	CountryScreen,
+	PasswordScreen,
+	UserNameEmailScreen,
+	SearchScreen,
+	searchScreenOptions,
+	SearchResultScreen,
+	searchResultScreenOptions
 } from '../screens/index';
 
 import Colors from '../constants/Colors';
@@ -88,6 +99,56 @@ export const CountriesNavigator = () => {
 	);
 };
 
+const SearchStackNavigator = createStackNavigator();
+export const SearchNavigator = () => {
+	return (
+		<SearchStackNavigator.Navigator screenOptions={defaultNavOptions}>
+			<SearchStackNavigator.Screen
+				name="Search"
+				component={SearchScreen}
+				options={searchScreenOptions}
+			/>
+			<SearchStackNavigator.Screen
+				name="SearchResult"
+				component={SearchResultScreen}
+				options={searchResultScreenOptions}
+			/>
+		</SearchStackNavigator.Navigator>
+	);
+};
+
+const AccountStackNavigator = createStackNavigator();
+export const AccountNavigator = () => {
+	return (
+		<AccountStackNavigator.Navigator screenOptions={defaultNavOptions}>
+			<AccountStackNavigator.Screen
+				name="Account"
+				component={AccountScreen}
+				options={accountScreenOptions}
+			/>
+			<AccountStackNavigator.Screen
+				name="AccountSettings"
+				component={AccountTabNavigator}
+			/>
+		</AccountStackNavigator.Navigator>
+	);
+};
+
+const AccountTabsNavigator = createBottomTabNavigator();
+export const AccountTabNavigator = () => {
+	return (
+		<AccountTabsNavigator.Navigator>
+			<AccountTabsNavigator.Screen
+				name="UsernameEmail"
+				component={UserNameEmailScreen}
+			/>
+			<AccountTabsNavigator.Screen name="Country" component={CountryScreen} />
+			<AccountTabsNavigator.Screen name="Avatar" component={AvatarScreen} />
+			<AccountTabsNavigator.Screen name="Password" component={PasswordScreen} />
+		</AccountTabsNavigator.Navigator>
+	);
+};
+
 const NFAppDrawerNavigator = createDrawerNavigator();
 export const NFAppNavigator = () => {
 	const dispatch = useDispatch();
@@ -97,12 +158,22 @@ export const NFAppNavigator = () => {
 				return (
 					<View style={{ flex: 1, paddingTop: 20 }}>
 						<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-							<DrawerItemList {...props} />
-							<Button
-								title="Logout"
-								color={Colors.primary}
-								onPress={() => {}}
-							/>
+							<View
+								style={{
+									flexDirection: 'column',
+									justifyContent: 'space-between',
+									height: '100%'
+								}}
+							>
+								<View>
+									<DrawerItemList {...props} />
+								</View>
+								<Button
+									title="Logout"
+									color={Colors.primary}
+									onPress={() => {}}
+								/>
+							</View>
 						</SafeAreaView>
 					</View>
 				);
@@ -125,15 +196,25 @@ export const NFAppNavigator = () => {
 				component={CountriesNavigator}
 				options={{
 					drawerIcon: (props) => (
-						<Ionicons
-							name={
-								Platform.OS === 'android'
-									? 'compass-outline'
-									: 'compass-outline'
-							}
-							size={23}
-							color={props.color}
-						/>
+						<Ionicons name="compass-outline" size={23} color={props.color} />
+					)
+				}}
+			/>
+			<NFAppDrawerNavigator.Screen
+				name="Search"
+				component={SearchNavigator}
+				options={{
+					drawerIcon: (props) => (
+						<Ionicons name="search" size={23} color={props.color} />
+					)
+				}}
+			/>
+			<NFAppDrawerNavigator.Screen
+				name="Account"
+				component={AccountNavigator}
+				options={{
+					drawerIcon: (props) => (
+						<Ionicons name="person-circle" size={23} color={props.color} />
 					)
 				}}
 			/>
