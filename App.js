@@ -1,21 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
+import ReduxThunk from 'redux-thunk';
+
+// const rootReducer = combineReducers({});
+
+// const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+
+const fetchFonts = () => {
+	return Font.loadAsync({
+		'roboto-regular': require('./assets/fonts/RobotoCondensed-Regular.ttf'),
+		'roboto-light': require('./assets/fonts/RobotoCondensed-Light'),
+		'roboto-bold': require('./assets/fonts/RobotoCondensed-Bold')
+	});
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+	const [fontLoaded, setFontLoaded] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+	if (!fontLoaded) {
+		return (
+			<AppLoading
+				startAsync={fetchFonts}
+				onFinish={() => setFontLoaded(true)}
+				onError={(err) => console.log(err)}
+			/>
+		);
+	}
+	return (
+		<Provider store={store}>
+			<AppNavigator />
+		</Provider>
+	);
+}
