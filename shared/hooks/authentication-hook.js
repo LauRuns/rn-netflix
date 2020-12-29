@@ -57,25 +57,34 @@ export const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		// const storedData = JSON.parse(AsyncStorage.getItem('userData'));
-		const storedData = AsyncStorage.getItem('userData');
-		if (
-			storedData &&
-			storedData.token &&
-			new Date(storedData.expiration) > new Date()
-		) {
-			login(
-				storedData.userId,
-				storedData.token,
-				new Date(storedData.expiration)
-			);
-		}
+		let storedData;
+		const getData = async () => {
+			try {
+				storedData = await AsyncStorage.getItem('userData');
+				storedData = JSON.parse(storedData);
+				if (
+					storedData &&
+					storedData.token &&
+					new Date(storedData.expiration) > new Date()
+				) {
+					console.log('storedData', storedData);
+					login(
+						storedData.userId,
+						storedData.token,
+						new Date(storedData.expiration)
+					);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getData();
 	}, [login]);
 
 	return (
 		<AuthContext.Provider
 			value={{
-				isAuthenticated:
-					isAuthenticated || AsyncStorage.getItem('userData') ? true : false,
+				isAuthenticated: isAuthenticated, //|| AsyncStorage.getItem('userData') ? true : false,
 				token,
 				userId,
 				login,

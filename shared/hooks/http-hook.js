@@ -25,6 +25,7 @@ export const useHttpClient = () => {
 			setIsLoading(true);
 
 			try {
+				console.log('sendRequest was fired');
 				if (isMounted.current) {
 					const response = await axios({
 						method: method,

@@ -75,13 +75,20 @@ export const UserProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		// const storedCountry = JSON.parse(AsyncStorage.getItem('countryData'));
-		const storedCountry = AsyncStorage.getItem('countryData');
-		console.log(storedCountry);
-		if (storedCountry) {
-			console.log('Setting the stored country in the context');
-			setCountryData(storedCountry.countryData);
-		}
+		let storedCountry;
+		const getData = async () => {
+			try {
+				storedCountry = await AsyncStorage.getItem('countryData');
+				storedCountry = JSON.parse(storedCountry);
+				if (storedCountry) {
+					console.log('Setting the stored country in the context');
+					setCountryData(storedCountry.countryData);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getData();
 		return () => {};
 	}, []);
 
