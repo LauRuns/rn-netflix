@@ -13,8 +13,6 @@ import { NavButtons } from '../molecules/index';
 import { DUMMY_ITEMS } from '../../data/DUMMY_DATA';
 
 export const NewNFContentList = (props) => {
-	console.log('log navData', props.navData);
-
 	const onLoadNext = () => {
 		console.log('onNext');
 	};

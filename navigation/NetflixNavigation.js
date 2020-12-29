@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, SafeAreaView, Button, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
@@ -151,7 +151,7 @@ export const AccountTabNavigator = () => {
 
 const NFAppDrawerNavigator = createDrawerNavigator();
 export const NFAppNavigator = () => {
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	return (
 		<NFAppDrawerNavigator.Navigator
 			drawerContent={(props) => {

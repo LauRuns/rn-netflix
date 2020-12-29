@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+// import { createStore, combineReducers, applyMiddleware } from 'redux';
+// import { Provider } from 'react-redux';
+// import ReduxThunk from 'redux-thunk';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import ReduxThunk from 'redux-thunk';
+import { AuthProvider } from './shared/hooks/authentication-hook';
+import { UserProvider } from './shared/context/user-context';
 
 import { AppNavigator } from './navigation/AppNavigator';
-import { nfItemsReducer } from './store/reducers/nf-landing-data';
+// import { nfItemsReducer } from './store/reducers/nf-landing-data';
 
-const rootReducer = combineReducers({
-	nfItems: nfItemsReducer
-});
+// const rootReducer = combineReducers({
+// 	nfItems: nfItemsReducer
+// });
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+// const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
 	return Font.loadAsync({
@@ -35,8 +37,12 @@ export default function App() {
 		);
 	}
 	return (
-		<Provider store={store}>
-			<AppNavigator />
-		</Provider>
+		<AuthProvider>
+			<UserProvider>
+				<AppNavigator />
+			</UserProvider>
+		</AuthProvider>
+		// <Provider store={store}>
+		// </Provider>
 	);
 }
