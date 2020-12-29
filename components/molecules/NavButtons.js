@@ -8,7 +8,7 @@ export const NavButtons = (props) => {
 	return (
 		<View style={styles.screen}>
 			<IconButton
-				onPress={props.onPreviousHandler}
+				onPress={props.onPrevious}
 				btnText="Previous"
 				textSize={20}
 				iconName="arrow-back-circle-outline"
@@ -18,7 +18,7 @@ export const NavButtons = (props) => {
 			/>
 
 			<IconButton
-				onPress={props.onNextHandler}
+				onPress={props.onNext}
 				btnText="Next"
 				textSize={20}
 				iconName="arrow-forward-circle-outline"
@@ -32,6 +32,6 @@ export const NavButtons = (props) => {
 const styles = StyleSheet.create({
 	screen: {
 		flexDirection: 'row',
-		height: 100
+		justifyContent: 'center'
 	}
 });

@@ -1,26 +1,10 @@
 import React from 'react';
-import {
-	StyleSheet,
-	Text,
-	View,
-	FlatList,
-	ProgressViewIOSComponent
-} from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 
 import { NFImage } from '../atoms/index';
 import { NavButtons } from '../molecules/index';
 
-import { DUMMY_ITEMS } from '../../data/DUMMY_DATA';
-
 export const NewNFContentList = (props) => {
-	const onLoadNext = () => {
-		console.log('onNext');
-	};
-
-	const onLoadPrevious = () => {
-		console.log('onPrevious');
-	};
-
 	const onItemSelectedHandler = (item) => {
 		props.navData.navigate('ItemDetail', { item: item });
 	};
@@ -38,33 +22,30 @@ export const NewNFContentList = (props) => {
 
 	return (
 		<View style={styles.screen}>
-			<NavButtons
-				onNextHandler={onLoadNext}
-				onPreviousHandler={onLoadPrevious}
-			/>
-			<View style={styles.list}>
+			<NavButtons onNext={props.onNext} onPrevious={props.onPrevious} />
+			<SafeAreaView style={styles.list}>
 				<FlatList
-					// data={props.listData}
-					// numColumns={2}
-					data={DUMMY_ITEMS}
+					data={props.listData}
+					numColumns={2}
 					keyExtractor={(item, index) => item.nfid.toString()}
 					renderItem={renderNFItemImage}
-					style={{ width: '100%' }}
+					contentContainerStyle={{
+						paddingBottom: 50
+					}}
 				/>
-			</View>
+			</SafeAreaView>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	screen: {
+		flex: 1,
 		flexDirection: 'column',
 		backgroundColor: 'green'
 	},
 	list: {
-		flex: 1,
-		justifyContent: 'flex-start',
-		// flexWrap: 'wrap',
-		padding: 10
+		alignItems: 'center',
+		backgroundColor: 'orange'
 	}
 });

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import AsyncStorage from '@react-native-community/async-storage';
 
+/* Hooks and context */
+import { useContextUser } from '../../shared/context/user-context';
+
+/* UI elements */
 import {
 	NFHeaderButton,
 	Header,
@@ -11,21 +16,47 @@ import { CardToContent } from '../../components/molecules/CardToContent';
 import Colors from '../../constants/Colors';
 
 export const LandingScreen = (props) => {
+	const [storedCountry, setStoredCountry] = useState(null);
+	const { currentUser, countryData } = useContextUser();
+
 	const selectionHandler = () => {
-		props.navigation.navigate('ItemList');
+		props.navigation.navigate('ExpContent');
 	};
+
+	useEffect(() => {
+		let getStoredCountry;
+		const getData = async () => {
+			try {
+				getStoredCountry = await AsyncStorage.getItem('countryData');
+				getStoredCountry = JSON.parse(getStoredCountry);
+				if (getStoredCountry) {
+					setStoredCountry(getStoredCountry);
+					console.log('STOREDCOUNTRY___', getStoredCountry);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getData();
+		return () => {};
+	}, []);
 
 	return (
 		<View style={styles.screen}>
 			<Header
 				color={Colors.nfWhite}
-				title="LandingScreen works!"
-				subHeader="New &amp; Expiring content"
+				title={`Welcome!`}
+				subHeader={`New & Expiring content for ${countryData.country}`}
 			/>
+
 			<ScrollView style={styles.cardContainer}>
 				<CardToContent
-					onSelect={selectionHandler}
-					countryInfo="New content for [insert-country-here]"
+					onSelect={() => {
+						props.navigation.navigate('NewContent', {
+							countryData: countryData
+						});
+					}}
+					countryInfo={`New content for ${countryData.country}`}
 				/>
 				<CardToContent
 					onSelect={selectionHandler}
@@ -33,7 +64,7 @@ export const LandingScreen = (props) => {
 				/>
 				<CardToContent
 					onSelect={selectionHandler}
-					countryInfo="Expiring content for [insert-country-here]"
+					countryInfo={`Expiring content for ${countryData.country}`}
 				/>
 				<CardToContent
 					onSelect={selectionHandler}
@@ -66,5 +97,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: Colors.backgroundDark
 	},
-	cardContainer: {}
+	cardContainer: {
+		flex: 1
+	}
 });

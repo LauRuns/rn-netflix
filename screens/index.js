@@ -19,6 +19,9 @@ import {
 	SearchResultScreen,
 	searchResultScreenOptions
 } from './search/SearchResultScreen';
+import { AuthScreen, authScreenOptions } from './auth/AuthScreen';
+import { ExpContent, expcontentScreenOptions } from './contentLists/ExpContent';
+import { NewContent, newcontentScreenOptions } from './contentLists/NewContent';
 export {
 	LandingScreen,
 	ItemDetail,
@@ -39,5 +42,11 @@ export {
 	SearchScreen,
 	searchScreenOptions,
 	SearchResultScreen,
-	searchResultScreenOptions
+	searchResultScreenOptions,
+	AuthScreen,
+	authScreenOptions,
+	NewContent,
+	newcontentScreenOptions,
+	ExpContent,
+	expcontentScreenOptions
 };

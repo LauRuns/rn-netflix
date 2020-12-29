@@ -28,7 +28,13 @@ import {
 	SearchScreen,
 	searchScreenOptions,
 	SearchResultScreen,
-	searchResultScreenOptions
+	searchResultScreenOptions,
+	AuthScreen,
+	authScreenOptions,
+	NewContent,
+	newcontentScreenOptions,
+	ExpContent,
+	expcontentScreenOptions
 } from '../screens/index';
 
 import Colors from '../constants/Colors';
@@ -57,10 +63,20 @@ export const LandingNavigator = () => {
 				component={LandingScreen}
 				options={landingScreenOptions}
 			/>
-			<LandingStackNavigator.Screen
+			{/* <LandingStackNavigator.Screen
 				name="ItemList"
 				component={ItemList}
 				options={itemListScreenOptions}
+			/> */}
+			<LandingStackNavigator.Screen
+				name="NewContent"
+				component={NewContent}
+				options={newcontentScreenOptions}
+			/>
+			<LandingStackNavigator.Screen
+				name="ExpContent"
+				component={ExpContent}
+				options={expcontentScreenOptions}
 			/>
 			<LandingStackNavigator.Screen
 				name="ItemDetail"
@@ -219,5 +235,32 @@ export const NFAppNavigator = () => {
 				}}
 			/>
 		</NFAppDrawerNavigator.Navigator>
+	);
+};
+
+const AuthStackNavigator = createStackNavigator();
+export const AuthNavigator = () => {
+	return (
+		<AuthStackNavigator.Navigator
+			screenOptions={{
+				headerStyle: {
+					backgroundColor: Colors.backgroundDark
+				},
+				headerTitleStyle: {
+					fontFamily: 'roboto-bold',
+					fontSize: 22
+				},
+				headerBackTitleStyle: {
+					fontFamily: 'roboto-light'
+				},
+				headerTintColor: Colors.primary
+			}}
+		>
+			<AuthStackNavigator.Screen
+				name="Auth"
+				component={AuthScreen}
+				options={authScreenOptions}
+			/>
+		</AuthStackNavigator.Navigator>
 	);
 };
