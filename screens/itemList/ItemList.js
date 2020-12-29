@@ -1,15 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-export const ItemList = (props) => {
-	const selectItemHandler = () => {
-		props.navigation.navigate('ItemDetail');
-	};
+import { NewNFContentList } from '../../components/organisms/NewNFContentList';
 
+export const ItemList = (props) => {
 	return (
 		<View style={styles.screen}>
-			<Text>List items screen works!</Text>
-			<Button title="Itemdetail" onPress={selectItemHandler} />
+			<NewNFContentList navData={props.navigation} />
 		</View>
 	);
 };
@@ -23,8 +20,7 @@ export const itemListScreenOptions = (navData) => {
 
 const styles = StyleSheet.create({
 	screen: {
-		flex: 1,
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 		alignItems: 'center'
 	}
 });

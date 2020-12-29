@@ -7,8 +7,9 @@ import {
 	Platform,
 	TouchableNativeFeedback
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-import { Card } from '../atoms/index';
+import { Card, DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';
 
 export const CardToContent = (props) => {
@@ -27,7 +28,13 @@ export const CardToContent = (props) => {
 						...{ backgroundColor: props.color || Colors.shadesGray40 }
 					}}
 				>
-					{props.children}
+					<DefaultText size={props.size || 20}>{props.countryInfo}</DefaultText>
+
+					<Ionicons
+						name="information-circle-outline"
+						size={23}
+						color={Colors.nfWhite}
+					/>
 				</Card>
 			</TouchableCmp>
 		</View>
@@ -57,6 +64,7 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 0, height: 2 },
 		shadowRadius: 10,
 		padding: 15,
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center'
 	}

@@ -7,7 +7,8 @@ export const DefaultText = (props) => {
 		<Text
 			style={{
 				...styles.text,
-				...{ color: props.color || Colors.nfWhite, fontSize: props.size }
+				...{ color: props.color || Colors.nfWhite, fontSize: props.size },
+				...props.style
 			}}
 		>
 			{props.children}

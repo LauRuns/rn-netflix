@@ -23,22 +23,22 @@ export const LandingScreen = (props) => {
 				subHeader="New &amp; Expiring content"
 			/>
 			<ScrollView style={styles.cardContainer}>
-				<CardToContent onSelect={selectionHandler}>
-					<DefaultText size={20}>
-						New content for [insert-country-here]
-					</DefaultText>
-				</CardToContent>
-				<CardToContent onSelect={selectionHandler}>
-					<DefaultText size={20}>New content for Netherlands</DefaultText>
-				</CardToContent>
-				<CardToContent onSelect={selectionHandler}>
-					<DefaultText size={20}>
-						Expiring content for [insert-country-here]
-					</DefaultText>
-				</CardToContent>
-				<CardToContent onSelect={selectionHandler}>
-					<DefaultText size={20}>Expiring content for Netherlands</DefaultText>
-				</CardToContent>
+				<CardToContent
+					onSelect={selectionHandler}
+					countryInfo="New content for [insert-country-here]"
+				/>
+				<CardToContent
+					onSelect={selectionHandler}
+					countryInfo="New content for Netherlands"
+				/>
+				<CardToContent
+					onSelect={selectionHandler}
+					countryInfo="Expiring content for [insert-country-here]"
+				/>
+				<CardToContent
+					onSelect={selectionHandler}
+					countryInfo="Expiring content for Netherlands"
+				/>
 			</ScrollView>
 		</View>
 	);
