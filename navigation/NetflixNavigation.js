@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform, SafeAreaView, Button, View } from 'react-native';
-// import { useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
@@ -8,13 +7,12 @@ import {
 	DrawerItemList
 } from '@react-navigation/drawer';
 
+/* Screens */
 import {
 	LandingScreen,
 	landingScreenOptions,
 	ItemDetail,
 	detailScreenOptions,
-	ItemList,
-	itemListScreenOptions,
 	CountriesScreen,
 	countriesScreenOptions,
 	CountryContentScreen,
@@ -36,6 +34,8 @@ import {
 	ExpContent,
 	expcontentScreenOptions
 } from '../screens/index';
+
+import { useAuthentication } from '../shared/hooks/authentication-hook';
 
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
@@ -63,11 +63,6 @@ export const LandingNavigator = () => {
 				component={LandingScreen}
 				options={landingScreenOptions}
 			/>
-			{/* <LandingStackNavigator.Screen
-				name="ItemList"
-				component={ItemList}
-				options={itemListScreenOptions}
-			/> */}
 			<LandingStackNavigator.Screen
 				name="NewContent"
 				component={NewContent}
@@ -97,14 +92,14 @@ export const CountriesNavigator = () => {
 				options={countriesScreenOptions}
 			/>
 			<CountriesStackNavigator.Screen
-				name="CountryContent"
-				component={CountryContentScreen}
-				options={countryContentScreenOptions}
+				name="NewContent"
+				component={NewContent}
+				options={newcontentScreenOptions}
 			/>
 			<CountriesStackNavigator.Screen
-				name="ItemList"
-				component={ItemList}
-				options={itemListScreenOptions}
+				name="ExpContent"
+				component={ExpContent}
+				options={expcontentScreenOptions}
 			/>
 			<CountriesStackNavigator.Screen
 				name="ItemDetail"
@@ -168,6 +163,7 @@ export const AccountTabNavigator = () => {
 const NFAppDrawerNavigator = createDrawerNavigator();
 export const NFAppNavigator = () => {
 	// const dispatch = useDispatch();
+	const { logout } = useAuthentication();
 	return (
 		<NFAppDrawerNavigator.Navigator
 			drawerContent={(props) => {
@@ -187,7 +183,7 @@ export const NFAppNavigator = () => {
 								<Button
 									title="Logout"
 									color={Colors.primary}
-									onPress={() => {}}
+									onPress={() => logout()}
 								/>
 							</View>
 						</SafeAreaView>
