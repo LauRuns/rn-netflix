@@ -84,72 +84,6 @@ export const Input = (props) => {
 	);
 };
 
-// const inputReducer = (state, action) => {
-// 	switch (action.type) {
-// 		case 'CHANGE':
-// 			return {
-// 				...state,
-// 				value: action.val,
-// 				isValid: validate(action.val, action.validators)
-// 			};
-// 		case 'TOUCH': {
-// 			return {
-// 				...state,
-// 				isTouched: true
-// 			};
-// 		}
-// 		default:
-// 			return state;
-// 	}
-// };
-
-// export const Input = (props) => {
-// 	const [inputState, dispatch] = useReducer(inputReducer, {
-// 		value: props.initialValue || '',
-// 		isTouched: false,
-// 		isValid: props.initialValid || false
-// 	});
-
-// 	const { value, isValid } = inputState;
-// 	const { onInput, id } = props;
-
-// 	useEffect(() => {
-// 		onInput(id, value, isValid);
-// 	}, [id, value, isValid, onInput]);
-
-// 	const onChangeHandler = (event) => {
-// 		dispatch({
-// 			type: 'CHANGE',
-// 			val: event.target.value,
-// 			validators: props.validators
-// 		});
-// 	};
-
-// 	const lostFocusHandler = () => {
-// 		dispatch({
-// 			type: 'TOUCH'
-// 		});
-// 	};
-
-// 	return (
-// 		<View style={styles.formControl}>
-// 			<Text style={styles.label}>{props.label}</Text>
-// 			<TextInput
-// 				{...props}
-// 				style={styles.input}
-// 				value={inputState.value}
-// 				onChangeText={onChangeHandler}
-// 				onBlur={lostFocusHandler}
-// 			/>
-// 			{!inputState.isValid && inputState.touched && (
-// 				<View style={styles.errorContainer}>
-// 					<Text style={styles.errorText}>{props.errorText}</Text>
-// 				</View>
-// 			)}
-// 		</View>
-// 	);
-// };
-
 const styles = StyleSheet.create({
 	formControl: {
 		width: '100%'
@@ -163,7 +97,7 @@ const styles = StyleSheet.create({
 	input: {
 		paddingHorizontal: 2,
 		paddingHorizontal: 5,
-		borderBottomColor: '#ccc',
+		borderBottomColor: Colors.shadesGray40,
 		borderBottomWidth: 1,
 		color: Colors.nfWhite,
 		fontSize: 16
@@ -173,7 +107,7 @@ const styles = StyleSheet.create({
 	},
 	errorText: {
 		fontFamily: 'roboto-regular',
-		color: 'red',
+		color: Colors.secondary,
 		fontSize: 14
 	}
 });

@@ -19,10 +19,6 @@ export const LandingScreen = (props) => {
 	const [storedCountry, setStoredCountry] = useState(null);
 	const { currentUser, countryData } = useContextUser();
 
-	const selectionHandler = () => {
-		props.navigation.navigate('ExpContent');
-	};
-
 	useEffect(() => {
 		let getStoredCountry;
 		const getData = async () => {

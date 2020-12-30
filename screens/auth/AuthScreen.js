@@ -83,10 +83,10 @@ export const AuthScreen = (props) => {
 	const authSubmitHandler = async () => {
 		if (isLoginMode) {
 			try {
-				console.log(
-					formState.inputValues.email,
-					formState.inputValues.password
-				);
+				// console.log(
+				// 	formState.inputValues.email,
+				// 	formState.inputValues.password
+				// );
 				const responseData = await sendRequest(
 					`${CONNECTION_STRING}/users/login`,
 					'POST',
@@ -100,7 +100,7 @@ export const AuthScreen = (props) => {
 				);
 
 				const { userId, token, user } = responseData;
-				console.log(responseData);
+				// console.log(responseData);
 				await setNewCurrentUser(user);
 				await login(userId, token);
 			} catch (error) {
