@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
-// import { createStore, combineReducers, applyMiddleware } from 'redux';
-// import { Provider } from 'react-redux';
-// import ReduxThunk from 'redux-thunk';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { AuthProvider } from './shared/hooks/authentication-hook';
 import { UserProvider } from './shared/context/user-context';
 
 import { AppNavigator } from './navigation/AppNavigator';
-// import { nfItemsReducer } from './store/reducers/nf-landing-data';
-
-// const rootReducer = combineReducers({
-// 	nfItems: nfItemsReducer
-// });
-
-// const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
 	return Font.loadAsync({
@@ -42,7 +32,5 @@ export default function App() {
 				<AppNavigator />
 			</UserProvider>
 		</AuthProvider>
-		// <Provider store={store}>
-		// </Provider>
 	);
 }
