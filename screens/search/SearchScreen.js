@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { NFHeaderButton } from '../../components/atoms/index';
+import { NFHeaderButton, Header } from '../../components/atoms/index';
+import { SearchForm } from '../../components/organisms/index';
+import Colors from '../../constants/Colors';
 
 export const SearchScreen = (props) => {
 	const showResults = () => {
@@ -11,8 +13,10 @@ export const SearchScreen = (props) => {
 
 	return (
 		<View style={styles.screen}>
-			<Text>SearchScreen works</Text>
-			<Button title="Results" onPress={showResults} />
+			<Header title="Search the unongsNG database!" color={Colors.primary} />
+			<View style={styles.searchFormContainer}>
+				<SearchForm />
+			</View>
 		</View>
 	);
 };
@@ -37,7 +41,12 @@ export const searchScreenOptions = (navData) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: Colors.backgroundDark
+	},
+	searchFormContainer: {
+		flex: 2,
+		width: '100%',
+		padding: 20
 	}
 });
