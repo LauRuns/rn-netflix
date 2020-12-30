@@ -31,7 +31,6 @@ export const LandingScreen = (props) => {
 				getStoredCountry = JSON.parse(getStoredCountry);
 				if (getStoredCountry) {
 					setStoredCountry(getStoredCountry);
-					console.log('STOREDCOUNTRY___', getStoredCountry);
 				}
 			} catch (error) {
 				console.log(error);
@@ -59,15 +58,27 @@ export const LandingScreen = (props) => {
 					countryInfo={`New content for ${countryData.country}`}
 				/>
 				<CardToContent
-					onSelect={selectionHandler}
+					onSelect={() => {
+						props.navigation.navigate('NewContent', {
+							countryData: { country: 'Netherlands', countryId: 67 }
+						});
+					}}
 					countryInfo="New content for Netherlands"
 				/>
 				<CardToContent
-					onSelect={selectionHandler}
+					onSelect={() => {
+						props.navigation.navigate('ExpContent', {
+							countryData: countryData
+						});
+					}}
 					countryInfo={`Expiring content for ${countryData.country}`}
 				/>
 				<CardToContent
-					onSelect={selectionHandler}
+					onSelect={() => {
+						props.navigation.navigate('ExpContent', {
+							countryData: { country: 'Netherlands', countryId: 67 }
+						});
+					}}
 					countryInfo="Expiring content for Netherlands"
 				/>
 			</ScrollView>

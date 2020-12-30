@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
+import Colors from '../../constants/Colors';
 
 import { NFImage } from '../atoms/index';
 import { NavButtons } from '../molecules/index';
@@ -42,10 +43,9 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		flexDirection: 'column',
-		backgroundColor: 'green'
+		backgroundColor: Colors.backgroundDark
 	},
 	list: {
-		alignItems: 'center',
-		backgroundColor: 'orange'
+		alignItems: 'center'
 	}
 });
