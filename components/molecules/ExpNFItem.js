@@ -6,16 +6,14 @@ import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 import { NFImage } from '../atoms/index';
 import { Spinner } from '../molecules/Spinner';
 import Colors from '../../constants/Colors';
-
+import { SINGLE_ITEM } from '../../data/DUMMY_DATA';
 export const ExpNFItem = (props) => {
 	const [expItem, setExpItem] = useState(null);
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
 
 	const onItemSelectedHandler = (item) => {
-		// console.log(item);
 		props.navData.navigate('ItemDetail', { item: item });
 	};
-	console.log('ExpNFItem', props.item);
 
 	const fetchExpItem = async () => {
 		try {
@@ -33,7 +31,8 @@ export const ExpNFItem = (props) => {
 	};
 
 	useEffect(() => {
-		fetchExpItem();
+		// fetchExpItem();
+		setExpItem(SINGLE_ITEM[0]); // <-- for use with development
 	}, []);
 
 	if (isLoading) {
