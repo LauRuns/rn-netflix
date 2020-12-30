@@ -162,13 +162,19 @@ export const AccountTabNavigator = () => {
 
 const NFAppDrawerNavigator = createDrawerNavigator();
 export const NFAppNavigator = () => {
-	// const dispatch = useDispatch();
 	const { logout } = useAuthentication();
+
 	return (
 		<NFAppDrawerNavigator.Navigator
 			drawerContent={(props) => {
 				return (
-					<View style={{ flex: 1, paddingTop: 20 }}>
+					<View
+						style={{
+							flex: 1,
+							paddingTop: 20,
+							backgroundColor: Colors.backgroundDark
+						}}
+					>
 						<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
 							<View
 								style={{
@@ -191,7 +197,8 @@ export const NFAppNavigator = () => {
 				);
 			}}
 			drawerContentOptions={{
-				activeTintColor: Colors.primary
+				activeTintColor: Colors.primary,
+				inactiveTintColor: Colors.nfWhite
 			}}
 		>
 			<NFAppDrawerNavigator.Screen
