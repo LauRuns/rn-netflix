@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { StyleSheet, View, Alert, Text } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
-import { NFHeaderButton, Header } from '../../components/atoms/index';
+import {
+	NFHeaderButton,
+	Header,
+	DefaultText
+} from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
 import { CountryList } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
@@ -63,6 +67,23 @@ export const CountriesScreen = (props) => {
 				spinnerColor={Colors.primary}
 				spinnerTextColor={Colors.primary}
 			/>
+		);
+	}
+
+	if (!isLoading && !loadedCountries) {
+		return (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					alignItems: 'center',
+					backgroundColor: Colors.backgroundDark
+				}}
+			>
+				<DefaultText color={Colors.primary} size={22}>
+					...oops! No data available
+				</DefaultText>
+			</View>
 		);
 	}
 
