@@ -8,7 +8,7 @@ import { Spinner } from '../../components/molecules/index';
 import { NewNFContentList } from '../../components/organisms/index';
 
 import Colors from '../../constants/Colors';
-import { DUMMY_ITEMS } from '../../data/DUMMY_DATA';
+import { DUMMY_ITEMS } from '../../data/DUMMY_DATA'; // <-- development
 
 export const NewContent = (props) => {
 	const { countryId } = props.route.params.countryData;

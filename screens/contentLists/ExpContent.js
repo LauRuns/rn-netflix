@@ -4,12 +4,11 @@ import { StyleSheet, View, Text, Alert } from 'react-native';
 /* Hooks and context */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 /* Components */
-import { NFImage } from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
 import { ExpNFContentList } from '../../components/organisms/index';
 
 import Colors from '../../constants/Colors';
-import { DUMMY_ITEMS, COUNTRY_IDS } from '../../data/DUMMY_DATA';
+import { COUNTRY_IDS } from '../../data/DUMMY_DATA'; // <-- development
 
 export const ExpContent = (props) => {
 	const { countryId } = props.route.params.countryData;
