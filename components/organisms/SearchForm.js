@@ -114,17 +114,8 @@ export const SearchForm = (props) => {
 
 	const submitFormHandler = () => {
 		if (!formState.formIsValid) {
-			console.log('form is not valid');
 			Alert.alert('Form is not valid', [{ text: 'OK' }]);
 		} else {
-			console.log(
-				'form is valid',
-				formState.inputValues.query,
-				formState.inputValues.startyear,
-				formState.inputValues.endyear,
-				formState.inputValues.radio,
-				formState.inputValues.dropdown
-			);
 			props.navData.navigate('SearchResult', {
 				queryParams: {
 					query: formState.inputValues.query,

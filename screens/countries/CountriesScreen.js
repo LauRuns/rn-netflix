@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Alert, Text } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
@@ -100,7 +100,6 @@ export const CountriesScreen = (props) => {
 				{loadedCountries && (
 					<CountryList
 						countries={loadedCountries}
-						// countries={DUMMY_COUNTRYLST} // <-- development
 						showCountryNewContent={onShowCountryNewContentHandler}
 						showCountryExpContent={onShowCountryExpContentHandler}
 					/>
