@@ -6,16 +6,20 @@ import { NFHeaderButton, Header } from '../../components/atoms/index';
 import { SearchForm } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
 
+import { DUMMY_COUNTRYLST } from '../../data/DUMMY_DATA';
+
 export const SearchScreen = (props) => {
 	const showResults = () => {
 		props.navigation.navigate('SearchResult');
 	};
 
+	// write useEffect method for fetching countries; or place the country list somewhere in context?
+
 	return (
 		<View style={styles.screen}>
 			<Header title="Search the unongsNG database!" color={Colors.primary} />
 			<View style={styles.searchFormContainer}>
-				<SearchForm />
+				<SearchForm countryList={DUMMY_COUNTRYLST} navData={props.navigation} />
 			</View>
 		</View>
 	);
