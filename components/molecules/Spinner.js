@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
+import Colors from '../../constants/Colors';
 import { DefaultText } from '../atoms/index';
 
 export const Spinner = (props) => {
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: Colors.backgroundDark
 	}
 });
