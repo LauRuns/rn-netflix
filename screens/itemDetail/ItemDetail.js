@@ -17,7 +17,11 @@ export const ItemDetail = (props) => {
 
 	return (
 		<ScrollView contentContainerStyle={styles.viewContainer}>
-			<Image source={{ uri: nfItem.img }} style={{ width: 300, height: 370 }} />
+			<Image
+				source={{ uri: nfItem.img }}
+				style={{ width: 300, height: 370 }}
+				resizeMode="contain"
+			/>
 			<View style={styles.detailInfo}>
 				<View style={styles.center}>
 					<DefaultText
