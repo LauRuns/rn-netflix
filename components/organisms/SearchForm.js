@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import RadioButtonRN from 'radio-buttons-react-native';
 import { Ionicons } from '@expo/vector-icons';
+import RNPickerSelect from 'react-native-picker-select';
 
 import { IconButton } from '../atoms/index';
 import { Input } from '../organisms/Input';
@@ -36,7 +37,6 @@ const formReducer = (state, action) => {
 		let updatedFormIsValid = true;
 		for (const key in updatedValidities) {
 			updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-			console.log('formReducer____', key, updatedFormIsValid);
 		}
 		return {
 			formIsValid: updatedFormIsValid,
@@ -48,21 +48,28 @@ const formReducer = (state, action) => {
 };
 
 export const SearchForm = (props) => {
+	const [countries, setCountries] = useState([]);
+	const { countryList } = props;
+
 	const [formState, dispatchFormState] = useReducer(formReducer, {
 		inputValues: {
 			query: '',
 			startyear: '',
-			endyear: ''
+			endyear: '',
+			radio: '',
+			dropdown: ''
 		},
 		inputValidities: {
 			query: '',
 			startyear: '',
-			endyear: ''
+			endyear: '',
+			radio: '',
+			dropdown: ''
 		},
 		formIsValid: false
 	});
 
-	const data = [
+	const contentType = [
 		{
 			label: 'Movie'
 		},
@@ -70,6 +77,28 @@ export const SearchForm = (props) => {
 			label: 'Serie'
 		}
 	];
+
+	const countryDropDownPlaceholder = {
+		label: 'Select a country...',
+		value: null,
+		color: Colors.shadesGray40
+	};
+
+	const mapCountries = () => {
+		let mappedCountries = [];
+		countryList.map(({ country, countryId }) => {
+			return mappedCountries.push({
+				label: country,
+				value: countryId,
+				key: countryId
+			});
+		});
+		return setCountries(mappedCountries);
+	};
+
+	useEffect(() => {
+		mapCountries();
+	}, [countryList]);
 
 	const inputChangeHandler = useCallback(
 		(inputIdentifier, inputValue, inputValidity) => {
@@ -84,21 +113,28 @@ export const SearchForm = (props) => {
 	);
 
 	const submitFormHandler = () => {
-		console.log('formstate___:', formState.formIsValid);
 		if (!formState.formIsValid) {
 			console.log('form is not valid');
+			Alert.alert('Form is not valid', [{ text: 'OK' }]);
 		} else {
 			console.log(
+				'form is valid',
 				formState.inputValues.query,
 				formState.inputValues.startyear,
-				formState.inputValues.endyear
+				formState.inputValues.endyear,
+				formState.inputValues.radio,
+				formState.inputValues.dropdown
 			);
-			console.log('form is valid');
+			props.navData.navigate('SearchResult', {
+				queryParams: {
+					query: formState.inputValues.query,
+					startyear: formState.inputValues.startyear,
+					endyear: formState.inputValues.endyear,
+					contentType: formState.inputValues.radio,
+					countryId: formState.inputValues.dropdown
+				}
+			});
 		}
-	};
-
-	const selectedBtn = (e) => {
-		console.log('selectedBtn', e);
 	};
 
 	return (
@@ -111,7 +147,7 @@ export const SearchForm = (props) => {
 				<ScrollView>
 					<Input
 						id="query"
-						label="Search query"
+						label="Enter search query"
 						keyboardType="default"
 						required
 						autoCapitalize="none"
@@ -146,8 +182,10 @@ export const SearchForm = (props) => {
 					/>
 					<View style={styles.radionBtnGrp}>
 						<RadioButtonRN
-							data={data}
-							selectedBtn={(e) => console.log(e)}
+							data={contentType}
+							selectedBtn={(e) =>
+								inputChangeHandler('radio', e.label.toLowerCase(), true)
+							}
 							icon={
 								<Ionicons
 									name="checkmark-circle"
@@ -159,8 +197,31 @@ export const SearchForm = (props) => {
 							textColor={Colors.primary}
 							box={false}
 							textStyle={{ fontSize: 18 }}
-							selectedBtn={selectedBtn}
+							initial={1}
 						/>
+					</View>
+					<View style={styles.picker}>
+						{countries && (
+							<RNPickerSelect
+								onValueChange={(value) =>
+									inputChangeHandler('dropdown', value, value ? true : false)
+								}
+								placeholder={countryDropDownPlaceholder}
+								items={countries}
+								style={{
+									...pickerSelectStyles,
+									iconContainer: {
+										top: 10,
+										right: 12
+									}
+								}}
+								Icon={() => {
+									return (
+										<Ionicons name="md-arrow-down" size={24} color="gray" />
+									);
+								}}
+							/>
+						)}
 					</View>
 					<IconButton
 						before
@@ -184,6 +245,36 @@ const styles = StyleSheet.create({
 		width: '100%'
 	},
 	radionBtnGrp: {
-		padding: 10
+		padding: 10,
+		marginTop: 20
+	},
+	picker: {
+		marginTop: 20,
+		alignItems: 'center',
+		justifyContent: 'center'
+	}
+});
+
+const pickerSelectStyles = StyleSheet.create({
+	inputIOS: {
+		fontSize: 16,
+		paddingVertical: 12,
+		paddingHorizontal: 10,
+		borderWidth: 1,
+		borderColor: Colors.shadesGray40,
+		borderRadius: 4,
+		color: Colors.nfWhite,
+		paddingRight: 30, // to ensure the text is never behind the icon
+		alignItems: 'center'
+	},
+	inputAndroid: {
+		fontSize: 16,
+		paddingHorizontal: 10,
+		paddingVertical: 8,
+		borderWidth: 0.5,
+		borderColor: 'purple',
+		borderRadius: 8,
+		color: 'black',
+		paddingRight: 30 // to ensure the text is never behind the icon
 	}
 });
