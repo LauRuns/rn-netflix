@@ -5,6 +5,7 @@ import { NewNFItem } from './NewNFItem';
 import { NFItemDetails } from './NFItemDetails';
 import { Spinner } from './Spinner';
 import { CountryCard } from './CountryCard';
+import { UserDetails } from './UserDetails';
 
 export {
 	CardToContent,
@@ -13,5 +14,6 @@ export {
 	ExpNFItem,
 	NFItemDetails,
 	Spinner,
-	CountryCard
+	CountryCard,
+	UserDetails
 };
