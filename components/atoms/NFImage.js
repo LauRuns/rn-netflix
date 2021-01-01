@@ -18,7 +18,11 @@ export const NFImage = (props) => {
 	return (
 		<TouchableCmp onPress={props.onSelectNFItem}>
 			<View style={{ ...styles.imageContainer, ...props.style }}>
-				<Image style={styles.image} source={{ uri: props.imageUrl }} />
+				<Image
+					style={{ ...styles.image, ...props.imageStyle }}
+					source={{ uri: props.imageUrl }}
+					resizeMode={props.resizeMode}
+				/>
 			</View>
 		</TouchableCmp>
 	);
@@ -26,11 +30,11 @@ export const NFImage = (props) => {
 
 const styles = StyleSheet.create({
 	imageContainer: {
-		flex: 1,
+		// flex: 1,
 		margin: 10,
-		height: '100%',
-		borderRadius: 10,
-		overflow: 'hidden'
+		overflow: 'hidden',
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	image: {
 		width: 150,
