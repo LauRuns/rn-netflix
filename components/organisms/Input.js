@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 	label: {
 		fontFamily: 'roboto-bold',
 		fontSize: 18,
-		marginVertical: 8,
+		marginVertical: 12,
 		color: Colors.primary
 	},
 	input: {
