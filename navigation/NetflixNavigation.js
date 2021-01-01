@@ -124,6 +124,11 @@ export const SearchNavigator = () => {
 				component={SearchResultScreen}
 				options={searchResultScreenOptions}
 			/>
+			<SearchStackNavigator.Screen
+				name="ItemDetail"
+				component={ItemDetail}
+				options={detailScreenOptions}
+			/>
 		</SearchStackNavigator.Navigator>
 	);
 };
