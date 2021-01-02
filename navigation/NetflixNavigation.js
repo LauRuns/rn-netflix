@@ -23,6 +23,7 @@ import {
 	CountryScreen,
 	PasswordScreen,
 	UserNameEmailScreen,
+	emailnameScreenOptions,
 	SearchScreen,
 	searchScreenOptions,
 	SearchResultScreen,
@@ -153,10 +154,37 @@ export const AccountNavigator = () => {
 const AccountTabsNavigator = createBottomTabNavigator();
 export const AccountTabNavigator = () => {
 	return (
-		<AccountTabsNavigator.Navigator>
+		<AccountTabsNavigator.Navigator
+			screenOptions={({ route }) => ({
+				tabBarIcon: ({ focused, color, size }) => {
+					let iconName;
+					if (route.name === 'UsernameEmail') {
+						iconName = focused ? 'ios-mail-sharp' : 'ios-mail-outline';
+					} else if (route.name === 'Country') {
+						iconName = focused ? 'location' : 'location-outline';
+					} else if (route.name === 'Avatar') {
+						iconName = focused
+							? 'ios-person-circle'
+							: 'ios-person-circle-outline';
+					} else if (route.name === 'Password') {
+						iconName = focused ? 'eye-off' : 'eye-off-outline';
+					}
+					return <Ionicons name={iconName} size={size} color={color} />;
+				}
+			})}
+			tabBarOptions={{
+				activeTintColor: Colors.primary,
+				inactiveTintColor: Colors.shadesGray40,
+				backgroundColor: Colors.backgroundDark,
+				style: {
+					backgroundColor: Colors.backgroundDark
+				}
+			}}
+		>
 			<AccountTabsNavigator.Screen
 				name="UsernameEmail"
 				component={UserNameEmailScreen}
+				// https://reactnavigation.org/docs/screen-options-resolution/
 			/>
 			<AccountTabsNavigator.Screen name="Country" component={CountryScreen} />
 			<AccountTabsNavigator.Screen name="Avatar" component={AvatarScreen} />
