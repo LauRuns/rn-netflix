@@ -1,18 +1,74 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { NFHeaderButton } from '../../components/atoms/index';
+import { useNetflixClient } from '../../shared/hooks/netflix-hook';
+
+import { NFHeaderButton, Header } from '../../components/atoms/index';
+import { Spinner } from '../../components/molecules/index';
+import { SearchForm } from '../../components/organisms/index';
+import Colors from '../../constants/Colors';
+
+import { DUMMY_COUNTRYLST } from '../../data/DUMMY_DATA';
 
 export const SearchScreen = (props) => {
-	const showResults = () => {
-		props.navigation.navigate('SearchResult');
-	};
+	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
+	const [loadedCountries, setLoadedCountries] = useState();
+
+	useEffect(() => {
+		const fetchCountries = async () => {
+			try {
+				let countryList = [];
+				const response = await fetchNetflixData({
+					urlEndpoint: 'countries'
+				});
+				response.forEach((element) => {
+					const newEl = {
+						country: element.country.trim(),
+						countryId: element.id,
+						countrycode: element.countrycode
+					};
+					countryList.push(newEl);
+				});
+				setLoadedCountries(countryList);
+			} catch (err) {
+				// Error is handled by useNetflixClient
+			}
+		};
+		// fetchCountries();
+		setLoadedCountries(DUMMY_COUNTRYLST); // <-- use in development
+	}, []);
+
+	useEffect(() => {
+		if (error) {
+			Alert.alert('Error', error, [
+				{ text: 'OK', onPress: () => clearError() }
+			]);
+		}
+	}, [error]);
+
+	if (isLoading) {
+		return (
+			<Spinner
+				spinnerText="Loading countrydata..."
+				spinnerSize="large"
+				spinnerColor={Colors.primary}
+				spinnerTextColor={Colors.primary}
+			/>
+		);
+	}
 
 	return (
 		<View style={styles.screen}>
-			<Text>SearchScreen works</Text>
-			<Button title="Results" onPress={showResults} />
+			<Header title="Search the unongsNG database!" color={Colors.primary} />
+			<View style={styles.searchFormContainer}>
+				{loadedCountries && (
+					<SearchForm
+						countryList={loadedCountries}
+						navData={props.navigation}
+					/>
+				)}
+			</View>
 		</View>
 	);
 };
@@ -37,7 +93,12 @@ export const searchScreenOptions = (navData) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: Colors.backgroundDark
+	},
+	searchFormContainer: {
+		flex: 2,
+		width: '100%',
+		padding: 20
 	}
 });

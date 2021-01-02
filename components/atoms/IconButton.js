@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { DefaultText } from '../atoms/index';
+import { DefaultText } from '../atoms/DefaultText';
 import Colors from '../../constants/Colors';
 
 export const IconButton = (props) => {
@@ -29,10 +29,17 @@ export const IconButton = (props) => {
 					<Ionicons
 						name={props.iconName}
 						size={props.iconSize}
-						color={props.color || Colors.nfWhite}
+						color={
+							props.disabled
+								? Colors.shadesGray40
+								: props.color || Colors.nfWhite
+						}
 					/>
 				</View>
-				<DefaultText size={props.textSize} color={props.color}>
+				<DefaultText
+					size={props.textSize}
+					color={props.disabled ? Colors.shadesGray40 : props.color}
+				>
 					{props.btnText}
 				</DefaultText>
 			</TouchableCmp>
@@ -65,7 +72,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center'
-		// backgroundColor: 'purple'
 	},
 	iconContainer: {
 		padding: 10

@@ -67,7 +67,6 @@ export const AuthProvider = ({ children }) => {
 					storedData.token &&
 					new Date(storedData.expiration) > new Date()
 				) {
-					console.log('storedData', storedData);
 					login(
 						storedData.userId,
 						storedData.token,

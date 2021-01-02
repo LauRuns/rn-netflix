@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform, SafeAreaView, Button, View } from 'react-native';
-// import { useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
@@ -8,13 +7,12 @@ import {
 	DrawerItemList
 } from '@react-navigation/drawer';
 
+/* Screens */
 import {
 	LandingScreen,
 	landingScreenOptions,
 	ItemDetail,
 	detailScreenOptions,
-	ItemList,
-	itemListScreenOptions,
 	CountriesScreen,
 	countriesScreenOptions,
 	CountryContentScreen,
@@ -25,6 +23,7 @@ import {
 	CountryScreen,
 	PasswordScreen,
 	UserNameEmailScreen,
+	emailnameScreenOptions,
 	SearchScreen,
 	searchScreenOptions,
 	SearchResultScreen,
@@ -36,6 +35,8 @@ import {
 	ExpContent,
 	expcontentScreenOptions
 } from '../screens/index';
+
+import { useAuthentication } from '../shared/hooks/authentication-hook';
 
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
@@ -63,11 +64,6 @@ export const LandingNavigator = () => {
 				component={LandingScreen}
 				options={landingScreenOptions}
 			/>
-			{/* <LandingStackNavigator.Screen
-				name="ItemList"
-				component={ItemList}
-				options={itemListScreenOptions}
-			/> */}
 			<LandingStackNavigator.Screen
 				name="NewContent"
 				component={NewContent}
@@ -97,14 +93,14 @@ export const CountriesNavigator = () => {
 				options={countriesScreenOptions}
 			/>
 			<CountriesStackNavigator.Screen
-				name="CountryContent"
-				component={CountryContentScreen}
-				options={countryContentScreenOptions}
+				name="NewContent"
+				component={NewContent}
+				options={newcontentScreenOptions}
 			/>
 			<CountriesStackNavigator.Screen
-				name="ItemList"
-				component={ItemList}
-				options={itemListScreenOptions}
+				name="ExpContent"
+				component={ExpContent}
+				options={expcontentScreenOptions}
 			/>
 			<CountriesStackNavigator.Screen
 				name="ItemDetail"
@@ -128,6 +124,11 @@ export const SearchNavigator = () => {
 				name="SearchResult"
 				component={SearchResultScreen}
 				options={searchResultScreenOptions}
+			/>
+			<SearchStackNavigator.Screen
+				name="ItemDetail"
+				component={ItemDetail}
+				options={detailScreenOptions}
 			/>
 		</SearchStackNavigator.Navigator>
 	);
@@ -153,10 +154,37 @@ export const AccountNavigator = () => {
 const AccountTabsNavigator = createBottomTabNavigator();
 export const AccountTabNavigator = () => {
 	return (
-		<AccountTabsNavigator.Navigator>
+		<AccountTabsNavigator.Navigator
+			screenOptions={({ route }) => ({
+				tabBarIcon: ({ focused, color, size }) => {
+					let iconName;
+					if (route.name === 'UsernameEmail') {
+						iconName = focused ? 'ios-mail-sharp' : 'ios-mail-outline';
+					} else if (route.name === 'Country') {
+						iconName = focused ? 'location' : 'location-outline';
+					} else if (route.name === 'Avatar') {
+						iconName = focused
+							? 'ios-person-circle'
+							: 'ios-person-circle-outline';
+					} else if (route.name === 'Password') {
+						iconName = focused ? 'eye-off' : 'eye-off-outline';
+					}
+					return <Ionicons name={iconName} size={size} color={color} />;
+				}
+			})}
+			tabBarOptions={{
+				activeTintColor: Colors.primary,
+				inactiveTintColor: Colors.shadesGray40,
+				backgroundColor: Colors.backgroundDark,
+				style: {
+					backgroundColor: Colors.backgroundDark
+				}
+			}}
+		>
 			<AccountTabsNavigator.Screen
 				name="UsernameEmail"
 				component={UserNameEmailScreen}
+				// https://reactnavigation.org/docs/screen-options-resolution/
 			/>
 			<AccountTabsNavigator.Screen name="Country" component={CountryScreen} />
 			<AccountTabsNavigator.Screen name="Avatar" component={AvatarScreen} />
@@ -167,12 +195,19 @@ export const AccountTabNavigator = () => {
 
 const NFAppDrawerNavigator = createDrawerNavigator();
 export const NFAppNavigator = () => {
-	// const dispatch = useDispatch();
+	const { logout } = useAuthentication();
+
 	return (
 		<NFAppDrawerNavigator.Navigator
 			drawerContent={(props) => {
 				return (
-					<View style={{ flex: 1, paddingTop: 20 }}>
+					<View
+						style={{
+							flex: 1,
+							paddingTop: 20,
+							backgroundColor: Colors.backgroundDark
+						}}
+					>
 						<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
 							<View
 								style={{
@@ -187,7 +222,7 @@ export const NFAppNavigator = () => {
 								<Button
 									title="Logout"
 									color={Colors.primary}
-									onPress={() => {}}
+									onPress={() => logout()}
 								/>
 							</View>
 						</SafeAreaView>
@@ -195,7 +230,8 @@ export const NFAppNavigator = () => {
 				);
 			}}
 			drawerContentOptions={{
-				activeTintColor: Colors.primary
+				activeTintColor: Colors.primary,
+				inactiveTintColor: Colors.nfWhite
 			}}
 		>
 			<NFAppDrawerNavigator.Screen

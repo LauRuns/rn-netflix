@@ -1,32 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 
 /* Hooks and context */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 /* Components */
+import { Spinner } from '../../components/molecules/index';
 import { NewNFContentList } from '../../components/organisms/index';
 
-import { DUMMY_ITEMS } from '../../data/DUMMY_DATA';
+import Colors from '../../constants/Colors';
+import { DUMMY_ITEMS } from '../../data/DUMMY_DATA'; // <-- development
 
 export const NewContent = (props) => {
-	const { country, countryId, countrycode } = props.route.params.countryData;
+	const { countryId } = props.route.params.countryData;
 
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
 	const [offset, setOffset] = useState(0);
 	const [newItems, setNewItems] = useState(0);
 
+	let searchParams = {
+		newdate: new Date('2015-01-01'),
+		start_year: 2017,
+		orderby: 'date',
+		limit: 6,
+		countrylist: countryId,
+		audio: 'english',
+		offset: offset,
+		end_year: 2020
+	};
+	const fetchNewContent = async () => {
+		try {
+			const response = await fetchNetflixData({
+				urlEndpoint: 'search',
+				params: searchParams
+			});
+			setNewItems(response);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		// fetchNewContent();
+		setNewItems(DUMMY_ITEMS); // <-- for development only
+	}, [offset]);
+
+	useEffect(() => {
+		if (error) {
+			Alert.alert('Error', error, [
+				{ text: 'OK', onPress: () => clearError() }
+			]);
+		}
+	}, [error]);
+
 	const onLoadNext = () => {
 		console.log('onNext');
+		setOffset(offset + 6);
 	};
 
 	const onLoadPrevious = () => {
 		console.log('onPrevious');
+		if (offset !== 0) setOffset(offset - 6);
 	};
+
+	if (isLoading) {
+		return (
+			<Spinner
+				spinnerText="Loading new content..."
+				spinnerSize="large"
+				spinnerColor={Colors.primary}
+				spinnerTextColor={Colors.primary}
+			/>
+		);
+	}
 
 	return (
 		<View style={styles.screen}>
 			<NewNFContentList
-				listData={DUMMY_ITEMS}
+				listData={newItems}
 				onNext={onLoadNext}
 				onPrevious={onLoadPrevious}
 				navData={props.navigation}
@@ -36,8 +86,9 @@ export const NewContent = (props) => {
 };
 
 export const newcontentScreenOptions = (navData) => {
+	const { country } = navData.route.params.countryData;
 	return {
-		headerTitle: 'New content'
+		headerTitle: `${country} new content`
 	};
 };
 
