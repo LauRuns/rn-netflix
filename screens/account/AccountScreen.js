@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
 		width: 200,
 		height: 200,
 		borderRadius: 400 / 2,
-		backgroundColor: 'green',
 		padding: 10,
 		justifyContent: 'center',
 		alignItems: 'center',

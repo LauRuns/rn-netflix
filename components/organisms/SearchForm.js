@@ -1,18 +1,10 @@
-import React, {
-	useState,
-	useEffect,
-	useReducer,
-	useCallback,
-	useContext
-} from 'react';
+import React, { useState, useEffect, useReducer, useCallback } from 'react';
 import {
 	StyleSheet,
-	Text,
 	View,
 	KeyboardAvoidingView,
 	ScrollView,
-	Alert,
-	Button
+	Alert
 } from 'react-native';
 import RadioButtonRN from 'radio-buttons-react-native';
 import { Ionicons } from '@expo/vector-icons';
