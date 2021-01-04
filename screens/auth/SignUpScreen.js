@@ -1,0 +1,382 @@
+import React, {
+	useState,
+	useEffect,
+	useContext,
+	useReducer,
+	useCallback
+} from 'react';
+import {
+	View,
+	Text,
+	Button,
+	TouchableOpacity,
+	Dimensions,
+	TextInput,
+	Platform,
+	StyleSheet,
+	ScrollView,
+	StatusBar,
+	Alert,
+	KeyboardAvoidingView
+} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as Linking from 'expo-linking';
+
+import { CONNECTION_STRING } from '@env';
+
+/* Hooks & context */
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import { useAuthentication } from '../../shared/hooks/authentication-hook';
+import { UserContext } from '../../shared/context/user-context';
+
+/* UI elements */
+import { Header, DefaultText } from '../../components/atoms/index';
+import { Spinner } from '../../components/molecules/index';
+import {
+	Input,
+	AuthInput,
+	CountryDropDown
+} from '../../components/organisms/index';
+import Colors from '../../constants/Colors';
+
+const FORM_UPDATE = 'FORM_UPDATE';
+
+const formReducer = (state, action) => {
+	if (action.type === FORM_UPDATE) {
+		const updatedValues = {
+			...state.inputValues,
+			[action.input]: action.value
+		};
+		const updatedValidities = {
+			...state.inputValidities,
+			[action.input]: action.isValid
+		};
+		let updatedFormIsValid = true;
+		for (const key in updatedValidities) {
+			updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+		}
+		return {
+			formIsValid: updatedFormIsValid,
+			inputValidities: updatedValidities,
+			inputValues: updatedValues
+		};
+	}
+	return state;
+};
+
+export const SignUpScreen = ({ navigation }) => {
+	const { login } = useAuthentication();
+	const { isLoading, error, sendRequest, clearError } = useHttpClient();
+	const { setNewCurrentUser } = useContext(UserContext);
+
+	const [formState, dispatchFormState] = useReducer(formReducer, {
+		inputValues: {
+			name: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
+			country: ''
+		},
+		inputValidities: {
+			name: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
+			country: ''
+		},
+		formIsValid: false
+	});
+
+	useEffect(() => {
+		if (error) {
+			Alert.alert('Error', error, [
+				{ text: 'OK', onPress: () => clearError() }
+			]);
+		}
+	}, [error]);
+
+	const inputChangeHandler = useCallback(
+		(inputIdentifier, inputValue, inputValidity) => {
+			dispatchFormState({
+				type: FORM_UPDATE,
+				value: inputValue,
+				isValid: inputValidity,
+				input: inputIdentifier
+			});
+		},
+		[dispatchFormState]
+	);
+
+	const signupHandler = async () => {
+		console.log(
+			formState.inputValues.name,
+			formState.inputValues.country,
+			JSON.stringify(formState.inputValues.country),
+			formState.inputValues.email,
+			formState.inputValues.password
+		);
+		try {
+			const formData = new FormData();
+			formData.append('name', formState.inputValues.name);
+			formData.append('country', JSON.stringify(formState.inputValues.country));
+			formData.append('email', formState.inputValues.email);
+			formData.append('password', formState.inputValues.password);
+			const responseData = await sendRequest(
+				`${CONNECTION_STRING}/users/signup`,
+				'POST',
+				formData
+			);
+			const { userId, token, user } = responseData;
+			console.log(responseData);
+			await setNewCurrentUser(user);
+			await login(userId, token);
+		} catch (err) {
+			// Error is handled by the useHttpClient hook
+		}
+	};
+
+	return (
+		<View style={styles.container}>
+			<View style={styles.header}>
+				<Text style={styles.text_header}>Sign Up Now!</Text>
+			</View>
+			<Animatable.View animation="fadeInUpBig" style={styles.footer}>
+				<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50}>
+					<ScrollView>
+						<AuthInput
+							id="name"
+							label="Your username"
+							keyboardType="default"
+							required
+							autoCapitalize="none"
+							errorText="Please enter a name, min 5 characters"
+							minLength={5}
+							onInputChange={inputChangeHandler}
+							initialValue=""
+							iconName="person-outline"
+							iconSize={30}
+							labelStyle={{
+								fontFamily: 'roboto-regular',
+								color: Colors.nfWhite
+							}}
+						/>
+						<AuthInput
+							id="email"
+							label="Email"
+							keyboardType="email-address"
+							required
+							email
+							autoCapitalize="none"
+							errorText="Please enter a valid email address"
+							onInputChange={inputChangeHandler}
+							initialValue=""
+							iconName="at"
+							iconSize={30}
+							labelStyle={{
+								fontFamily: 'roboto-regular',
+								color: Colors.nfWhite
+							}}
+							style={{ marginTop: 20 }}
+						/>
+						<CountryDropDown
+							id="country"
+							label="Set your country"
+							pickerStyle={picker}
+							labelSize={20}
+							labelStyle={{ marginTop: 20 }}
+							color={Colors.nfWhite}
+							onInputChange={inputChangeHandler}
+							initiallyValid={false}
+						/>
+						<AuthInput
+							id="password"
+							label="Password"
+							keyboardType="default"
+							required
+							autoCapitalize="none"
+							errorText="Please enter your password"
+							minLength={5}
+							onInputChange={inputChangeHandler}
+							initialValue=""
+							afterIcon
+							iconName="md-lock-closed"
+							iconSize={30}
+							labelStyle={{
+								fontFamily: 'roboto-regular',
+								color: Colors.nfWhite
+							}}
+							style={{ marginTop: 20 }}
+							secureText={true}
+						/>
+						<AuthInput
+							id="confirmPassword"
+							label="Confirm Password"
+							keyboardType="default"
+							required
+							autoCapitalize="none"
+							errorText="Please enter confirm your password"
+							minLength={5}
+							onInputChange={inputChangeHandler}
+							initialValue=""
+							afterIcon
+							iconName="md-lock-closed"
+							iconSize={30}
+							labelStyle={{
+								fontFamily: 'roboto-regular',
+								color: Colors.nfWhite
+							}}
+							style={{ marginTop: 20 }}
+							secureText={true}
+						/>
+						<TouchableOpacity
+							onPress={() => Linking.openURL('https://jtaclogs.nl/')} // should redirect to terms and conditions page section
+						>
+							<View style={styles.textPrivate}>
+								<DefaultText color={Colors.shadesGray20}>
+									By signing up you agree to our
+								</DefaultText>
+								<DefaultText
+									color={Colors.shadesGray20}
+									style={{ fontFamily: 'roboto-bold' }}
+								>
+									{' '}
+									Terms of service
+								</DefaultText>
+								<DefaultText color={Colors.shadesGray20}> and</DefaultText>
+								<DefaultText
+									color={Colors.shadesGray20}
+									style={{ fontFamily: 'roboto-bold' }}
+								>
+									{' '}
+									Privacy policy
+								</DefaultText>
+							</View>
+						</TouchableOpacity>
+						<View style={styles.button}>
+							<TouchableOpacity style={styles.signIn} onPress={signupHandler}>
+								<LinearGradient
+									colors={[Colors.backgroundDark20, Colors.backgroundDark]}
+									style={styles.signIn}
+								>
+									<DefaultText
+										color={Colors.nfWhite}
+										size={22}
+										style={{ fontFamily: 'roboto-bold' }}
+									>
+										Sign Up
+									</DefaultText>
+								</LinearGradient>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								onPress={() => navigation.goBack()}
+								style={[
+									styles.signIn,
+									{
+										marginTop: 15
+									}
+								]}
+							>
+								<DefaultText color={Colors.nfWhite} size={22}>
+									switch to Login
+								</DefaultText>
+							</TouchableOpacity>
+						</View>
+					</ScrollView>
+				</KeyboardAvoidingView>
+			</Animatable.View>
+		</View>
+	);
+};
+
+export const signupScreenOptions = {
+	headerTitle: 'Sign up'
+};
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: Colors.backgroundDark
+	},
+	header: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		paddingHorizontal: 20,
+		paddingBottom: 50
+	},
+	footer: {
+		backgroundColor: Colors.backgroundDark60,
+		borderTopLeftRadius: 30,
+		borderTopRightRadius: 30,
+		paddingHorizontal: 20,
+		paddingVertical: 30
+	},
+	text_header: {
+		color: '#fff',
+		fontWeight: 'bold',
+		fontSize: 30
+	},
+	text_footer: {
+		color: '#05375a',
+		fontSize: 18
+	},
+	action: {
+		flexDirection: 'row',
+		marginTop: 10,
+		borderBottomWidth: 1,
+		borderBottomColor: '#f2f2f2',
+		paddingBottom: 5
+	},
+	textInput: {
+		flex: 1,
+		marginTop: Platform.OS === 'ios' ? 0 : -12,
+		paddingLeft: 10,
+		color: '#05375a'
+	},
+	button: {
+		alignItems: 'center',
+		marginTop: 50
+	},
+	signIn: {
+		width: '100%',
+		height: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 10
+	},
+	textSign: {
+		fontSize: 18,
+		fontWeight: 'bold'
+	},
+	textPrivate: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		marginTop: 20
+	},
+	color_textPrivate: {
+		color: 'grey'
+	}
+});
+
+const picker = StyleSheet.create({
+	inputIOS: {
+		fontSize: 20,
+		paddingVertical: 12,
+		color: Colors.nfWhite,
+		paddingRight: 30,
+		alignItems: 'center',
+		fontFamily: 'roboto-regular'
+	},
+	inputAndroid: {
+		fontSize: 16,
+		paddingHorizontal: 10,
+		paddingVertical: 8,
+		borderWidth: 0.5,
+		borderColor: 'purple',
+		borderRadius: 8,
+		color: 'black',
+		paddingRight: 30,
+		alignItems: 'center'
+	}
+});
