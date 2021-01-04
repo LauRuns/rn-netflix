@@ -22,7 +22,10 @@ import {
 	SearchResultScreen,
 	searchResultScreenOptions
 } from './search/SearchResultScreen';
+import { SplashScreen, splashScreenOptions } from './SplashScreen';
 import { AuthScreen, authScreenOptions } from './auth/AuthScreen';
+import { SignUpScreen, signupScreenOptions } from './auth/SignUpScreen';
+import { LoginScreen, loginScreenOptions } from './auth/LoginScreen';
 import { ExpContent, expcontentScreenOptions } from './contentLists/ExpContent';
 import { NewContent, newcontentScreenOptions } from './contentLists/NewContent';
 export {
@@ -52,5 +55,11 @@ export {
 	NewContent,
 	newcontentScreenOptions,
 	ExpContent,
-	expcontentScreenOptions
+	expcontentScreenOptions,
+	SignUpScreen,
+	signupScreenOptions,
+	SplashScreen,
+	splashScreenOptions,
+	LoginScreen,
+	loginScreenOptions
 };

@@ -4,6 +4,8 @@ import { Input } from './Input';
 import { CountryList } from './CountryList';
 import { SearchForm } from './SearchForm';
 import { ImageSelector } from './ImageSelector';
+import { AuthInput } from './AuthInput';
+import { CountryDropDown } from './CountryDropDown';
 
 export {
 	NewNFContentList,
@@ -11,5 +13,7 @@ export {
 	Input,
 	CountryList,
 	SearchForm,
-	ImageSelector
+	ImageSelector,
+	AuthInput,
+	CountryDropDown
 };
