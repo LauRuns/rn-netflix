@@ -6,7 +6,7 @@ import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 import { NFImage } from '../atoms/index';
 import { Spinner } from '../molecules/Spinner';
 import Colors from '../../constants/Colors';
-import { SINGLE_ITEM } from '../../data/DUMMY_DATA';
+import { DUMMY_SINGLE_SEARCH_RESULT } from '../../data/DUMMY_DATA';
 export const ExpNFItem = (props) => {
 	const [expItem, setExpItem] = useState(null);
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
@@ -31,8 +31,8 @@ export const ExpNFItem = (props) => {
 	};
 
 	useEffect(() => {
-		// fetchExpItem();
-		setExpItem(SINGLE_ITEM[0]); // <-- for use with development
+		fetchExpItem();
+		// setExpItem(DUMMY_SINGLE_SEARCH_RESULT[0]); // <-- for use with development
 	}, []);
 
 	if (isLoading) {

@@ -19,7 +19,7 @@ import {
 import { Spinner } from '../../../components/molecules/index';
 import Colors from '../../../constants/Colors';
 
-import { DUMMY_COUNTRYLST } from '../../../data/DUMMY_DATA';
+import { DUMMY_COUNTRYLIST } from '../../../data/DUMMY_DATA';
 
 const FORM_UPDATE = 'FORM_UPDATE';
 
