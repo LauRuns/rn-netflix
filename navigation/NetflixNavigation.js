@@ -33,7 +33,13 @@ import {
 	NewContent,
 	newcontentScreenOptions,
 	ExpContent,
-	expcontentScreenOptions
+	expcontentScreenOptions,
+	SignUpScreen,
+	signupScreenOptions,
+	SplashScreen,
+	splashScreenOptions,
+	LoginScreen,
+	loginScreenOptions
 } from '../screens/index';
 
 import { useAuthentication } from '../shared/hooks/authentication-hook';
@@ -292,10 +298,25 @@ export const AuthNavigator = () => {
 				headerTintColor: Colors.primary
 			}}
 		>
-			<AuthStackNavigator.Screen
+			{/* <AuthStackNavigator.Screen
 				name="Auth"
 				component={AuthScreen}
 				options={authScreenOptions}
+			/> */}
+			<AuthStackNavigator.Screen
+				name="SplashScreen"
+				component={SplashScreen}
+				options={splashScreenOptions}
+			/>
+			<AuthStackNavigator.Screen
+				name="Login"
+				component={LoginScreen}
+				options={loginScreenOptions}
+			/>
+			<AuthStackNavigator.Screen
+				name="Signup"
+				component={SignUpScreen}
+				options={signupScreenOptions}
 			/>
 		</AuthStackNavigator.Navigator>
 	);

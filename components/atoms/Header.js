@@ -4,7 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 export const Header = (props) => {
 	return (
 		<View style={{ ...styles.screen, ...props.style }}>
-			<Text style={{ ...styles.title, ...{ color: props.color } }}>
+			<Text
+				style={{
+					...styles.title,
+					...{ color: props.color },
+					...props.headerStyle
+				}}
+			>
 				{props.title}
 			</Text>
 			<Text style={{ ...styles.subHeader, ...{ color: props.color } }}>
