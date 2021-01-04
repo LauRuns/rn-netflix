@@ -33,13 +33,14 @@ export const CountriesScreen = (props) => {
 					};
 					countryList.push(newEl);
 				});
+				console.log(countryList);
 				setLoadedCountries(countryList);
 			} catch (err) {
 				// Error is handled by useNetflixClient
 			}
 		};
-		// fetchCountries();
-		setLoadedCountries(DUMMY_COUNTRYLST);
+		fetchCountries();
+		// setLoadedCountries(DUMMY_COUNTRYLST);
 	}, []);
 
 	useEffect(() => {
@@ -70,22 +71,22 @@ export const CountriesScreen = (props) => {
 		);
 	}
 
-	if (!isLoading && !loadedCountries) {
-		return (
-			<View
-				style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center',
-					backgroundColor: Colors.backgroundDark
-				}}
-			>
-				<DefaultText color={Colors.primary} size={22}>
-					...oops! No data available
-				</DefaultText>
-			</View>
-		);
-	}
+	// if (!isLoading && !loadedCountries) {
+	// 	return (
+	// 		<View
+	// 			style={{
+	// 				flex: 1,
+	// 				justifyContent: 'center',
+	// 				alignItems: 'center',
+	// 				backgroundColor: Colors.backgroundDark
+	// 			}}
+	// 		>
+	// 			<DefaultText color={Colors.primary} size={22}>
+	// 				...oops! No data available
+	// 			</DefaultText>
+	// 		</View>
+	// 	);
+	// }
 
 	return (
 		<View style={styles.screen}>

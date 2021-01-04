@@ -8,7 +8,7 @@ import { Spinner } from '../../components/molecules/index';
 import { ExpNFContentList } from '../../components/organisms/index';
 
 import Colors from '../../constants/Colors';
-import { COUNTRY_IDS } from '../../data/DUMMY_DATA'; // <-- development
+// import { COUNTRY_IDS } from '../../data/DUMMY_DATA'; // <-- development
 
 export const ExpContent = (props) => {
 	const { countryId } = props.route.params.countryData;
@@ -16,7 +16,7 @@ export const ExpContent = (props) => {
 	const [offset, setOffset] = useState(0);
 	const [idList, setIdList] = useState(null);
 
-	const fetchIds = async () => {
+	const fetchExpiringContent = async () => {
 		try {
 			const response = await fetchNetflixData({
 				urlEndpoint: 'expiring',
@@ -33,8 +33,8 @@ export const ExpContent = (props) => {
 	};
 
 	useEffect(() => {
-		// fetchIds();
-		setIdList(COUNTRY_IDS); // <-- for development only
+		fetchExpiringContent();
+		// setIdList(COUNTRY_IDS); // <-- for development only
 	}, [offset]);
 
 	useEffect(() => {

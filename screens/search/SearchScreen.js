@@ -35,8 +35,8 @@ export const SearchScreen = (props) => {
 				// Error is handled by useNetflixClient
 			}
 		};
-		// fetchCountries();
-		setLoadedCountries(DUMMY_COUNTRYLST); // <-- use in development
+		fetchCountries();
+		// setLoadedCountries(DUMMY_COUNTRYLST); // <-- use in development
 	}, []);
 
 	useEffect(() => {
