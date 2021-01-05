@@ -19,7 +19,6 @@ export const CountryDropDown = (props) => {
 	});
 
 	const mapCountries = (list) => {
-		console.log('mapping countries');
 		let mappedCountries = [];
 		list.map(({ country, countryId }) => {
 			return mappedCountries.push({
@@ -28,7 +27,6 @@ export const CountryDropDown = (props) => {
 				key: countryId
 			});
 		});
-		console.log(mappedCountries);
 		return setLoadedCountries(mappedCountries);
 	};
 
@@ -52,8 +50,8 @@ export const CountryDropDown = (props) => {
 				// Error is handled by useNetflixClient
 			}
 		};
-		fetchCountries();
-		// setLoadedCountries(MAPPED_COUNTRIES); // <-- use in development
+		// fetchCountries();
+		setLoadedCountries(MAPPED_COUNTRIES); // <-- use in development
 	}, []);
 
 	const countryDropDownPlaceholder = {

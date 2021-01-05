@@ -109,13 +109,15 @@ export const SignUpScreen = ({ navigation }) => {
 	);
 
 	const signupHandler = async () => {
-		console.log(
-			formState.inputValues.name,
-			formState.inputValues.country,
-			JSON.stringify(formState.inputValues.country),
-			formState.inputValues.email,
-			formState.inputValues.password
-		);
+		if (
+			formState.inputValues.password !== formState.inputValues.confirmPassword
+		) {
+			return Alert.alert(
+				"Passwords don't match!",
+				'Make sure both password fields have the same input.',
+				[{ text: 'OK' }]
+			);
+		}
 		try {
 			const formData = new FormData();
 			formData.append('name', formState.inputValues.name);
@@ -128,7 +130,6 @@ export const SignUpScreen = ({ navigation }) => {
 				formData
 			);
 			const { userId, token, user } = responseData;
-			console.log(responseData);
 			await setNewCurrentUser(user);
 			await login(userId, token);
 		} catch (err) {
