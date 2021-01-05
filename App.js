@@ -3,6 +3,7 @@ import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { AuthProvider } from './shared/hooks/authentication-hook';
 import { UserProvider } from './shared/context/user-context';
+import { FavoritesProvider } from './shared/context/favorites-context';
 
 import { AppNavigator } from './navigation/AppNavigator';
 
@@ -29,7 +30,9 @@ export default function App() {
 	return (
 		<AuthProvider>
 			<UserProvider>
-				<AppNavigator />
+				<FavoritesProvider>
+					<AppNavigator />
+				</FavoritesProvider>
 			</UserProvider>
 		</AuthProvider>
 	);

@@ -103,7 +103,7 @@ export const AuthInput = (props) => {
 					{inputState.isValid ? (
 						<Ionicons
 							name="checkmark-sharp"
-							size={props.iconSize}
+							size={24 || props.iconSize}
 							color={Colors.succes}
 						/>
 					) : null}
@@ -119,7 +119,7 @@ export const AuthInput = (props) => {
 						) : (
 							<Ionicons
 								name="md-eye-outline"
-								size={props.iconSize}
+								size={24 || props.iconSize}
 								color={Colors.nfWhite}
 							/>
 						)}
