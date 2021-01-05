@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, InteractionManager } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { ASSET_URL } from '@env';
 import { useContextUser } from '../../shared/context/user-context';
 import { NFHeaderButton, Header } from '../../components/atoms/index';
 import { UserDetails } from '../../components/molecules/index';
+import defaultAvatar from '../../assets/default-profile-avatar.png';
 import Colors from '../../constants/Colors';
 
 export const AccountScreen = (props) => {
@@ -34,7 +35,11 @@ export const AccountScreen = (props) => {
 				<UserDetails
 					email={currentUser.email}
 					_id={currentUser._id}
-					country={currentUser.country.country}
+					country={
+						currentUser.country
+							? currentUser.country.country
+							: 'Country data unavailable'
+					}
 					updatedAt={currentUser.updatedAt}
 					style={{
 						height: '20%',
