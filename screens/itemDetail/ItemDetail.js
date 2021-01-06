@@ -33,7 +33,6 @@ export const ItemDetail = (props) => {
 
 	const toggleFavoriteHandler = () => {
 		if (!isFavorite) {
-			console.log('Add item to favorites');
 			addToFavoritesHandler({ nfid, title, year, synopsis, img, imdbrating });
 			setIsFavorite((prevState) => !prevState);
 		} else if (isFavorite) {
@@ -45,11 +44,9 @@ export const ItemDetail = (props) => {
 	useEffect(() => {
 		let foundItem;
 		if (favorites.length !== 0) {
-			foundItem = favorites.find((item) => +item.netflixid === nfid);
-			console.log('FOUND__?__>', foundItem);
+			foundItem = favorites.find((item) => +item.nfid === +nfid);
 		}
 		if (foundItem) {
-			console.log(foundItem);
 			setCurrentItem(foundItem);
 			setIsFavorite(true);
 		}
@@ -57,8 +54,8 @@ export const ItemDetail = (props) => {
 
 	useEffect(() => {
 		if (error) {
-			Alert.alert('Error', error.message || 'An unexpected error occurred', [
-				{ text: 'OK' }
+			Alert.alert('Error', error || 'An unexpected error occurred', [
+				{ text: 'OK', onPress: () => clearError() }
 			]);
 		}
 	}, [error]);
@@ -84,7 +81,7 @@ export const ItemDetail = (props) => {
 				)}
 			</View>
 			<Image
-				source={{ uri: nfItem.img }}
+				source={{ uri: img }}
 				style={{ width: 300, height: 370 }}
 				resizeMode="contain"
 			/>
