@@ -1,11 +1,33 @@
-import React from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, FlatList, SafeAreaView, Alert } from 'react-native';
+/* Hooks and context */
+import { useNetflixClient } from '../../shared/hooks/netflix-hook';
+/* UI elements and components */
+import { NavButtons, ExpNFItem, Spinner } from '../molecules/index';
 import Colors from '../../constants/Colors';
 
-import { NavButtons, ExpNFItem } from '../molecules/index';
-import { DUMMY_ITEMS } from '../../data/DUMMY_DATA';
-
 export const ExpNFContentList = (props) => {
+	const { isLoading, error, clearError } = useNetflixClient();
+
+	useEffect(() => {
+		if (error) {
+			Alert.alert('Error', error, [
+				{ text: 'OK', onPress: () => clearError() }
+			]);
+		}
+	}, [error]);
+
+	if (isLoading) {
+		return (
+			<Spinner
+				spinnerText="Loading content..."
+				spinnerSize="large"
+				spinnerColor={Colors.primary}
+				spinnerTextColor={Colors.primary}
+			/>
+		);
+	}
+
 	return (
 		<View style={styles.screen}>
 			<NavButtons onNext={props.onNext} onPrevious={props.onPrevious} />

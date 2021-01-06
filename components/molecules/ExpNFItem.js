@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { View } from 'react-native';
+/* Hooks and context */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
-
+/* UI elements and components */
 import { NFImage } from '../atoms/index';
 import { Spinner } from '../molecules/Spinner';
 import Colors from '../../constants/Colors';
-import { DUMMY_SINGLE_SEARCH_RESULT } from '../../data/DUMMY_DATA';
+
 export const ExpNFItem = (props) => {
 	const [expItem, setExpItem] = useState(null);
-	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
+	const { isLoading, fetchNetflixData, clearError } = useNetflixClient();
 
 	const onItemSelectedHandler = (item) => {
 		props.navData.navigate('ItemDetail', { item: item });
@@ -23,23 +23,22 @@ export const ExpNFItem = (props) => {
 					netflixid: props.item.netflixid
 				}
 			});
-			console.log(response[0]);
+
 			setExpItem(response[0]);
 		} catch (error) {
-			console.log(error);
+			// Error is handled and set by the useNetflixClient
 		}
 	};
 
 	useEffect(() => {
 		fetchExpItem();
-		// setExpItem(DUMMY_SINGLE_SEARCH_RESULT[0]); // <-- for use with development
 	}, []);
 
 	if (isLoading) {
 		return (
 			<Spinner
-				spinnerText="Loading new content..."
-				spinnerSize="large"
+				spinnerText="Loading..."
+				spinnerSize="small"
 				spinnerColor={Colors.primary}
 				spinnerTextColor={Colors.primary}
 			/>
@@ -47,7 +46,7 @@ export const ExpNFItem = (props) => {
 	}
 
 	return (
-		<View style={styles.screen}>
+		<View>
 			{expItem && (
 				<NFImage
 					imageUrl={expItem.img}
@@ -59,9 +58,3 @@ export const ExpNFItem = (props) => {
 		</View>
 	);
 };
-
-const styles = StyleSheet.create({
-	screen: {
-		// flex: 1
-	}
-});

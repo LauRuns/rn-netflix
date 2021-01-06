@@ -39,7 +39,9 @@ import {
 	SplashScreen,
 	splashScreenOptions,
 	LoginScreen,
-	loginScreenOptions
+	loginScreenOptions,
+	FavoritesScreen,
+	favoritesScreenOptions
 } from '../screens/index';
 
 import { useAuthentication } from '../shared/hooks/authentication-hook';
@@ -137,6 +139,24 @@ export const SearchNavigator = () => {
 				options={detailScreenOptions}
 			/>
 		</SearchStackNavigator.Navigator>
+	);
+};
+
+const FavoritesStackNavigator = createStackNavigator();
+export const FavoritesNavigator = () => {
+	return (
+		<FavoritesStackNavigator.Navigator screenOptions={defaultNavOptions}>
+			<FavoritesStackNavigator.Screen
+				name="Favorites"
+				component={FavoritesScreen}
+				options={favoritesScreenOptions}
+			/>
+			<FavoritesStackNavigator.Screen
+				name="ItemDetail"
+				component={ItemDetail}
+				options={detailScreenOptions}
+			/>
+		</FavoritesStackNavigator.Navigator>
 	);
 };
 
@@ -264,6 +284,15 @@ export const NFAppNavigator = () => {
 				options={{
 					drawerIcon: (props) => (
 						<Ionicons name="search" size={23} color={props.color} />
+					)
+				}}
+			/>
+			<NFAppDrawerNavigator.Screen
+				name="Favorites"
+				component={FavoritesNavigator}
+				options={{
+					drawerIcon: (props) => (
+						<Ionicons name="md-star" size={23} color={props.color} />
 					)
 				}}
 			/>

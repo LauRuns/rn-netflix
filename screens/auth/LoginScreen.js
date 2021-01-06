@@ -57,7 +57,7 @@ export const LoginScreen = ({ navigation }) => {
 	const { login } = useAuthentication();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
 	const { setNewCurrentUser } = useContext(UserContext);
-	const { setUpdatedFavorites } = useFavorites();
+	const { loadFavoriteItems } = useFavorites();
 
 	const [formState, dispatchFormState] = useReducer(formReducer, {
 		inputValues: {
@@ -79,7 +79,6 @@ export const LoginScreen = ({ navigation }) => {
 	}, [error]);
 
 	const authSubmitHandler = async () => {
-		console.log(formState.inputValues.email, formState.inputValues.password);
 		try {
 			const responseData = await sendRequest(
 				`${CONNECTION_STRING}/users/login`,
@@ -96,7 +95,7 @@ export const LoginScreen = ({ navigation }) => {
 			const { userId, token, user, favorites } = responseData;
 			await setNewCurrentUser(user);
 			await login(userId, token);
-			await setUpdatedFavorites(favorites);
+			await loadFavoriteItems(favorites);
 		} catch (error) {
 			// Error is handled by the useHttpClient hook
 			console.log(error);
