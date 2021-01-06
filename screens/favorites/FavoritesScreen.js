@@ -6,7 +6,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useFavorites } from '../../shared/context/favorites-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 
-/* UI elements */
+/* UI elements and components */
 import {
 	NFImage,
 	NFHeaderButton,
