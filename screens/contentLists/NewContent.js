@@ -40,8 +40,8 @@ export const NewContent = (props) => {
 	};
 
 	useEffect(() => {
-		// fetchNewContent();
-		setNewItems(DUMMY_ITEMS); // <-- for development only
+		fetchNewContent();
+		// setNewItems(DUMMY_ITEMS); // <-- for development only
 	}, [offset]);
 
 	useEffect(() => {

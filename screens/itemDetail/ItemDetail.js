@@ -1,7 +1,6 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	StyleSheet,
-	Text,
 	View,
 	ScrollView,
 	Image,
@@ -43,14 +42,12 @@ export const ItemDetail = (props) => {
 
 	useEffect(() => {
 		let foundItem;
-		if (favorites.length !== 0) {
+		if (favorites && favorites.length !== 0) {
 			foundItem = favorites.find((item) => +item.nfid === +nfid);
+			setIsFavorite(foundItem ? true : false);
+			setCurrentItem(foundItem ? foundItem : null);
 		}
-		if (foundItem) {
-			setCurrentItem(foundItem);
-			setIsFavorite(true);
-		}
-	}, []);
+	}, [favorites]);
 
 	useEffect(() => {
 		if (error) {
@@ -140,7 +137,9 @@ const styles = StyleSheet.create({
 	favHeart: {
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
+		alignItems: 'center',
 		width: '100%',
-		paddingRight: 15
+		paddingRight: 15,
+		height: '5%'
 	}
 });
