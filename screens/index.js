@@ -1,6 +1,5 @@
 import { LandingScreen, landingScreenOptions } from './home/LandingScreen';
 import { ItemDetail, detailScreenOptions } from './itemDetail/ItemDetail';
-import { ItemList, itemListScreenOptions } from './itemList/ItemList';
 import {
 	CountriesScreen,
 	countriesScreenOptions
@@ -28,13 +27,15 @@ import { SignUpScreen, signupScreenOptions } from './auth/SignUpScreen';
 import { LoginScreen, loginScreenOptions } from './auth/LoginScreen';
 import { ExpContent, expcontentScreenOptions } from './contentLists/ExpContent';
 import { NewContent, newcontentScreenOptions } from './contentLists/NewContent';
+import {
+	FavoritesScreen,
+	favoritesScreenOptions
+} from './favorites/FavoritesScreen';
 export {
 	LandingScreen,
 	ItemDetail,
 	landingScreenOptions,
 	detailScreenOptions,
-	ItemList,
-	itemListScreenOptions,
 	CountriesScreen,
 	countriesScreenOptions,
 	CountryContentScreen,
@@ -61,5 +62,7 @@ export {
 	SplashScreen,
 	splashScreenOptions,
 	LoginScreen,
-	loginScreenOptions
+	loginScreenOptions,
+	FavoritesScreen,
+	favoritesScreenOptions
 };
