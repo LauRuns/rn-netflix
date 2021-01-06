@@ -23,7 +23,7 @@ import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Linking from 'expo-linking';
 
-import { CONNECTION_STRING } from '@env';
+import { CONNECTION_STRING, TERMS } from '@env';
 
 /* Hooks & context */
 import { useHttpClient } from '../../shared/hooks/http-hook';
@@ -231,7 +231,7 @@ export const SignUpScreen = ({ navigation }) => {
 							secureText={true}
 						/>
 						<TouchableOpacity
-							onPress={() => Linking.openURL('https://jtaclogs.nl/')} // should redirect to terms and conditions page section
+							onPress={() => Linking.openURL(`${TERMS}`)} // should redirect to terms and conditions page section
 						>
 							<View style={styles.textPrivate}>
 								<DefaultText color={Colors.shadesGray20}>
