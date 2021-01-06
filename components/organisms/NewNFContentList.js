@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
-import Colors from '../../constants/Colors';
 
 import { NFImage } from '../atoms/index';
 import { NavButtons } from '../molecules/index';
+import Colors from '../../constants/Colors';
 
 export const NewNFContentList = (props) => {
 	const onItemSelectedHandler = (item) => {
