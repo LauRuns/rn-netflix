@@ -27,6 +27,7 @@ export const useHttpClient = () => {
 			try {
 				console.log('sendRequest was fired');
 				if (isMounted.current) {
+					console.log('sending request');
 					const response = await axios({
 						method: method,
 						url: url,
@@ -34,6 +35,7 @@ export const useHttpClient = () => {
 						headers: headers,
 						cancelToken: signal.token
 					});
+					console.log('RESPONSE___:');
 
 					let responseData;
 					if (response?.data) {
@@ -44,8 +46,29 @@ export const useHttpClient = () => {
 				}
 			} catch (err) {
 				if (isMounted.current) {
-					setError(err.response.data.message);
+					console.log('error___:', err);
+					// setError(err.response.data.message);
 					setIsLoading(false);
+
+					if (axios.isCancel(err)) {
+						console.log('Axios isCancel is thrown___:', err.message);
+					} else if (err.response) {
+						console.log(
+							"Voldemort says there's an issue with your Response___:",
+							err.response.status
+						);
+
+						setError(err.message);
+					} else if (err.request) {
+						console.log(
+							"Voldemort says there's an issue with your Request___:",
+							err.message
+						);
+						setError(err.message);
+					} else {
+						console.log('Voldemort says ', err.message);
+						setError(err.message);
+					}
 				}
 				throw err;
 			}
