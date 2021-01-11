@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 
 import { Card, DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';

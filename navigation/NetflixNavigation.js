@@ -327,11 +327,6 @@ export const AuthNavigator = () => {
 				headerTintColor: Colors.primary
 			}}
 		>
-			{/* <AuthStackNavigator.Screen
-				name="Auth"
-				component={AuthScreen}
-				options={authScreenOptions}
-			/> */}
 			<AuthStackNavigator.Screen
 				name="SplashScreen"
 				component={SplashScreen}

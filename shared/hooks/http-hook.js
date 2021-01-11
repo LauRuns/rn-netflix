@@ -13,8 +13,6 @@ export const useHttpClient = () => {
 		signal = axios.CancelToken.source();
 
 		return () => {
-			console.log('HTTP HOOK RUNNING CLEANUP');
-			signal.cancel('The request was cancelled!');
 			setIsLoading(false);
 			isMounted.current = false;
 		};
@@ -25,9 +23,7 @@ export const useHttpClient = () => {
 			setIsLoading(true);
 
 			try {
-				console.log('sendRequest was fired');
 				if (isMounted.current) {
-					console.log('sending request');
 					const response = await axios({
 						method: method,
 						url: url,
@@ -35,7 +31,6 @@ export const useHttpClient = () => {
 						headers: headers,
 						cancelToken: signal.token
 					});
-					console.log('RESPONSE___:');
 
 					let responseData;
 					if (response?.data) {
@@ -46,8 +41,6 @@ export const useHttpClient = () => {
 				}
 			} catch (err) {
 				if (isMounted.current) {
-					console.log('error___:', err);
-					// setError(err.response.data.message);
 					setIsLoading(false);
 
 					if (axios.isCancel(err)) {

@@ -56,7 +56,6 @@ export const AuthProvider = ({ children }) => {
 	}, [token, logout, tokenExpirationDate]);
 
 	useEffect(() => {
-		// const storedData = JSON.parse(AsyncStorage.getItem('userData'));
 		let storedData;
 		const getData = async () => {
 			try {
@@ -83,7 +82,7 @@ export const AuthProvider = ({ children }) => {
 	return (
 		<AuthContext.Provider
 			value={{
-				isAuthenticated: isAuthenticated, //|| AsyncStorage.getItem('userData') ? true : false,
+				isAuthenticated: isAuthenticated,
 				token,
 				userId,
 				login,

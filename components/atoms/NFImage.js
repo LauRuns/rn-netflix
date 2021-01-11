@@ -30,7 +30,6 @@ export const NFImage = (props) => {
 
 const styles = StyleSheet.create({
 	imageContainer: {
-		// flex: 1,
 		margin: 10,
 		overflow: 'hidden',
 		justifyContent: 'center',

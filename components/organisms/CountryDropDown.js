@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useReducer, useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 
-import { IconButton, DefaultText } from '../atoms/index';
+import { DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';
 import { MAPPED_COUNTRIES } from '../../data/DUMMY_DATA';
 
