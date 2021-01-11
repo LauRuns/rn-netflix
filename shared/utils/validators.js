@@ -53,7 +53,6 @@ export const validate = (value, validators) => {
 		}
 		if (validator.type === VALIDATOR_TYPE_EMAIL) {
 			const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			// isValid = isValid && /^\S+@\S+\.\S+$/.test(value);
 			isValid = isValid && emailRegex.test(value);
 		}
 		if (validator.type === VALIDATOR_TYPE_OBJECT) {

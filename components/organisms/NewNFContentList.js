@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
+import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
 
 import { NFImage } from '../atoms/index';
 import { NavButtons } from '../molecules/index';

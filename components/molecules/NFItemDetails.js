@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 
-import { NFImage, DefaultText } from '../atoms/index';
+import { DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';
 
 export const NFItemDetails = (props) => {
