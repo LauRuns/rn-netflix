@@ -50,8 +50,8 @@ export const CountryDropDown = (props) => {
 				// Error is handled by useNetflixClient
 			}
 		};
-		// fetchCountries();
-		setLoadedCountries(MAPPED_COUNTRIES); // <-- use in development
+		fetchCountries();
+		// setLoadedCountries(MAPPED_COUNTRIES); // <-- use in development
 	}, []);
 
 	const countryDropDownPlaceholder = {

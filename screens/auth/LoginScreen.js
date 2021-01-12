@@ -1,10 +1,4 @@
-import React, {
-	useState,
-	useEffect,
-	useContext,
-	useReducer,
-	useCallback
-} from 'react';
+import React, { useEffect, useContext, useReducer, useCallback } from 'react';
 import {
 	View,
 	TouchableOpacity,
@@ -13,8 +7,9 @@ import {
 	Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import * as Linking from 'expo-linking';
 import { LinearGradient } from 'expo-linear-gradient';
-import { CONNECTION_STRING } from '@env';
+import { CONNECTION_STRING, FORGOT_PWD } from '@env';
 
 /* Hooks & context */
 import { useHttpClient } from '../../shared/hooks/http-hook';
@@ -25,7 +20,7 @@ import { useFavorites } from '../../shared/context/favorites-context';
 /* UI elements */
 import { Header, DefaultText } from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
-import { Input, AuthInput } from '../../components/organisms/index';
+import { AuthInput } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
@@ -116,6 +111,17 @@ export const LoginScreen = ({ navigation }) => {
 		[dispatchFormState]
 	);
 
+	if (isLoading) {
+		return (
+			<Spinner
+				spinnerText="In progress..."
+				spinnerSize="large"
+				spinnerColor={Colors.primary}
+				spinnerTextColor={Colors.primary}
+			/>
+		);
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -175,11 +181,9 @@ export const LoginScreen = ({ navigation }) => {
 				/>
 
 				<TouchableOpacity
-					onPress={() =>
-						Alert.alert('...sorry!', 'This feature is not yet ready...', [
-							{ text: 'OK' }
-						])
-					}
+					onPress={() => {
+						Linking.openURL(`${FORGOT_PWD}`);
+					}}
 				>
 					<DefaultText style={{ marginTop: 20 }} color={Colors.nfWhite}>
 						Forgot password?
