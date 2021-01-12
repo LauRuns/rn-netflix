@@ -1,27 +1,17 @@
-import React, {
-	useState,
-	useEffect,
-	useContext,
-	useReducer,
-	useCallback
-} from 'react';
+import React, { useEffect, useContext, useReducer, useCallback } from 'react';
 import {
 	View,
 	Text,
-	Button,
 	TouchableOpacity,
-	Dimensions,
-	TextInput,
 	Platform,
 	StyleSheet,
 	ScrollView,
-	StatusBar,
 	Alert,
 	KeyboardAvoidingView
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { LinearGradient } from 'expo-linear-gradient';
 import * as Linking from 'expo-linking';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { CONNECTION_STRING, TERMS } from '@env';
 
@@ -31,13 +21,9 @@ import { useAuthentication } from '../../shared/hooks/authentication-hook';
 import { UserContext } from '../../shared/context/user-context';
 
 /* UI elements */
-import { Header, DefaultText } from '../../components/atoms/index';
+import { DefaultText } from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
-import {
-	Input,
-	AuthInput,
-	CountryDropDown
-} from '../../components/organisms/index';
+import { AuthInput, CountryDropDown } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
@@ -137,6 +123,17 @@ export const SignUpScreen = ({ navigation }) => {
 		}
 	};
 
+	if (isLoading) {
+		return (
+			<Spinner
+				spinnerText="Signing up..."
+				spinnerSize="large"
+				spinnerColor={Colors.primary}
+				spinnerTextColor={Colors.primary}
+			/>
+		);
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -232,7 +229,9 @@ export const SignUpScreen = ({ navigation }) => {
 							secureText={true}
 						/>
 						<TouchableOpacity
-							onPress={() => Linking.openURL(`${TERMS}`)} // should redirect to terms and conditions page section
+							onPress={() => {
+								Linking.openURL(`${TERMS}`);
+							}} // redirect to terms and conditions page section
 						>
 							<View style={styles.textPrivate}>
 								<DefaultText color={Colors.shadesGray20}>
