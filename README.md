@@ -49,7 +49,7 @@ Create a `.env` file in the root folder and enter all environment variables as l
 
 - You will need to set a connection string at which the app will reach out to the API that is part of this overall project. Make sure that the `CONNECTION_STRING` in both the API and Webapp use the same address and port. A suggested port is given in the `.env.example.txt`
 - Next you will need to set the `ASSET_URL` which is used to fetch and set the user images/avatar. The `ASSET_URL` does <b>NOT</b> end with `/api`!!<br />
-  <img src="./assets/rn-setting-env.gif" alt='Set .env' />
+  <img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/rn-setting-env.gif?raw=truegif" alt='Set .env' />
 
 ## Installation
 
@@ -77,12 +77,12 @@ A informative message now appears in your terminal.<br />
 
 <br />
 
-<img src="./assets/expo-terminal.gif" alt='Expo terminal' width='400'/>
+<img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/expo-terminal.gif?raw=true" alt='Expo terminal' width='400'/>
 <br />
 In the browser a page now opens which allows you to track any logs or errors from the running application. The logs and/or errors are also displayed in your terminal window. It also allows you to open the app on a emulator.
 <i>Make sure that you have an emulator running.</i>
 <br />
-<img src="./assets/expo-page-ios-emulator.gif" alt='Expo webpage open iOS' width='400'/>
+<img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/expo-page-ios-emulator.gif?raw=true" alt='Expo webpage open iOS' width='400'/>
 <br />
 
 ### Another option is to open the app from the terminal
@@ -94,12 +94,12 @@ When in the terminal press `i` to open the app on the iOS emulator and `a` for A
 
 The login page for the app should now be open:<br />
 
-<img src="./assets/gifs/rn-login.gif" alt='Login' height='450'/>
+<img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/rn-login.gif?raw=true" alt='Login' height='450'/>
 <br />
 
 ### ...or Sign Up
 
-<img src="./assets/gifs/rn-signup.gif" alt='Signup' height='450'/>
+<img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/rn-signup.gif?raw=true" alt='Signup' height='450'/>
 <br />
 ! <i>You can either sign up with a <b>fake</b> or <b>real</b> email address. If an actual email address is used, a notification will be send informing the user of the succesful sign up. This must be configured correctly using the project API with the SaaS transactional email sending set up. (See the included README in the API Github repo)</i><br />
 <br />
