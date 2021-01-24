@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useReducer, useCallback } from 'react';
+import React, { useEffect, useReducer, useCallback } from 'react';
 import {
 	View,
 	TouchableOpacity,
@@ -13,8 +13,8 @@ import { CONNECTION_STRING, FORGOT_PWD } from '@env';
 
 /* Hooks & context */
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import { useAuthentication } from '../../shared/hooks/authentication-hook';
-import { UserContext } from '../../shared/context/user-context';
+import { useAuthState } from '../../shared/context/auth-context';
+import { useContextUser } from '../../shared/context/user-context';
 import { useFavorites } from '../../shared/context/favorites-context';
 
 /* UI elements */
@@ -49,10 +49,10 @@ const formReducer = (state, action) => {
 };
 
 export const LoginScreen = ({ navigation }) => {
-	const { login } = useAuthentication();
+	const { login } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
-	const { setNewCurrentUser } = useContext(UserContext);
-	const { loadFavoriteItems } = useFavorites();
+	const { setActiveUserHandler } = useContextUser();
+	const { loadFavoriteItemsHandler } = useFavorites();
 
 	const [formState, dispatchFormState] = useReducer(formReducer, {
 		inputValues: {
@@ -65,6 +65,8 @@ export const LoginScreen = ({ navigation }) => {
 		},
 		formIsValid: false
 	});
+
+	/* Shows an error message when the error state changes */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
@@ -73,6 +75,10 @@ export const LoginScreen = ({ navigation }) => {
 		}
 	}, [error]);
 
+	/*
+    Submits the login data (email & password).
+    Calls the context in methods and sets the returned data.
+    */
 	const authSubmitHandler = async () => {
 		try {
 			const responseData = await sendRequest(
@@ -84,18 +90,15 @@ export const LoginScreen = ({ navigation }) => {
 				}),
 				{
 					'Content-Type': 'application/json'
-					// 'Content-Type': 'application/x-www-form-urlencoded',
-					// Accept: 'application/json'
 				}
 			);
 
 			const { userId, token, user, favorites } = responseData;
-			await setNewCurrentUser(user);
+			await setActiveUserHandler(user);
 			await login(userId, token);
-			await loadFavoriteItems(favorites);
+			await loadFavoriteItemsHandler(favorites);
 		} catch (error) {
 			// Error is handled by the useHttpClient hook
-			console.log(error);
 		}
 	};
 

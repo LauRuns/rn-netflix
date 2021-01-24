@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useReducer, useCallback } from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import React, { useReducer, useCallback } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
 import { useContextUser } from '../../../shared/context/user-context';
 import { Header, IconButton } from '../../../components/atoms/index';
@@ -34,8 +34,8 @@ const formReducer = (state, action) => {
 
 export const UserNameEmailScreen = (props) => {
 	const {
-		currentUser,
-		updateUser,
+		activeUser,
+		updateUserHandler,
 		isUpdating,
 		updatingError,
 		clearError
@@ -43,8 +43,8 @@ export const UserNameEmailScreen = (props) => {
 
 	const [formState, dispatchFormState] = useReducer(formReducer, {
 		inputValues: {
-			email: currentUser.email,
-			username: currentUser.name
+			email: activeUser.user.email,
+			username: activeUser.user.userName
 		},
 		inputValidities: {
 			email: true,
@@ -71,7 +71,7 @@ export const UserNameEmailScreen = (props) => {
 			username: formState.inputValues.username,
 			email: formState.inputValues.email
 		};
-		await updateUser(newValues);
+		await updateUserHandler(newValues);
 		props.navigation.goBack();
 	};
 
@@ -100,7 +100,7 @@ export const UserNameEmailScreen = (props) => {
 						autoCapitalize="none"
 						onInputChange={inputChangeHandler}
 						errorText="Please enter a valid email address"
-						initialValue={currentUser.email}
+						initialValue={activeUser.user.email}
 						initiallyValid={true}
 					/>
 					<Input
@@ -112,7 +112,7 @@ export const UserNameEmailScreen = (props) => {
 						errorText="Please enter a valid username, min 5 characters"
 						minLength={5}
 						onInputChange={inputChangeHandler}
-						initialValue={currentUser.name}
+						initialValue={activeUser.user.userName}
 						initiallyValid={true}
 					/>
 					<View style={styles.formAction}>

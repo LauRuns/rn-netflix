@@ -1,10 +1,4 @@
-import React, {
-	useState,
-	useEffect,
-	useReducer,
-	useCallback,
-	useContext
-} from 'react';
+import React, { useState, useEffect, useReducer, useCallback } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -20,8 +14,8 @@ import { CONNECTION_STRING } from '@env';
 
 /* Hooks & context */
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import { useAuthentication } from '../../shared/hooks/authentication-hook';
-import { UserContext } from '../../shared/context/user-context';
+import { useAuthState } from '../../shared/context/auth-context';
+import { useContextUser } from '../../shared/context/user-context';
 
 /* UI elements */
 import { Card } from '../../components/atoms/index';
@@ -54,9 +48,9 @@ const formReducer = (state, action) => {
 };
 
 export const AuthScreen = (props) => {
-	const { login } = useAuthentication();
+	const { login } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
-	const { setNewCurrentUser } = useContext(UserContext);
+	const { setActiveUserHandler } = useContextUser();
 
 	const [isLoginMode, setIsLoginMode] = useState(true);
 
@@ -83,10 +77,6 @@ export const AuthScreen = (props) => {
 	const authSubmitHandler = async () => {
 		if (isLoginMode) {
 			try {
-				// console.log(
-				// 	formState.inputValues.email,
-				// 	formState.inputValues.password
-				// );
 				const responseData = await sendRequest(
 					`${CONNECTION_STRING}/users/login`,
 					'POST',
@@ -100,18 +90,11 @@ export const AuthScreen = (props) => {
 				);
 
 				const { userId, token, user } = responseData;
-				// console.log(responseData);
-				await setNewCurrentUser(user);
+				await setActiveUserHandler(user);
 				await login(userId, token);
 			} catch (error) {
 				// Error is handled by the useHttpClient hook
-				console.log(error);
 			}
-		} else {
-			// action = authActions.signup(
-			// 	formState.inputValues.email,
-			// 	formState.inputValues.password
-			// );
 		}
 	};
 

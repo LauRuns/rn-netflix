@@ -2,10 +2,10 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { NFAppNavigator, AuthNavigator } from './NetflixNavigation';
-import { useAuthentication } from '../shared/hooks/authentication-hook';
+import { useAuthState } from '../shared/context/auth-context';
 
-export const AppNavigator = (props) => {
-	const { isAuthenticated } = useAuthentication();
+export const AppNavigator = () => {
+	const { isAuthenticated } = useAuthState();
 
 	return (
 		<NavigationContainer>
