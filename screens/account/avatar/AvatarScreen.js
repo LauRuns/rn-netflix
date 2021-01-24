@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Alert, Text } from 'react-native';
-
+/* Context */
 import { useContextUser } from '../../../shared/context/user-context';
+/* UI elements and components */
 import { Header } from '../../../components/atoms/index';
 import { Spinner } from '../../../components/molecules/index';
 import { ImageSelector } from '../../../components/organisms/index';
+/* Styling */
 import Colors from '../../../constants/Colors';
 
+/* Allows for updating the users image */
 export const AvatarScreen = (props) => {
 	const {
-		updateUserImg,
+		updateUserImgHandler,
 		isUpdating,
 		updatingError,
 		clearError
@@ -23,7 +26,7 @@ export const AvatarScreen = (props) => {
 			type: 'image/jpeg',
 			name: splitImage
 		});
-		await updateUserImg(formData);
+		await updateUserImgHandler(formData);
 		props.navigation.navigate('Account');
 	};
 

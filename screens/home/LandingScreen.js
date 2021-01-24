@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -7,17 +7,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useContextUser } from '../../shared/context/user-context';
 
 /* UI elements */
-import {
-	NFHeaderButton,
-	Header,
-	DefaultText
-} from '../../components/atoms/index';
+import { NFHeaderButton, Header } from '../../components/atoms/index';
 import { CardToContent } from '../../components/molecules/CardToContent';
 import Colors from '../../constants/Colors';
 
 export const LandingScreen = (props) => {
 	const [storedCountry, setStoredCountry] = useState(null);
-	const { currentUser, countryData } = useContextUser();
+	const { activeUser, countryData } = useContextUser();
 
 	useEffect(() => {
 		let getStoredCountry;
@@ -52,6 +48,8 @@ export const LandingScreen = (props) => {
 						});
 					}}
 					countryInfo={`New content for ${countryData.country}`}
+					contentIcon="trending-up"
+					iconColor={Colors.succes}
 				/>
 				<CardToContent
 					onSelect={() => {
@@ -60,6 +58,8 @@ export const LandingScreen = (props) => {
 						});
 					}}
 					countryInfo="New content for Netherlands"
+					contentIcon="trending-up"
+					iconColor={Colors.succes}
 				/>
 				<CardToContent
 					onSelect={() => {
@@ -68,6 +68,8 @@ export const LandingScreen = (props) => {
 						});
 					}}
 					countryInfo={`Expiring content for ${countryData.country}`}
+					contentIcon="trending-down"
+					iconColor={Colors.secondary}
 				/>
 				<CardToContent
 					onSelect={() => {
@@ -76,6 +78,8 @@ export const LandingScreen = (props) => {
 						});
 					}}
 					countryInfo="Expiring content for Netherlands"
+					contentIcon="trending-down"
+					iconColor={Colors.secondary}
 				/>
 			</ScrollView>
 		</View>

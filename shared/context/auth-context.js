@@ -11,23 +11,30 @@ import AsyncStorage from '@react-native-community/async-storage';
 const AuthContext = createContext();
 let logoutTimer;
 
-export const AuthProvider = ({ children }) => {
-	const [isAuthenticated, setIsAuthenticated] = useState(null);
+export const AuthContextProvider = ({ children }) => {
+	const [authState, setAuthState] = useState({
+		isLoggedIn: false,
+		userId: null,
+		token: null
+	});
 	const [token, setToken] = useState(null);
 	const [tokenExpirationDate, setTokenExpirationDate] = useState();
-	const [userId, setUserId] = useState(null);
 
 	const login = useCallback((uid, token, expirationDate) => {
+		setAuthState({
+			...authState,
+			isLoggedIn: true,
+			userId: uid,
+			token: token
+		});
 		setToken(token);
-		setUserId(uid);
-		setIsAuthenticated(true);
 
 		const tokenExpirationDate =
 			expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
 		setTokenExpirationDate(tokenExpirationDate);
 
 		AsyncStorage.setItem(
-			'userData',
+			'tokenData',
 			JSON.stringify({
 				userId: uid,
 				token: token,
@@ -37,11 +44,15 @@ export const AuthProvider = ({ children }) => {
 	}, []);
 
 	const logout = useCallback(() => {
-		setIsAuthenticated(false);
+		setAuthState({
+			...authState,
+			isLoggedIn: false,
+			userId: null,
+			token: null
+		});
 		setToken(null);
 		setTokenExpirationDate(null);
-		setUserId(null);
-		AsyncStorage.removeItem('userData');
+		AsyncStorage.removeItem('tokenData');
 		AsyncStorage.removeItem('countryData');
 	}, []);
 
@@ -79,19 +90,16 @@ export const AuthProvider = ({ children }) => {
 		getData();
 	}, [login]);
 
+	const authData = {
+		...authState,
+		isAuthenticated: authState.userId !== null && authState.isLoggedIn,
+		login,
+		logout
+	};
+
 	return (
-		<AuthContext.Provider
-			value={{
-				isAuthenticated: isAuthenticated,
-				token,
-				userId,
-				login,
-				logout
-			}}
-		>
-			{children}
-		</AuthContext.Provider>
+		<AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
 	);
 };
 
-export const useAuthentication = () => useContext(AuthContext);
+export const useAuthState = () => useContext(AuthContext);

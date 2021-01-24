@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import { AuthProvider } from './shared/hooks/authentication-hook';
-import { UserProvider } from './shared/context/user-context';
-import { FavoritesProvider } from './shared/context/favorites-context';
 
+/* Context */
+import { AuthContextProvider } from './shared/context/auth-context';
+import { UserContextProvider } from './shared/context/user-context';
+import { FavoritesContextProvider } from './shared/context/favorites-context';
+
+/* App navigation stacks */
 import { AppNavigator } from './navigation/AppNavigator';
 
+/* Sets fonts for app */
 const fetchFonts = () => {
 	return Font.loadAsync({
 		'roboto-regular': require('./assets/fonts/RobotoCondensed-Regular.ttf'),
@@ -28,12 +32,12 @@ export default function App() {
 		);
 	}
 	return (
-		<AuthProvider>
-			<UserProvider>
-				<FavoritesProvider>
+		<AuthContextProvider>
+			<UserContextProvider>
+				<FavoritesContextProvider>
 					<AppNavigator />
-				</FavoritesProvider>
-			</UserProvider>
-		</AuthProvider>
+				</FavoritesContextProvider>
+			</UserContextProvider>
+		</AuthContextProvider>
 	);
 }

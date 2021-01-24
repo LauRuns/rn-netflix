@@ -29,11 +29,13 @@ export const CardToContent = (props) => {
 				>
 					<DefaultText size={props.size || 20}>{props.countryInfo}</DefaultText>
 
-					<Ionicons
-						name="information-circle-outline"
-						size={23}
-						color={Colors.nfWhite}
-					/>
+					<View style={styles.iconContainer}>
+						<Ionicons
+							name={props.contentIcon}
+							size={30}
+							color={props.iconColor}
+						/>
+					</View>
 				</Card>
 			</TouchableCmp>
 		</View>
@@ -54,6 +56,9 @@ const styles = StyleSheet.create({
 	},
 	cardContainer: {
 		flex: 1
+	},
+	iconContainer: {
+		marginLeft: 20
 	},
 	card: {
 		flex: 1,

@@ -2,61 +2,78 @@ import React, { useState, createContext, useCallback, useEffect } from 'react';
 import { useContext } from 'react';
 import { CONNECTION_STRING } from '@env';
 import AsyncStorage from '@react-native-community/async-storage';
-
+/* Context and hooks */
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import { useAuthentication } from '../../shared/hooks/authentication-hook';
+import { useAuthState } from '../../shared/context/auth-context';
 
 export const UserContext = createContext();
-
 export const useContextUser = () => {
 	return useContext(UserContext);
 };
 
-export const UserProvider = ({ children }) => {
-	const [currentUser, setCurrentUser] = useState(null);
+/* Provides user context for the application */
+export const UserContextProvider = ({ children }) => {
+	const [activeUser, setActiveUser] = useState({
+		user: null
+	});
 	const [countryData, setCountryData] = useState(null);
-	const { token, userId } = useAuthentication();
+	const { token, userId } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-	const setNewCurrentUser = useCallback((user) => {
-		setCurrentUser(user);
+	/* Sets the active user in state and in de device memory */
+	const setActiveUserHandler = useCallback((data) => {
+		setActiveUser({
+			...activeUser,
+			user: {
+				userId: data._id,
+				userName: data.name,
+				email: data.email,
+				avatar: data.image,
+				country: data.country,
+				updatedAt: data.updatedAt
+			}
+		});
 
-		if (user.country) {
-			setCountryData(user.country);
+		if (data.country) {
+			setCountryData(data.country);
 			AsyncStorage.setItem(
 				'countryData',
 				JSON.stringify({
-					countryData: user.country
+					countryData: data.country
 				})
 			);
 		}
 	}, []);
 
-	const updateUser = async (data) => {
-		console.log('updating_____>>', data);
-
+	/*
+    Updates the user data.
+    Takes in name, email data or a country object.
+    The backend expects all three, name - email and country object.
+    */
+	const updateUserHandler = async (data) => {
 		const { country, username, email } = data;
 		try {
 			const responseData = await sendRequest(
 				`${CONNECTION_STRING}/users/${userId}`,
 				'PATCH',
 				JSON.stringify({
-					username: username || currentUser.name,
-					email: email || currentUser.email,
-					country: country ? { ...country } : currentUser.country
+					username: username || activeUser.user.userName,
+					email: email || activeUser.user.email,
+					country: country ? { ...country } : activeUser.user.country
 				}),
 				{
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`
 				}
 			);
-			setNewCurrentUser(responseData.updatedUser);
+			setActiveUserHandler(responseData.updatedUser);
 		} catch (err) {
 			// Error is handled by the useHttpClient
 		}
 	};
 
-	const updateUserImg = async (data) => {
+	/* Updates the users image / avatar */
+	const updateUserImgHandler = async (data) => {
 		try {
 			const responseData = await sendRequest(
 				`${CONNECTION_STRING}/users/${userId}`,
@@ -68,13 +85,14 @@ export const UserProvider = ({ children }) => {
 				}
 			);
 			if (responseData) {
-				setNewCurrentUser(responseData.updatedUser);
+				setActiveUserHandler(responseData.updatedUser);
 			}
 		} catch (err) {
 			// Errors are handled by the useHttpClient method
 		}
 	};
 
+	/* Checks if a countryData object is set in the device storage. If found it updates the state with it. */
 	useEffect(() => {
 		let storedCountry;
 		const getData = async () => {
@@ -82,11 +100,10 @@ export const UserProvider = ({ children }) => {
 				storedCountry = await AsyncStorage.getItem('countryData');
 				storedCountry = JSON.parse(storedCountry);
 				if (storedCountry) {
-					console.log('Setting the stored country in the context');
 					setCountryData(storedCountry.countryData);
 				}
 			} catch (error) {
-				console.log(error);
+				console.log(error); // <- not yet handled ?
 			}
 		};
 		getData();
@@ -94,11 +111,11 @@ export const UserProvider = ({ children }) => {
 	}, []);
 
 	const userData = {
-		currentUser,
+		activeUser,
 		countryData,
-		setNewCurrentUser,
-		updateUser,
-		updateUserImg,
+		setActiveUserHandler,
+		updateUserHandler,
+		updateUserImgHandler,
 		isUpdating: isLoading,
 		updatingError: error,
 		clearError

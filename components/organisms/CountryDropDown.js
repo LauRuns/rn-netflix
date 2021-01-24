@@ -7,7 +7,6 @@ import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 
 import { DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';
-import { MAPPED_COUNTRIES } from '../../data/DUMMY_DATA';
 
 export const CountryDropDown = (props) => {
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();

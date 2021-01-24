@@ -8,18 +8,18 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
-
+/* Hooks and context */
 import { useNetflixClient } from '../../../shared/hooks/netflix-hook';
 import { useContextUser } from '../../../shared/context/user-context';
+/* UI elements and components */
 import {
 	Header,
 	IconButton,
 	DefaultText
 } from '../../../components/atoms/index';
 import { Spinner } from '../../../components/molecules/index';
+/* Styling */
 import Colors from '../../../constants/Colors';
-
-import { DUMMY_COUNTRYLIST } from '../../../data/DUMMY_DATA';
 
 const FORM_UPDATE = 'FORM_UPDATE';
 
@@ -46,10 +46,10 @@ const formReducer = (state, action) => {
 	return state;
 };
 
-export const CountryScreen = (props) => {
+export const CountryScreen = () => {
 	const { isLoading, error, fetchNetflixData } = useNetflixClient();
 	const {
-		updateUser,
+		updateUserHandler,
 		isUpdating,
 		updatingError,
 		clearError
@@ -81,6 +81,7 @@ export const CountryScreen = (props) => {
 				isValid: inputValidity,
 				input: inputIdentifier
 			});
+			// setSelectedCountry(inputValue.country);
 		},
 		[dispatchFormState]
 	);
@@ -118,7 +119,7 @@ export const CountryScreen = (props) => {
 				// Error is handled by useNetflixClient
 			}
 		};
-		// fetchCountries(); // <-- uncomment to detch data and map countries into dropdownlist
+		fetchCountries();
 	}, []);
 
 	useEffect(() => {
@@ -129,9 +130,13 @@ export const CountryScreen = (props) => {
 		}
 	}, [error, updatingError]);
 
+	/*
+    Sets the new selected country as the users new default country for which data on the landingscreen will be loaded.
+    Calls the updateuserHandler method in the context.
+    */
 	const updateUserCountryHandler = async (event) => {
 		event.preventDefault();
-		updateUser({ country: formState.inputValues.dropdown });
+		updateUserHandler({ country: formState.inputValues.dropdown });
 	};
 
 	if (isLoading || isUpdating) {
@@ -158,9 +163,10 @@ export const CountryScreen = (props) => {
 					<View style={styles.picker}>
 						{loadedCountries && (
 							<RNPickerSelect
-								onValueChange={(value) =>
-									inputChangeHandler('dropdown', value, value ? true : false)
-								}
+								onValueChange={(value) => {
+									inputChangeHandler('dropdown', value, value ? true : false);
+									setSelectedCountry(value?.country);
+								}}
 								placeholder={countryDropDownPlaceholder}
 								items={loadedCountries}
 								style={{
@@ -178,7 +184,7 @@ export const CountryScreen = (props) => {
 							/>
 						)}
 					</View>
-					<View>
+					<View style={styles.selectedCountry}>
 						{selectedCountry && (
 							<DefaultText color={Colors.primary} size={20}>
 								Save {selectedCountry} as your country?
@@ -204,7 +210,6 @@ export const CountryScreen = (props) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		// alignItems: 'center',
 		width: '100%',
 		backgroundColor: Colors.backgroundDark
 	},
@@ -213,6 +218,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		paddingHorizontal: 20
+	},
+	selectedCountry: {
+		alignItems: 'center',
+		marginVertical: 25
 	}
 });
 
