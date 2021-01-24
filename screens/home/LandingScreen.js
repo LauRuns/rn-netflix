@@ -13,7 +13,7 @@ import Colors from '../../constants/Colors';
 
 export const LandingScreen = (props) => {
 	const [storedCountry, setStoredCountry] = useState(null);
-	const { currentUser, countryData } = useContextUser();
+	const { activeUser, countryData } = useContextUser();
 
 	useEffect(() => {
 		let getStoredCountry;

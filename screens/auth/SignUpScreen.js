@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useReducer, useCallback } from 'react';
+import React, { useEffect, useReducer, useCallback } from 'react';
 import {
 	View,
 	Text,
@@ -12,13 +12,12 @@ import {
 import * as Animatable from 'react-native-animatable';
 import * as Linking from 'expo-linking';
 import { LinearGradient } from 'expo-linear-gradient';
-
 import { CONNECTION_STRING, TERMS } from '@env';
 
 /* Hooks & context */
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import { useAuthentication } from '../../shared/hooks/authentication-hook';
-import { UserContext } from '../../shared/context/user-context';
+import { useAuthState } from '../../shared/context/auth-context';
+import { useContextUser } from '../../shared/context/user-context';
 
 /* UI elements */
 import { DefaultText } from '../../components/atoms/index';
@@ -52,9 +51,9 @@ const formReducer = (state, action) => {
 };
 
 export const SignUpScreen = ({ navigation }) => {
-	const { login } = useAuthentication();
+	const { login } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
-	const { setNewCurrentUser } = useContext(UserContext);
+	const { setActiveUserHandler } = useContextUser();
 
 	const [formState, dispatchFormState] = useReducer(formReducer, {
 		inputValues: {
@@ -116,7 +115,7 @@ export const SignUpScreen = ({ navigation }) => {
 				formData
 			);
 			const { userId, token, user } = responseData;
-			await setNewCurrentUser(user);
+			await setActiveUserHandler(user);
 			await login(userId, token);
 		} catch (err) {
 			// Error is handled by the useHttpClient hook
@@ -231,7 +230,7 @@ export const SignUpScreen = ({ navigation }) => {
 						<TouchableOpacity
 							onPress={() => {
 								Linking.openURL(`${TERMS}`);
-							}} // redirect to terms and conditions page section
+							}} // -> redirect to terms and conditions page section
 						>
 							<View style={styles.textPrivate}>
 								<DefaultText color={Colors.shadesGray20}>

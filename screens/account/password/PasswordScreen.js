@@ -1,27 +1,22 @@
-import React, { useState, useEffect, useReducer, useCallback } from 'react';
+import React, { useEffect, useReducer, useCallback } from 'react';
 import {
 	StyleSheet,
-	Text,
 	View,
 	ScrollView,
 	KeyboardAvoidingView,
-	ActivityIndicator,
 	Alert
 } from 'react-native';
 import { CONNECTION_STRING } from '@env';
 
+/* Hooks and context */
 import { useHttpClient } from '../../../shared/hooks/http-hook';
 import { useContextUser } from '../../../shared/context/user-context';
-import { useAuthentication } from '../../../shared/hooks/authentication-hook';
+import { useAuthState } from '../../../shared/context/auth-context';
 
-import {
-	Header,
-	IconButton,
-	DefaultText
-} from '../../../components/atoms/index';
+/* Components */
+import { Header, IconButton } from '../../../components/atoms/index';
 import { Spinner } from '../../../components/molecules/index';
 import { Input } from '../../../components/organisms/index';
-import { getIsDrawerOpenFromState } from '@react-navigation/drawer';
 import Colors from '../../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
@@ -50,8 +45,8 @@ const formReducer = (state, action) => {
 };
 
 export const PasswordScreen = (props) => {
-	const { currentUser } = useContextUser();
-	const { token, userId } = useAuthentication();
+	const { activeUser } = useContextUser();
+	const { token, userId } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
 	const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -108,7 +103,7 @@ export const PasswordScreen = (props) => {
 				`${CONNECTION_STRING}/auth/update/${userId}`,
 				'PATCH',
 				JSON.stringify({
-					email: currentUser.email,
+					email: activeUser.user.email,
 					oldPassword: formState.inputValues.currentPassword,
 					newPassword: formState.inputValues.newPassword,
 					confirmNewPassword: formState.inputValues.confirmPassword

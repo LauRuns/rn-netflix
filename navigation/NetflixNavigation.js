@@ -15,21 +15,21 @@ import {
 	detailScreenOptions,
 	CountriesScreen,
 	countriesScreenOptions,
-	CountryContentScreen,
-	countryContentScreenOptions,
+	// CountryContentScreen,
+	// countryContentScreenOptions,
 	AccountScreen,
 	accountScreenOptions,
 	AvatarScreen,
 	CountryScreen,
 	PasswordScreen,
 	UserNameEmailScreen,
-	emailnameScreenOptions,
+	// emailnameScreenOptions,
 	SearchScreen,
 	searchScreenOptions,
 	SearchResultScreen,
 	searchResultScreenOptions,
-	AuthScreen,
-	authScreenOptions,
+	// AuthScreen,
+	// authScreenOptions,
 	NewContent,
 	newcontentScreenOptions,
 	ExpContent,
@@ -43,9 +43,9 @@ import {
 	FavoritesScreen,
 	favoritesScreenOptions
 } from '../screens/index';
-
-import { useAuthentication } from '../shared/hooks/authentication-hook';
-
+/* Context */
+import { useAuthState } from '../shared/context/auth-context';
+/* Styling */
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -221,7 +221,7 @@ export const AccountTabNavigator = () => {
 
 const NFAppDrawerNavigator = createDrawerNavigator();
 export const NFAppNavigator = () => {
-	const { logout } = useAuthentication();
+	const { logout } = useAuthState();
 
 	return (
 		<NFAppDrawerNavigator.Navigator

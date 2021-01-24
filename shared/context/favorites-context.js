@@ -2,24 +2,27 @@ import React, { useState, createContext, useCallback } from 'react';
 import { useContext } from 'react';
 import { CONNECTION_STRING } from '@env';
 
+/* Context and hooks */
 import { useHttpClient } from '../../shared/hooks/http-hook';
-import { useAuthentication } from '../../shared/hooks/authentication-hook';
+import { useAuthState } from '../../shared/context/auth-context';
 
 export const FavoritesContext = createContext();
-
 export const useFavorites = () => {
 	return useContext(FavoritesContext);
 };
 
-export const FavoritesProvider = ({ children }) => {
+/* Allows for setting and updating the users favorite Netflix items */
+export const FavoritesContextProvider = ({ children }) => {
 	const [favorites, setFavorites] = useState([]);
-	const { token } = useAuthentication();
+	const { token } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-	const loadFavoriteItems = useCallback((favItems) => {
+	/* Set the users favorite items after login in state */
+	const loadFavoriteItemsHandler = useCallback((favItems) => {
 		setFavorites(favItems);
 	}, []);
 
+	/* Adds a new faorite item to the list of favorites and updates the state. */
 	const addToFavoritesHandler = async ({
 		nfid,
 		title,
@@ -47,12 +50,13 @@ export const FavoritesProvider = ({ children }) => {
 			);
 			const { favorite } = response;
 			const newFavs = [...favorites, favorite];
-			setFavorites(newFavs);
+			loadFavoriteItemsHandler(newFavs);
 		} catch (error) {
 			// Error is handled by the useHttpClient
 		}
 	};
 
+	/* Removes a favorite item from the list and updates the state. */
 	const removeFromFavoritesHandler = async (fid) => {
 		try {
 			const response = await sendRequest(
@@ -67,7 +71,7 @@ export const FavoritesProvider = ({ children }) => {
 			const { netflixid } = response.result;
 			let currentFavs = [...favorites];
 			const newFavs = currentFavs.filter((item) => +item.nfid !== +netflixid);
-			setFavorites(newFavs);
+			loadFavoriteItemsHandler(newFavs);
 		} catch (error) {
 			// Error is handled by the useHttpClient
 		}
@@ -75,7 +79,7 @@ export const FavoritesProvider = ({ children }) => {
 
 	const favoritesData = {
 		favorites,
-		loadFavoriteItems,
+		loadFavoriteItemsHandler,
 		addToFavoritesHandler,
 		removeFromFavoritesHandler,
 		isLoading,

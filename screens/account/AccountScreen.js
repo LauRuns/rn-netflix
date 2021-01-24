@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, InteractionManager } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { ASSET_URL } from '@env';
@@ -10,8 +10,8 @@ import defaultAvatar from '../../assets/default-profile-avatar.png';
 import Colors from '../../constants/Colors';
 
 export const AccountScreen = (props) => {
-	const { currentUser } = useContextUser();
-	console.log(currentUser);
+	const { activeUser } = useContextUser();
+	console.log(activeUser);
 
 	const onChangeSettings = () => {
 		props.navigation.navigate('AccountSettings');
@@ -20,27 +20,27 @@ export const AccountScreen = (props) => {
 	return (
 		<View style={styles.screen}>
 			<Header
-				title={`Account for ${currentUser.name}`}
+				title={`Account for ${activeUser.user.userName}`}
 				color={Colors.primary}
 				subHeader="Change your user settings"
 			/>
 			<View style={styles.avatarContainer}>
 				<Image
 					style={styles.avatarStyle}
-					source={{ uri: `${ASSET_URL}/${currentUser.image}` }}
+					source={{ uri: `${ASSET_URL}/${activeUser.user.avatar}` }}
 					resizeMode="contain"
 				/>
 			</View>
 			<View style={styles.userDetails}>
 				<UserDetails
-					email={currentUser.email}
-					_id={currentUser._id}
+					email={activeUser.user.email}
+					_id={activeUser.user.userId}
 					country={
-						currentUser.country
-							? currentUser.country.country
+						activeUser.user.country
+							? activeUser.user.country.country
 							: 'Country data unavailable'
 					}
-					updatedAt={currentUser.updatedAt}
+					updatedAt={activeUser.user.updatedAt}
 					style={{
 						height: '20%',
 						padding: 10
