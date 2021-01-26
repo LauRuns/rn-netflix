@@ -110,7 +110,7 @@ export const SignUpScreen = ({ navigation }) => {
 			formData.append('email', formState.inputValues.email);
 			formData.append('password', formState.inputValues.password);
 			const responseData = await sendRequest(
-				`${CONNECTION_STRING}/users/signup`,
+				`${CONNECTION_STRING}/auth/signup`,
 				'POST',
 				formData
 			);
