@@ -14,6 +14,9 @@ import Colors from '../../constants/Colors';
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const INPUT_BLUR = 'INPUT_BLUR';
 
+/*
+Checks the input value and returns the state of the input field and value.
+*/
 const inputReducer = (state, action) => {
 	switch (action.type) {
 		case INPUT_CHANGE:
@@ -32,6 +35,10 @@ const inputReducer = (state, action) => {
 	}
 };
 
+/*
+Returns a input field used in the Login and Signupscreen.
+Checks the input values and returns the value or an error is the value is incorrect.
+*/
 export const AuthInput = (props) => {
 	const [inputState, dispatch] = useReducer(inputReducer, {
 		value: props.initialValue ? props.initialValue : '',
@@ -75,6 +82,7 @@ export const AuthInput = (props) => {
 		dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
 	};
 
+	/* Checks if the input field has focus */
 	const lostFocusHandler = () => {
 		dispatch({ type: INPUT_BLUR });
 	};

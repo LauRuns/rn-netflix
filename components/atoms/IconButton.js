@@ -7,10 +7,14 @@ import {
 	TouchableNativeFeedback
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
 import { DefaultText } from '../atoms/DefaultText';
 import Colors from '../../constants/Colors';
 
+/*
+Returns a button with an icon inside it.
+By passing the prop 'before' the icon is set in fornt of the button text.
+If prop 'before' is not pased, the icon is set after the button text, which is default.
+*/
 export const IconButton = (props) => {
 	let TouchableCmp = TouchableOpacity;
 

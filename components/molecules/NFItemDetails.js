@@ -4,6 +4,9 @@ import { StyleSheet, View, Image } from 'react-native';
 import { DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';
 
+/*
+Returns the details for a Netflix item provided via props.
+*/
 export const NFItemDetails = (props) => {
 	return (
 		<View style={styles.screen}>

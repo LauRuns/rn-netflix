@@ -6,17 +6,18 @@ import RNPickerSelect from 'react-native-picker-select';
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 
 import { DefaultText } from '../atoms/index';
+import { Spinner } from '../molecules/index';
 import Colors from '../../constants/Colors';
 
 export const CountryDropDown = (props) => {
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
 	const [loadedCountries, setLoadedCountries] = useState();
-
 	const [inputState, setInputState] = useState({
 		value: null,
 		isValid: props.initiallyValid
 	});
 
+	/* Corrects the list of returned countries - maps the countries to a object to be used in the <RNPickerSelect /> */
 	const mapCountries = (list) => {
 		let mappedCountries = [];
 		list.map(({ country, countryId }) => {
@@ -29,6 +30,7 @@ export const CountryDropDown = (props) => {
 		return setLoadedCountries(mappedCountries);
 	};
 
+	/* Fetches the countries used in the country dropdown list - return a up to date list of available countries */
 	useEffect(() => {
 		const fetchCountries = async () => {
 			try {
@@ -50,7 +52,6 @@ export const CountryDropDown = (props) => {
 			}
 		};
 		fetchCountries();
-		// setLoadedCountries(MAPPED_COUNTRIES); // <-- use in development
 	}, []);
 
 	const countryDropDownPlaceholder = {
@@ -60,12 +61,32 @@ export const CountryDropDown = (props) => {
 	};
 
 	const { onInputChange, id } = props;
-
+	/* Passes the input value to the parent component when changed */
 	useEffect(() => {
 		if (inputState.value) {
 			onInputChange(id, inputState.value, inputState.isValid);
 		}
 	}, [inputState, onInputChange, id]);
+
+	/* Show error when the error property is set */
+	useEffect(() => {
+		if (error) {
+			Alert.alert('Error', error, [
+				{ text: 'OK', onPress: () => clearError() }
+			]);
+		}
+	}, [error]);
+
+	if (isLoading) {
+		return (
+			<Spinner
+				spinnerText="Loading..."
+				spinnerSize="small"
+				spinnerColor={Colors.primary}
+				spinnerTextColor={Colors.primary}
+			/>
+		);
+	}
 
 	return (
 		<View style={styles.container}>

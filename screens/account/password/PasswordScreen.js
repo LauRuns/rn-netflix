@@ -7,20 +7,17 @@ import {
 	Alert
 } from 'react-native';
 import { CONNECTION_STRING } from '@env';
-
-/* Hooks and context */
+/* UI elements, components, hooks and styling */
 import { useHttpClient } from '../../../shared/hooks/http-hook';
 import { useContextUser } from '../../../shared/context/user-context';
 import { useAuthState } from '../../../shared/context/auth-context';
-
-/* Components */
 import { Header, IconButton } from '../../../components/atoms/index';
 import { Spinner } from '../../../components/molecules/index';
 import { Input } from '../../../components/organisms/index';
 import Colors from '../../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
-
+/* Checks input value and returns state for the form */
 const formReducer = (state, action) => {
 	if (action.type === FORM_UPDATE) {
 		const updatedValues = {
@@ -44,6 +41,7 @@ const formReducer = (state, action) => {
 	return state;
 };
 
+/* Displays the form for changing the users password and handles the form validation */
 export const PasswordScreen = (props) => {
 	const { activeUser } = useContextUser();
 	const { token, userId } = useAuthState();
@@ -62,6 +60,8 @@ export const PasswordScreen = (props) => {
 		},
 		formIsValid: false
 	});
+
+	/* Handles setting the formState based on the input set by the user. Dispatches the action to the formReducer */
 	const inputChangeHandler = useCallback(
 		(inputIdentifier, inputValue, inputValidity) => {
 			dispatchFormState({
@@ -74,6 +74,7 @@ export const PasswordScreen = (props) => {
 		[dispatchFormState]
 	);
 
+	/* Shows an error message when the error state changes */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
@@ -82,9 +83,8 @@ export const PasswordScreen = (props) => {
 		}
 	}, [error]);
 
+	/* Sends the updated password values to the backend. If succesfull then a succes message will be displayed in a pop-up */
 	const updatePasswordHandler = async () => {
-		// event.preventDefault();
-
 		if (
 			formState.inputValues.newPassword !==
 			formState.inputValues.confirmPassword
@@ -96,7 +96,6 @@ export const PasswordScreen = (props) => {
 				[{ text: 'OK', onPress: () => clearError() }]
 			);
 		}
-		console.log(formState.inputValues.newPassword);
 
 		try {
 			const responseData = await sendRequest(

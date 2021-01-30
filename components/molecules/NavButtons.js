@@ -4,6 +4,10 @@ import { StyleSheet, View } from 'react-native';
 import { IconButton } from '../atoms/index';
 import Colors from '../../constants/Colors';
 
+/*
+Returns two navigation buttons used in the new and expiring Netflix content screens. OnPress will load the next or previous set of items.
+The onPress events are returned to the parent component.
+*/
 export const NavButtons = (props) => {
 	return (
 		<View style={styles.screen}>

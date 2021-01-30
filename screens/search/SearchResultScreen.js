@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Alert, FlatList } from 'react-native';
-
+/* UI elements, components, hooks and styling */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 import { DefaultText, IconButton, NFImage } from '../../components/atoms';
 import { Spinner } from '../../components/molecules/index';
 import Colors from '../../constants/Colors';
 
-import { DUMMY_SEARCH_RESULTS } from '../../data/DUMMY_DATA';
-
+/*
+Returns the screen containing the search results.
+Gets the search parameters from the params on the route from the searchForm.
+Enables selecting an item and naviagting to it's details.
+*/
 export const SearchResultScreen = (props) => {
 	const {
 		query,
@@ -21,6 +24,7 @@ export const SearchResultScreen = (props) => {
 	const [searchResults, setSearchResults] = useState(null);
 	const [noResults, setNoResults] = useState(null);
 
+	/* Set a searchParam object that is passed to the API endpoint. 'orderby' and 'audio' are set hardcoded. Other options are available: check the API documentation at rapidapi.com */
 	let searchParams = {
 		query: query,
 		offset: 0,
@@ -32,6 +36,7 @@ export const SearchResultScreen = (props) => {
 		end_year: endyear
 	};
 
+	/* Fetches the search results when the component is mounted */
 	useEffect(() => {
 		const fetchSearchData = async () => {
 			try {
@@ -50,10 +55,10 @@ export const SearchResultScreen = (props) => {
 			}
 		};
 
-		// fetchSearchData();
-		setSearchResults(DUMMY_SEARCH_RESULTS); // <-- use in development
+		fetchSearchData();
 	}, []);
 
+	/* If the error property is set, a pop-up showing the error message wil be opened */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
@@ -73,6 +78,7 @@ export const SearchResultScreen = (props) => {
 		);
 	}
 
+	/* If the searchquery has no results, then the user is notified and given the option to return to the search screen for another search */
 	if (!isLoading && noResults) {
 		return (
 			<View style={styles.noResults}>
@@ -108,6 +114,7 @@ export const SearchResultScreen = (props) => {
 		);
 	}
 
+	/* When a search result item is pressed, it navigates to the detail screen */
 	const onItemSelectHandler = (e) => {
 		props.navigation.navigate('ItemDetail', {
 			item: e

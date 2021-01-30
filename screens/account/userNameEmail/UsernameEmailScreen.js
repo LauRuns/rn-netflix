@@ -1,6 +1,6 @@
 import React, { useReducer, useCallback } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-
+/* UI elements, components, hooks and styling */
 import { useContextUser } from '../../../shared/context/user-context';
 import { Header, IconButton } from '../../../components/atoms/index';
 import { Spinner } from '../../../components/molecules/index';
@@ -8,7 +8,7 @@ import { Input } from '../../../components/organisms/index';
 import Colors from '../../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
-
+/* Checks input value and returns state for the form */
 const formReducer = (state, action) => {
 	if (action.type === FORM_UPDATE) {
 		const updatedValues = {
@@ -32,6 +32,7 @@ const formReducer = (state, action) => {
 	return state;
 };
 
+/* Displays the form for changing the users name and email - handles the form validation */
 export const UserNameEmailScreen = (props) => {
 	const {
 		activeUser,
@@ -53,6 +54,7 @@ export const UserNameEmailScreen = (props) => {
 		formIsValid: true
 	});
 
+	/* Handles setting the formState based on the input set by the user. Dispatches the action to the formReducer */
 	const inputChangeHandler = useCallback(
 		(inputIdentifier, inputValue, inputValidity) => {
 			dispatchFormState({
@@ -65,6 +67,7 @@ export const UserNameEmailScreen = (props) => {
 		[dispatchFormState]
 	);
 
+	/* Submits the updated values to the method in the users context the backend */
 	const submitHandler = async (event) => {
 		event.preventDefault();
 		const newValues = {
@@ -74,6 +77,14 @@ export const UserNameEmailScreen = (props) => {
 		await updateUserHandler(newValues);
 		props.navigation.goBack();
 	};
+	/* Shows an error message when the [updatingError] state changes */
+	useEffect(() => {
+		if (updatingError) {
+			Alert.alert('Error', updatingError, [
+				{ text: 'OK', onPress: () => clearError() }
+			]);
+		}
+	}, [updatingError]);
 
 	if (isUpdating) {
 		return (
@@ -132,24 +143,6 @@ export const UserNameEmailScreen = (props) => {
 			</View>
 		</View>
 	);
-};
-
-export const emailnameScreenOptions = (navData) => {
-	return {
-		headerTitle: 'Account settings',
-		headerRight: () => (
-			<HeaderButtons HeaderButtonComponent={NFHeaderButton}>
-				<Item
-					title="Save"
-					iconName="checkmark-outline"
-					onPress={() => {
-						// navData.navigation.toggleDrawer();
-						console.log('save new username and email');
-					}}
-				/>
-			</HeaderButtons>
-		)
-	};
 };
 
 const styles = StyleSheet.create({

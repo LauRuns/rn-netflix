@@ -11,11 +11,12 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
+/* UI elements, components, hooks and styling */
 import { useFavorites } from '../../shared/context/favorites-context';
 import { DefaultText } from '../../components/atoms/index';
 import Colors from '../../constants/Colors';
 
+/* Displays the selected items details and has the option of adding the item to the users favorites */
 export const ItemDetail = (props) => {
 	const {
 		favorites,
@@ -30,6 +31,7 @@ export const ItemDetail = (props) => {
 	const nfItem = props.route.params.item;
 	const { nfid, title, year, synopsis, img, imdbrating } = nfItem;
 
+	/* Adds/removes a favorite item - forwards the call to the backend via the favorite context */
 	const toggleFavoriteHandler = () => {
 		if (!isFavorite) {
 			addToFavoritesHandler({ nfid, title, year, synopsis, img, imdbrating });
@@ -40,6 +42,10 @@ export const ItemDetail = (props) => {
 		}
 	};
 
+	/*
+    Adjusts the list of favorite items if the users adds or removes a favorite item.
+    This method runs when the 'favorites' changes - favorites are set via the favorites coontext.
+    */
 	useEffect(() => {
 		let foundItem;
 		if (favorites && favorites.length !== 0) {
@@ -49,6 +55,7 @@ export const ItemDetail = (props) => {
 		}
 	}, [favorites]);
 
+	/* If the error property is set, a pop-up showing the error message wil be opened */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error || 'An unexpected error occurred', [

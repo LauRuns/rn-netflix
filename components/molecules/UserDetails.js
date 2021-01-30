@@ -3,7 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import Colors from '../../constants/Colors';
 
 import { DefaultText } from '../atoms/index';
-
+/*
+Return the users details provided via props. Used on the account screen.
+*/
 export const UserDetails = (props) => {
 	const { email, updatedAt, country, _id } = props;
 	return (

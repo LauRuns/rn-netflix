@@ -10,21 +10,18 @@ import * as Animatable from 'react-native-animatable';
 import * as Linking from 'expo-linking';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CONNECTION_STRING, FORGOT_PWD } from '@env';
-
-/* Hooks & context */
+/* UI elements, components, hooks and styling */
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { useAuthState } from '../../shared/context/auth-context';
 import { useContextUser } from '../../shared/context/user-context';
 import { useFavorites } from '../../shared/context/favorites-context';
-
-/* UI elements */
 import { Header, DefaultText } from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
 import { AuthInput } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
-
+/* Checks input value and returns state for the form */
 const formReducer = (state, action) => {
 	if (action.type === FORM_UPDATE) {
 		const updatedValues = {
@@ -48,6 +45,7 @@ const formReducer = (state, action) => {
 	return state;
 };
 
+/* Returns the Login screen with input fields and form validation */
 export const LoginScreen = ({ navigation }) => {
 	const { login } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -92,16 +90,18 @@ export const LoginScreen = ({ navigation }) => {
 					'Content-Type': 'application/json'
 				}
 			);
-
-			const { userId, token, user, favorites } = responseData;
-			await setActiveUserHandler(user);
-			await login(userId, token);
-			await loadFavoriteItemsHandler(favorites);
+			if (responseData) {
+				const { userId, token, user, favorites } = responseData;
+				await setActiveUserHandler(user);
+				await login(userId, token);
+				await loadFavoriteItemsHandler(favorites);
+			}
 		} catch (error) {
 			// Error is handled by the useHttpClient hook
 		}
 	};
 
+	/* Handles setting the formState based on the input set by the user. Dispatches the action to the formReducer */
 	const inputChangeHandler = useCallback(
 		(inputIdentifier, inputValue, inputValidity) => {
 			dispatchFormState({

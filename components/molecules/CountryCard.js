@@ -4,6 +4,10 @@ import { StyleSheet, View, Button } from 'react-native';
 import { Card, DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';
 
+/*
+Returns a touchable card that is used on the counrtries screen for displaying the various countries.
+Holds two buttons for navigating to the new- and expiring contend for a country.
+*/
 export const CountryCard = (props) => {
 	return (
 		<Card style={styles.cCard}>

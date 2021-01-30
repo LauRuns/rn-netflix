@@ -39,6 +39,7 @@ const formReducer = (state, action) => {
 	return state;
 };
 
+/* Returns a searchform that handles the form input state, and navigates to the form reults page when all fields are set */
 export const SearchForm = (props) => {
 	const [countries, setCountries] = useState([]);
 	const { countryList } = props;
@@ -76,6 +77,7 @@ export const SearchForm = (props) => {
 		color: Colors.shadesGray40
 	};
 
+	/* Maps the countries received via props to be set and used in the <RNPickerSelect /> */
 	const mapCountries = () => {
 		let mappedCountries = [];
 		countryList.map(({ country, countryId }) => {
@@ -88,6 +90,7 @@ export const SearchForm = (props) => {
 		return setCountries(mappedCountries);
 	};
 
+	/* Maps countries on loading the screen */
 	useEffect(() => {
 		mapCountries();
 	}, [countryList]);
@@ -104,6 +107,7 @@ export const SearchForm = (props) => {
 		[dispatchFormState]
 	);
 
+	/* Handles navigating when the form has been filled - naviagtes to the SearchResults, passes the search options as query parameters */
 	const submitFormHandler = () => {
 		if (!formState.formIsValid) {
 			Alert.alert('Form is not valid', [{ text: 'OK' }]);

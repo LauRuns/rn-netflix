@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { View, Button, Image, StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 
 import { IconButton } from '../../components/atoms/index';
 import Colors from '../../constants/Colors';
 
+/* Handles the selection of a image used to set the users avatar in the account section */
 export const ImageSelector = (props) => {
 	const [pickedImage, setPickedImage] = useState();
 
+	/* Checks if correct permissions are set */
 	const verifyPermissions = async () => {
-		const permissionResult = await Permissions.getAsync(
-			Permissions.CAMERA,
-			Permissions.MEDIA_LIBRARY
-		);
-		if (permissionResult.status !== 'granted') {
+		const cameraPermission = await Camera.requestPermissionsAsync();
+		const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+
+		if (
+			cameraPermission.status !== 'granted' &&
+			mediaLibraryPermission.status !== 'granted'
+		) {
 			Alert.alert(
 				'Insufficient permissions!',
 				'You need to grant camera and foto library permissions to use this app feature.',
@@ -25,6 +31,7 @@ export const ImageSelector = (props) => {
 		return true;
 	};
 
+	/* Opens the image library and sets a selected image */
 	const selectImageHandler = async () => {
 		try {
 			const hasPermission = await verifyPermissions();
@@ -43,6 +50,7 @@ export const ImageSelector = (props) => {
 		}
 	};
 
+	/* Opens the camera and sets the users image with the taken photo */
 	const takePhotoHandler = async () => {
 		try {
 			const hasPermission = await verifyPermissions();

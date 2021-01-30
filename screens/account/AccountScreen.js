@@ -4,15 +4,18 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { ASSET_URL } from '@env';
 import { useContextUser } from '../../shared/context/user-context';
-import { NFHeaderButton, Header } from '../../components/atoms/index';
+import {
+	NFHeaderButton,
+	Header,
+	IconButton
+} from '../../components/atoms/index';
 import { UserDetails } from '../../components/molecules/index';
-import defaultAvatar from '../../assets/default-profile-avatar.png';
 import Colors from '../../constants/Colors';
 
 export const AccountScreen = (props) => {
 	const { activeUser } = useContextUser();
-	console.log(activeUser);
 
+	/* When button for changing user settings is pressed, navigates to the screen with tabs and options for changing user settings */
 	const onChangeSettings = () => {
 		props.navigation.navigate('AccountSettings');
 	};
@@ -45,6 +48,17 @@ export const AccountScreen = (props) => {
 						height: '20%',
 						padding: 10
 					}}
+				/>
+			</View>
+			<View>
+				<IconButton
+					before
+					onPress={onChangeSettings}
+					iconName="create-outline"
+					iconSize={24}
+					btnText="Update settings"
+					textSize={24}
+					color={Colors.primary}
 				/>
 			</View>
 		</View>

@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { HeaderButton } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 
+/*
+Returns a header which is used on the top section in the various screens.
+*/
 export const NFHeaderButton = (props) => {
 	return (
 		<HeaderButton
@@ -14,7 +17,3 @@ export const NFHeaderButton = (props) => {
 		/>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {}
-});

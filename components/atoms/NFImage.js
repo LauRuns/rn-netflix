@@ -9,6 +9,9 @@ import {
 	Platform
 } from 'react-native';
 
+/*
+Returns a touchable image. Is used to diplay the different Netflix items that have image property within a FlatList or Scrollview.
+*/
 export const NFImage = (props) => {
 	let TouchableCmp = TouchableOpacity;
 
