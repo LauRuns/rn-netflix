@@ -125,15 +125,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run lint-check`
-
-Runs a linting check using the eslint and Prettier packages.<br />
-A result output is shown in the terminal<br />
-
-### `npm run lint`
-
-Runs a lint correction on all present linting errors.<br />
-
 ## Project status
 
 This being a study project means many improvements can be made. Pull requests are welcome!
