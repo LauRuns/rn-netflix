@@ -82,7 +82,7 @@ export const LoginScreen = ({ navigation }) => {
 	const authSubmitHandler = async () => {
 		try {
 			const responseData = await sendRequest(
-				`${CONNECTION_STRING}/users/login`,
+				`${CONNECTION_STRING}/auth/login`,
 				'POST',
 				JSON.stringify({
 					email: formState.inputValues.email,
