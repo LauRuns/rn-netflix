@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
+/* UI elements, components, hooks and styling */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
-import {
-	NFHeaderButton,
-	Header,
-	DefaultText
-} from '../../components/atoms/index';
+import { NFHeaderButton, Header } from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
 import { CountryList } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
 
-import { DUMMY_COUNTRYLST } from '../../data/DUMMY_DATA';
-
+/*
+Displays a list of all available countries by the API.
+Allows navigating to the new or expiring content for the country that the user selects from the list.
+*/
 export const CountriesScreen = (props) => {
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
 	const [loadedCountries, setLoadedCountries] = useState();
 
+	/* Loads all available countries from the API */
 	useEffect(() => {
 		const fetchCountries = async () => {
 			try {
@@ -33,14 +32,12 @@ export const CountriesScreen = (props) => {
 					};
 					countryList.push(newEl);
 				});
-				console.log(countryList);
 				setLoadedCountries(countryList);
 			} catch (err) {
 				// Error is handled by useNetflixClient
 			}
 		};
 		fetchCountries();
-		// setLoadedCountries(DUMMY_COUNTRYLST);
 	}, []);
 
 	useEffect(() => {
@@ -51,12 +48,12 @@ export const CountriesScreen = (props) => {
 		}
 	}, [error]);
 
+	/* Navigates to the new country content */
 	const onShowCountryNewContentHandler = (e) => {
-		console.log('onShowCountryNewContentHandler', e);
 		props.navigation.navigate('NewContent', { countryData: e });
 	};
+	/* Navigates to the expiring country content */
 	const onShowCountryExpContentHandler = (e) => {
-		console.log('onShowCountryExpContentHandler', e);
 		props.navigation.navigate('ExpContent', { countryData: e });
 	};
 
@@ -70,23 +67,6 @@ export const CountriesScreen = (props) => {
 			/>
 		);
 	}
-
-	// if (!isLoading && !loadedCountries) {
-	// 	return (
-	// 		<View
-	// 			style={{
-	// 				flex: 1,
-	// 				justifyContent: 'center',
-	// 				alignItems: 'center',
-	// 				backgroundColor: Colors.backgroundDark
-	// 			}}
-	// 		>
-	// 			<DefaultText color={Colors.primary} size={22}>
-	// 				...oops! No data available
-	// 			</DefaultText>
-	// 		</View>
-	// 	);
-	// }
 
 	return (
 		<View style={styles.screen}>

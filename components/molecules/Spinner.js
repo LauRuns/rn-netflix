@@ -3,7 +3,10 @@ import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import { DefaultText } from '../atoms/index';
-
+/*
+Returns a loading spinner using the React Native ActivityIndicator.
+Allows for setting size, color and additional text.
+*/
 export const Spinner = (props) => {
 	return (
 		<View style={styles.screen}>

@@ -8,21 +8,19 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
-/* Hooks and context */
+/* UI elements, components, hooks and styling */
 import { useNetflixClient } from '../../../shared/hooks/netflix-hook';
 import { useContextUser } from '../../../shared/context/user-context';
-/* UI elements and components */
 import {
 	Header,
 	IconButton,
 	DefaultText
 } from '../../../components/atoms/index';
 import { Spinner } from '../../../components/molecules/index';
-/* Styling */
 import Colors from '../../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
-
+/* Checks input value and returns state for the form */
 const formReducer = (state, action) => {
 	if (action.type === FORM_UPDATE) {
 		const updatedValues = {
@@ -46,6 +44,7 @@ const formReducer = (state, action) => {
 	return state;
 };
 
+/* Displays the dropdown component for changing the users country and handles sending it via context to the backend */
 export const CountryScreen = () => {
 	const { isLoading, error, fetchNetflixData } = useNetflixClient();
 	const {
@@ -73,6 +72,7 @@ export const CountryScreen = () => {
 		formIsValid: false
 	});
 
+	/* Handles setting the formState based on the input set by the user. Dispatches the action to the formReducer */
 	const inputChangeHandler = useCallback(
 		(inputIdentifier, inputValue, inputValidity) => {
 			dispatchFormState({
@@ -81,11 +81,11 @@ export const CountryScreen = () => {
 				isValid: inputValidity,
 				input: inputIdentifier
 			});
-			// setSelectedCountry(inputValue.country);
 		},
 		[dispatchFormState]
 	);
 
+	/* Maps the received countries from the API to obejects usable in the <RNPickerSelect /> component */
 	const mapCountries = async (countryData) => {
 		let mappedCountries = [];
 		countryData.map(({ country, countryId, countrycode }) => {
@@ -98,6 +98,7 @@ export const CountryScreen = () => {
 		return mappedCountries;
 	};
 
+	/* Fetches all available countries from the API, changes the objects and sets it in the component state */
 	useEffect(() => {
 		const fetchCountries = async () => {
 			try {
@@ -122,6 +123,7 @@ export const CountryScreen = () => {
 		fetchCountries();
 	}, []);
 
+	/* Shows an error message when the error || updatingError state changes */
 	useEffect(() => {
 		if (error || updatingError) {
 			Alert.alert('Error', error || updatingError, [

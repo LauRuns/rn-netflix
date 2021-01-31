@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
-
-/* Hooks and context */
+import { StyleSheet, View, Alert } from 'react-native';
+/* UI elements, components, hooks and styling */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
-/* Components */
 import { Spinner } from '../../components/molecules/index';
 import { ExpNFContentList } from '../../components/organisms/index';
-
 import Colors from '../../constants/Colors';
-// import { COUNTRY_IDS } from '../../data/DUMMY_DATA'; // <-- development
 
+/*
+Fetches all the expiring content for a specific country for which the country ID is paased in as props on the route.
+The list of expiring ID's is passed to the <ExpNFContentList /> which return a list of items.
+For each ID a separate call to the API has to be made to fetch it's data. For new content this is easier, because a list of complete items is already returned.
+*/
 export const ExpContent = (props) => {
 	const { countryId } = props.route.params.countryData;
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
@@ -34,7 +35,6 @@ export const ExpContent = (props) => {
 
 	useEffect(() => {
 		fetchExpiringContent();
-		// setIdList(COUNTRY_IDS); // <-- for development only
 	}, [offset]);
 
 	useEffect(() => {

@@ -3,6 +3,7 @@ import { StyleSheet, View, SafeAreaView, FlatList } from 'react-native';
 
 import { CountryCard } from '../molecules/index';
 
+/* Returns a list of countrycards used in the CountriesScreen */
 export const CountryList = (props) => {
 	return (
 		<View>

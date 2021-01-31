@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
+/* UI elements, components, hooks and styling */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
-
 import { NFHeaderButton, Header } from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
 import { SearchForm } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
 
-import { DUMMY_COUNTRYLST } from '../../data/DUMMY_DATA';
-
+/* Returns the screen that containes the searchform that allows the user to search Netflix content within a country */
 export const SearchScreen = (props) => {
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
 	const [loadedCountries, setLoadedCountries] = useState();
 
+	/* Loads all available countries from the API and passes them on to the SearchForm */
 	useEffect(() => {
 		const fetchCountries = async () => {
 			try {
@@ -36,9 +35,9 @@ export const SearchScreen = (props) => {
 			}
 		};
 		fetchCountries();
-		// setLoadedCountries(DUMMY_COUNTRYLST); // <-- use in development
 	}, []);
 
+	/* If the error property is set, a pop-up showing the error message wil be opened */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [

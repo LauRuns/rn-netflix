@@ -13,20 +13,17 @@ import * as Animatable from 'react-native-animatable';
 import * as Linking from 'expo-linking';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CONNECTION_STRING, TERMS } from '@env';
-
-/* Hooks & context */
+/* UI elements, components, hooks and styling */
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { useAuthState } from '../../shared/context/auth-context';
 import { useContextUser } from '../../shared/context/user-context';
-
-/* UI elements */
 import { DefaultText } from '../../components/atoms/index';
 import { Spinner } from '../../components/molecules/index';
 import { AuthInput, CountryDropDown } from '../../components/organisms/index';
 import Colors from '../../constants/Colors';
 
 const FORM_UPDATE = 'FORM_UPDATE';
-
+/* Checks input value and returns state for the form */
 const formReducer = (state, action) => {
 	if (action.type === FORM_UPDATE) {
 		const updatedValues = {
@@ -50,6 +47,7 @@ const formReducer = (state, action) => {
 	return state;
 };
 
+/* Returns the signup screen with input fields and form validation */
 export const SignUpScreen = ({ navigation }) => {
 	const { login } = useAuthState();
 	const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -73,6 +71,7 @@ export const SignUpScreen = ({ navigation }) => {
 		formIsValid: false
 	});
 
+	/* If the error property is set, a pop-up showing the error message wil be opened */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
@@ -81,6 +80,7 @@ export const SignUpScreen = ({ navigation }) => {
 		}
 	}, [error]);
 
+	/* Handles setting the formState based on the input set by the user. Dispatches the action to the formReducer */
 	const inputChangeHandler = useCallback(
 		(inputIdentifier, inputValue, inputValidity) => {
 			dispatchFormState({
@@ -93,6 +93,7 @@ export const SignUpScreen = ({ navigation }) => {
 		[dispatchFormState]
 	);
 
+	/* Passes the value from the sign up fields to the backend. Verifies that both passwords are equal and passes the response data to the context. */
 	const signupHandler = async () => {
 		if (
 			formState.inputValues.password !== formState.inputValues.confirmPassword
@@ -114,9 +115,11 @@ export const SignUpScreen = ({ navigation }) => {
 				'POST',
 				formData
 			);
-			const { userId, token, user } = responseData;
-			await setActiveUserHandler(user);
-			await login(userId, token);
+			if (responseData) {
+				const { userId, token, user } = responseData;
+				await setActiveUserHandler(user);
+				await login(userId, token);
+			}
 		} catch (err) {
 			// Error is handled by the useHttpClient hook
 		}

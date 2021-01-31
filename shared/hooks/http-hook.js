@@ -23,12 +23,23 @@ export const useHttpClient = () => {
 			setIsLoading(true);
 
 			try {
+				axios.interceptors.response.use(
+					(response) => {
+						return response;
+					},
+					(err) => {
+						setIsLoading(false);
+						throw err;
+					}
+				);
+
 				if (isMounted.current) {
 					const response = await axios({
 						method: method,
 						url: url,
 						data: body,
 						headers: headers,
+						withCredentials: true,
 						cancelToken: signal.token
 					});
 
@@ -50,7 +61,6 @@ export const useHttpClient = () => {
 							"Voldemort says there's an issue with your Response___:",
 							err.response.status
 						);
-
 						setError(err.message);
 					} else if (err.request) {
 						console.log(

@@ -6,9 +6,13 @@ import { useNetflixClient } from '../../shared/hooks/netflix-hook';
 import { NavButtons, ExpNFItem, Spinner } from '../molecules/index';
 import Colors from '../../constants/Colors';
 
+/*
+Returns Netflix expiring content presented as a list of images (Netflix item poster images)
+*/
 export const ExpNFContentList = (props) => {
 	const { isLoading, error, clearError } = useNetflixClient();
 
+	/* When the error property is set, a pop-up will be shown with the error message */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
