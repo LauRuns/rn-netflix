@@ -33,12 +33,14 @@ const formReducer = (state, action) => {
 	}
 };
 
+/* Custom hook for handling form validation. Returns the formstate */
 export const useForm = (initialInputs, initialFormValidity) => {
 	const [formState, dispatch] = useReducer(formReducer, {
 		inputs: initialInputs,
 		isValid: initialFormValidity
 	});
 
+	/* Reacts on input change - dispatches the input validation to the formreducer */
 	const inputHandler = useCallback((id, value, isValid) => {
 		dispatch({
 			type: 'INPUT_CHANGE',

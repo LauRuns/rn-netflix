@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import axios from 'axios';
 
+/* Custom hook for sending http requests to the project API which in turn makes calls to the MongoDB database. */
 export const useHttpClient = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
@@ -8,6 +9,7 @@ export const useHttpClient = () => {
 	let signal;
 	let isMounted = useRef(null);
 
+	/* Creates a reference that is used to check if the component is mounted and a axios canceltoken. Runs on every request made. */
 	useEffect(() => {
 		isMounted.current = true;
 		signal = axios.CancelToken.source();
@@ -18,6 +20,10 @@ export const useHttpClient = () => {
 		};
 	}, []);
 
+	/*
+    Makes the call to the API and returns the response data or an error object.
+    Interceptors are used to add on to the request header and check for errors on the response.
+    */
 	const sendRequest = useCallback(
 		async (url, method = 'GET', body = null, headers = {}) => {
 			setIsLoading(true);
@@ -73,7 +79,7 @@ export const useHttpClient = () => {
 						url: url,
 						data: body,
 						headers: headers,
-						withCredentials: true,
+						withCredentials: true, // needs to be set when using cookies
 						cancelToken: signal.token
 					});
 
