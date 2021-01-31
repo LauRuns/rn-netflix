@@ -18,6 +18,7 @@ export const AvatarScreen = (props) => {
 		clearError
 	} = useContextUser();
 
+	/* Forwards the selected image to the context for updating the user avatar */
 	const updateAvatarHandler = async (newAvatar) => {
 		const splitImage = newAvatar.split('ImagePicker/')[1];
 		const formData = new FormData();
@@ -30,6 +31,7 @@ export const AvatarScreen = (props) => {
 		props.navigation.navigate('Account');
 	};
 
+	/* Shows an error message when the updatingError state changes */
 	useEffect(() => {
 		if (updatingError) {
 			Alert.alert('Error', updatingError, [

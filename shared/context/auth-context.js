@@ -5,7 +5,6 @@ import React, {
 	useCallback,
 	useEffect
 } from 'react';
-
 import AsyncStorage from '@react-native-community/async-storage';
 
 const AuthContext = createContext();
@@ -20,6 +19,7 @@ export const AuthContextProvider = ({ children }) => {
 	const [token, setToken] = useState(null);
 	const [tokenExpirationDate, setTokenExpirationDate] = useState();
 
+	/* Handles the login by setting the context state and storing the data in the device memory */
 	const login = useCallback((uid, token, expirationDate) => {
 		setAuthState({
 			...authState,
@@ -43,6 +43,7 @@ export const AuthContextProvider = ({ children }) => {
 		);
 	}, []);
 
+	/* Handles logout by setting the state back to null and removing the data from device memory */
 	const logout = useCallback(() => {
 		setAuthState({
 			...authState,
@@ -56,6 +57,7 @@ export const AuthContextProvider = ({ children }) => {
 		AsyncStorage.removeItem('countryData');
 	}, []);
 
+	/* Checks if token and token expirationdate are set in state, if not, it will clear the logout timer. */
 	useEffect(() => {
 		if (token && tokenExpirationDate) {
 			const remainingTime =
@@ -66,25 +68,26 @@ export const AuthContextProvider = ({ children }) => {
 		}
 	}, [token, logout, tokenExpirationDate]);
 
+	/*
+    Returns the user data that was stored in the device memory. If present, then it will run the login again.
+    This is more useful for a webapp where the user is able to manually refresh the page, losing all the authstate.
+    By setting it in device memory (or browser memory) it persists when reloads occur.
+    */
 	useEffect(() => {
 		let storedData;
 		const getData = async () => {
-			try {
-				storedData = await AsyncStorage.getItem('userData');
-				storedData = JSON.parse(storedData);
-				if (
-					storedData &&
-					storedData.token &&
-					new Date(storedData.expiration) > new Date()
-				) {
-					login(
-						storedData.userId,
-						storedData.token,
-						new Date(storedData.expiration)
-					);
-				}
-			} catch (error) {
-				console.log(error);
+			storedData = await AsyncStorage.getItem('userData');
+			storedData = JSON.parse(storedData);
+			if (
+				storedData &&
+				storedData.token &&
+				new Date(storedData.expiration) > new Date()
+			) {
+				login(
+					storedData.userId,
+					storedData.token,
+					new Date(storedData.expiration)
+				);
 			}
 		};
 		getData();

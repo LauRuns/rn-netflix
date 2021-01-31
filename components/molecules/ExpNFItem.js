@@ -7,6 +7,11 @@ import { NFImage } from '../atoms/index';
 import { Spinner } from '../molecules/Spinner';
 import Colors from '../../constants/Colors';
 
+/*
+Returns a expiring Netflix item. Takes in a id property for which it fisrt needs to fetch the data. When bussy fetchuing data a loading spinner is displayed.
+When the data has been fetched, the item is displyed as a <NFImage /> component, which navigates to the detail page for the item on touch.
+*/
+
 export const ExpNFItem = (props) => {
 	const [expItem, setExpItem] = useState(null);
 	const { isLoading, fetchNetflixData, clearError } = useNetflixClient();

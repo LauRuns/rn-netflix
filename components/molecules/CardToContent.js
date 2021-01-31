@@ -11,6 +11,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { Card, DefaultText } from '../atoms/index';
 import Colors from '../../constants/Colors';
 
+/*
+Returns a touchable card that is used on the landing screen after login.
+*/
 export const CardToContent = (props) => {
 	let TouchableCmp = TouchableOpacity;
 

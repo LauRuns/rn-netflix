@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
-
-/* Hooks and context */
+import { StyleSheet, View, Alert } from 'react-native';
+/* UI elements, components, hooks and styling */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
-/* Components */
 import { Spinner } from '../../components/molecules/index';
 import { ExpNFContentList } from '../../components/organisms/index';
-
 import Colors from '../../constants/Colors';
-// import { COUNTRY_IDS } from '../../data/DUMMY_DATA'; // <-- development
 
+/*
+Fetches all the expiring content for a specific country for which the country ID is paased in as props on the route.
+The list of expiring ID's is passed to the <ExpNFContentList /> which return a list of items.
+For each ID a separate call to the API has to be made to fetch it's data. For new content this is easier, because a list of complete items is already returned.
+*/
 export const ExpContent = (props) => {
 	const { countryId } = props.route.params.countryData;
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
 	const [offset, setOffset] = useState(0);
 	const [idList, setIdList] = useState(null);
 
+	/* Fetches all the Netflix ID's that are expiring within a specific country */
 	const fetchExpiringContent = async () => {
 		try {
 			const response = await fetchNetflixData({
@@ -28,15 +30,16 @@ export const ExpContent = (props) => {
 			});
 			setIdList(response);
 		} catch (error) {
-			console.log(error);
+			// error is handled and set by the useNetflixClient hook
 		}
 	};
 
+	/* Runs the fetchExpiringContent method when the offset changes and when the component mounts the first time */
 	useEffect(() => {
 		fetchExpiringContent();
-		// setIdList(COUNTRY_IDS); // <-- for development only
 	}, [offset]);
 
+	/* If the error is set in state by the useNetflixClient hook, this useEffect is fired which opens a popup displaying the error message */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
@@ -45,13 +48,13 @@ export const ExpContent = (props) => {
 		}
 	}, [error]);
 
+	/* Loads the next 6 expiring items */
 	const onLoadNext = () => {
-		console.log('onNext');
 		setOffset(offset + 6);
 	};
 
+	/* Loads the previous 6 expiring items */
 	const onLoadPrevious = () => {
-		console.log('onPrevious');
 		if (offset !== 0) setOffset(offset - 6);
 	};
 

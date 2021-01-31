@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
-/* Hooks and context */
+/* UI elements, components, hooks and styling */
 import { useFavorites } from '../../shared/context/favorites-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
-
-/* UI elements and components */
 import {
 	NFImage,
 	NFHeaderButton,
@@ -14,14 +11,21 @@ import {
 } from '../../components/atoms/index';
 import Colors from '../../constants/Colors';
 
+/* Loads and displays all the favorite items for the logged in user */
 export const FavoritesScreen = (props) => {
 	const { favorites } = useFavorites();
 	const { error, clearError } = useHttpClient();
 
+	/*
+    Navigates to the details screen when a favorite item is pressed.
+    The selected item is passed as 'props'.
+    In the details screen, the user has the option of removing the item from the favorites.
+    */
 	const onItemSelectedHandler = (item) => {
 		props.navigation.navigate('ItemDetail', { item: item });
 	};
 
+	/* If the error property is set, a pop-up showing the error message wil be opened */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error || 'An unexpected error occurred', [
@@ -30,6 +34,7 @@ export const FavoritesScreen = (props) => {
 		}
 	}, [error]);
 
+	/* Returns a <NFImage /> component displayed in the FlatList of favorite Netflix items */
 	const renderNFItemImage = (itemData) => {
 		return (
 			<NFImage
@@ -41,6 +46,7 @@ export const FavoritesScreen = (props) => {
 		);
 	};
 
+	/* If the user does not have any favorite items, then the JSX below will be returned, informing the user about not having set any favorite items yet */
 	if (!favorites || favorites.length === 0) {
 		return (
 			<View style={styles.screenNoItems}>

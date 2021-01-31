@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { DefaultText } from '../components/atoms/index';
 import Colors from '../constants/Colors';
 
+/* Loads the initial screen for the app and redirects the user to the login screen */
 export const SplashScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>

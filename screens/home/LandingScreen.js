@@ -2,30 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import AsyncStorage from '@react-native-community/async-storage';
-
-/* Hooks and context */
+/* UI elements, components, hooks and styling */
 import { useContextUser } from '../../shared/context/user-context';
-
-/* UI elements */
 import { NFHeaderButton, Header } from '../../components/atoms/index';
 import { CardToContent } from '../../components/molecules/CardToContent';
 import Colors from '../../constants/Colors';
 
+/*
+This is the screen shown when the user logs in or signs up.
+It shows the content card for the set country by the user and Default for the Netherlands (because the app is intended for a Dutch audience)
+*/
 export const LandingScreen = (props) => {
 	const [storedCountry, setStoredCountry] = useState(null);
 	const { activeUser, countryData } = useContextUser();
 
+	/* Sets country from AynscStorage - this country has been set on sign-up or in the users account settings */
 	useEffect(() => {
 		let getStoredCountry;
 		const getData = async () => {
-			try {
-				getStoredCountry = await AsyncStorage.getItem('countryData');
-				getStoredCountry = JSON.parse(getStoredCountry);
-				if (getStoredCountry) {
-					setStoredCountry(getStoredCountry);
-				}
-			} catch (error) {
-				console.log(error);
+			getStoredCountry = await AsyncStorage.getItem('countryData');
+			getStoredCountry = JSON.parse(getStoredCountry);
+			if (getStoredCountry) {
+				setStoredCountry(getStoredCountry);
 			}
 		};
 		getData();

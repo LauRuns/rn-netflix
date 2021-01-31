@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
-
-/* Hooks and context */
+/* UI elements, components, hooks and styling */
 import { useNetflixClient } from '../../shared/hooks/netflix-hook';
-/* Components */
 import { Spinner } from '../../components/molecules/index';
 import { NewNFContentList } from '../../components/organisms/index';
-
 import Colors from '../../constants/Colors';
-import { DUMMY_ITEMS } from '../../data/DUMMY_DATA'; // <-- development
 
+/* Returns a list of new Netflix item for the country ID that is passed in as props. */
 export const NewContent = (props) => {
 	const { countryId } = props.route.params.countryData;
-
 	const { isLoading, error, fetchNetflixData, clearError } = useNetflixClient();
 	const [offset, setOffset] = useState(0);
 	const [newItems, setNewItems] = useState(0);
 
+	/* Sets a searchParam object for fetching new items. */
 	let searchParams = {
-		newdate: new Date('2015-01-01'),
-		start_year: 2017,
+		newdate: new Date('2015-01-01'), // returns all titles with a new date greater than this
+		start_year: 2015, // optional - returns items as of this year
 		orderby: 'date',
 		limit: 6,
-		countrylist: countryId,
+		countrylist: countryId, // ID is passed in on the route via props
 		audio: 'english',
-		offset: offset,
-		end_year: 2020
+		offset: offset, // control the offset with the navButtons - allows fetching next or previous items
+		end_year: 2021
 	};
+
+	/* Fetches new content and sets in state. When set the <NewNFContentList /> is rendered */
 	const fetchNewContent = async () => {
 		try {
 			const response = await fetchNetflixData({
@@ -35,15 +34,16 @@ export const NewContent = (props) => {
 			});
 			setNewItems(response);
 		} catch (error) {
-			console.log(error);
+			// error is handled and set by the useNetflixClient hook
 		}
 	};
 
+	/* Loads the new content when the offset property changes value when the user presses the <NavButtons /> */
 	useEffect(() => {
 		fetchNewContent();
-		// setNewItems(DUMMY_ITEMS); // <-- for development only
 	}, [offset]);
 
+	/* If the error property is set, a pop-up showing the error message wil be opened */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
@@ -52,13 +52,13 @@ export const NewContent = (props) => {
 		}
 	}, [error]);
 
+	/* Loads the next 6 items */
 	const onLoadNext = () => {
-		console.log('onNext');
 		setOffset(offset + 6);
 	};
 
+	/* Loads the previous 6 items, unless the offset === 0. In that case the previous button is disabled. */
 	const onLoadPrevious = () => {
-		console.log('onPrevious');
 		if (offset !== 0) setOffset(offset - 6);
 	};
 

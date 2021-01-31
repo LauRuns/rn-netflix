@@ -5,11 +5,13 @@ import { NFImage } from '../atoms/index';
 import { NavButtons } from '../molecules/index';
 import Colors from '../../constants/Colors';
 
+/* Returns a list of new Netflix items and the navigation buttons for loading the next and previous set of items */
 export const NewNFContentList = (props) => {
 	const onItemSelectedHandler = (item) => {
 		props.navData.navigate('ItemDetail', { item: item });
 	};
 
+	/* Returns the new Netflix item as a <NFImage /> component */
 	const renderNFItemImage = (itemData) => {
 		return (
 			<NFImage
