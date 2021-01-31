@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import axios from 'axios';
-
 import { MOVIES_KEY } from '@env';
 
 let headersConfig = {
@@ -9,6 +8,7 @@ let headersConfig = {
 	useQueryString: true
 };
 
+/* Custom hook for fetching Netflix content from the unogsNG located at rapidapi.com */
 export const useNetflixClient = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
@@ -16,17 +16,21 @@ export const useNetflixClient = () => {
 	let cancelToken;
 	let _isMounted = useRef(null);
 
+	/* Creates a reference that is used to check if the component is mounted and a axios canceltoken. Runs on every request made. */
 	useEffect(() => {
 		_isMounted.current = true;
 		cancelToken = axios.CancelToken.source();
 
 		return () => {
-			console.log('Netflix cleanup');
 			setIsLoading(false);
 			_isMounted.current = false;
 		};
 	}, []);
 
+	/*
+    Makes the call to the API and returns the response data or an error object.
+    Interceptors are used to add on to the request header and check for errors on the response.
+    */
 	const fetchNetflixData = useCallback(
 		async ({ urlEndpoint, method = 'GET', body = null, params }) => {
 			setIsLoading(true);
@@ -99,7 +103,9 @@ export const useNetflixClient = () => {
 				}
 			} catch (error) {
 				if (_isMounted.current) {
-					setError(error.message);
+					setError(
+						err.response.data.message ? err.response.data.message : err.message
+					);
 					setIsLoading(false);
 				}
 				throw error;
