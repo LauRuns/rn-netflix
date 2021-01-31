@@ -3,7 +3,6 @@ import {
 	StyleSheet,
 	View,
 	ScrollView,
-	Image,
 	TouchableOpacity,
 	TouchableNativeFeedback,
 	Platform,
@@ -13,7 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 /* UI elements, components, hooks and styling */
 import { useFavorites } from '../../shared/context/favorites-context';
-import { DefaultText } from '../../components/atoms/index';
+import { NFItemDetails } from '../../components/molecules/index';
 import Colors from '../../constants/Colors';
 
 /* Displays the selected items details and has the option of adding the item to the users favorites */
@@ -84,37 +83,7 @@ export const ItemDetail = (props) => {
 					</TouchableCmp>
 				)}
 			</View>
-			<Image
-				source={{ uri: img }}
-				style={{ width: 300, height: 370 }}
-				resizeMode="contain"
-			/>
-			<View style={styles.detailInfo}>
-				<View style={styles.center}>
-					<DefaultText
-						color={Colors.primary}
-						size={24}
-						style={{
-							fontFamily: 'roboto-bold'
-						}}
-					>
-						{nfItem.title}
-					</DefaultText>
-				</View>
-				<View style={styles.center}>
-					<DefaultText size={20} color={Colors.primary}>
-						{nfItem.year}
-					</DefaultText>
-				</View>
-				<View style={styles.story}>
-					<DefaultText size={20} color={Colors.primary}>
-						{nfItem.synopsis}
-					</DefaultText>
-				</View>
-				<DefaultText size={18} color={Colors.primary}>
-					IMDB rating: {nfItem.imdbrating}
-				</DefaultText>
-			</View>
+			<NFItemDetails item={nfItem} />
 		</ScrollView>
 	);
 };
@@ -131,15 +100,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		backgroundColor: Colors.backgroundDark
-	},
-	detailInfo: {
-		padding: 10
-	},
-	center: {
-		alignItems: 'center'
-	},
-	story: {
-		paddingVertical: 20
 	},
 	favHeart: {
 		flexDirection: 'row',

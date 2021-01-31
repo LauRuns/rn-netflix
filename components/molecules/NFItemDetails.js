@@ -8,29 +8,61 @@ import Colors from '../../constants/Colors';
 Returns the details for a Netflix item provided via props.
 */
 export const NFItemDetails = (props) => {
+	const { title, year, synopsis, img, imdbrating } = props.item;
+
 	return (
 		<View style={styles.screen}>
-			<Image source={{ uri: props.imageUrl }} />
-			<DefaultText size={20} color={Colors.primary}>
-				{props.title}
-			</DefaultText>
-			<DefaultText size={20} color={Colors.primary}>
-				{props.year}
-			</DefaultText>
-			<DefaultText size={20} color={Colors.primary}>
-				{props.synopsis}
-			</DefaultText>
-			<DefaultText size={20} color={Colors.primary}>
-				IMDB rating: {props.imdbrating}
-			</DefaultText>
+			<Image
+				source={{ uri: img }}
+				style={{ width: 300, height: 370 }}
+				resizeMode="contain"
+			/>
+			<View style={styles.detailInfo}>
+				<View style={styles.center}>
+					<DefaultText
+						color={Colors.primary}
+						size={24}
+						style={{
+							fontFamily: 'roboto-bold'
+						}}
+					>
+						{title}
+					</DefaultText>
+				</View>
+				<View style={styles.center}>
+					<DefaultText size={20} color={Colors.primary}>
+						{year}
+					</DefaultText>
+				</View>
+				<View style={styles.story}>
+					<DefaultText size={20} color={Colors.primary}>
+						{synopsis}
+					</DefaultText>
+				</View>
+				<DefaultText size={18} color={Colors.primary}>
+					IMDB rating: {imdbrating}
+				</DefaultText>
+			</View>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	screen: {
-		padding: 10,
-		width: '50%',
-		height: 10
+		alignItems: 'center'
+	},
+	viewContainer: {
+		flex: 1,
+		alignItems: 'center',
+		backgroundColor: Colors.backgroundDark
+	},
+	detailInfo: {
+		padding: 10
+	},
+	center: {
+		alignItems: 'center'
+	},
+	story: {
+		paddingVertical: 20
 	}
 });
