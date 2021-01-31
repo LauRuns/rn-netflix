@@ -75,14 +75,12 @@ export const NewContent = (props) => {
 
 	return (
 		<View style={styles.screen}>
-			{newItems && (
-				<NewNFContentList
-					listData={newItems}
-					onNext={onLoadNext}
-					onPrevious={onLoadPrevious}
-					navData={props.navigation}
-				/>
-			)}
+			<NewNFContentList
+				listData={newItems}
+				onNext={onLoadNext}
+				onPrevious={onLoadPrevious}
+				navData={props.navigation}
+			/>
 		</View>
 	);
 };
