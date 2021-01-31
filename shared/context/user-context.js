@@ -96,14 +96,10 @@ export const UserContextProvider = ({ children }) => {
 	useEffect(() => {
 		let storedCountry;
 		const getData = async () => {
-			try {
-				storedCountry = await AsyncStorage.getItem('countryData');
-				storedCountry = JSON.parse(storedCountry);
-				if (storedCountry) {
-					setCountryData(storedCountry.countryData);
-				}
-			} catch (error) {
-				console.log(error); // <- not yet handled ?
+			storedCountry = await AsyncStorage.getItem('countryData');
+			storedCountry = JSON.parse(storedCountry);
+			if (storedCountry) {
+				setCountryData(storedCountry.countryData);
 			}
 		};
 		getData();

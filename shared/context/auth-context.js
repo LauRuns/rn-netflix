@@ -76,22 +76,18 @@ export const AuthContextProvider = ({ children }) => {
 	useEffect(() => {
 		let storedData;
 		const getData = async () => {
-			try {
-				storedData = await AsyncStorage.getItem('userData');
-				storedData = JSON.parse(storedData);
-				if (
-					storedData &&
-					storedData.token &&
-					new Date(storedData.expiration) > new Date()
-				) {
-					login(
-						storedData.userId,
-						storedData.token,
-						new Date(storedData.expiration)
-					);
-				}
-			} catch (error) {
-				console.log(error);
+			storedData = await AsyncStorage.getItem('userData');
+			storedData = JSON.parse(storedData);
+			if (
+				storedData &&
+				storedData.token &&
+				new Date(storedData.expiration) > new Date()
+			) {
+				login(
+					storedData.userId,
+					storedData.token,
+					new Date(storedData.expiration)
+				);
 			}
 		};
 		getData();

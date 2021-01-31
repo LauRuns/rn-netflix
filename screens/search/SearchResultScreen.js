@@ -106,8 +106,7 @@ export const SearchResultScreen = (props) => {
 					btnText="New search"
 					style={{ marginTop: 20 }}
 					onPress={() => {
-						console.log('try new serach query'),
-							props.navigation.navigate('Search');
+						props.navigation.navigate('Search');
 					}}
 				/>
 			</View>

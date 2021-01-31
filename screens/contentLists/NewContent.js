@@ -34,7 +34,7 @@ export const NewContent = (props) => {
 			});
 			setNewItems(response);
 		} catch (error) {
-			console.log(error);
+			// error is handled and set by the useNetflixClient hook
 		}
 	};
 

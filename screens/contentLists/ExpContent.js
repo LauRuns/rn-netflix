@@ -17,6 +17,7 @@ export const ExpContent = (props) => {
 	const [offset, setOffset] = useState(0);
 	const [idList, setIdList] = useState(null);
 
+	/* Fetches all the Netflix ID's that are expiring within a specific country */
 	const fetchExpiringContent = async () => {
 		try {
 			const response = await fetchNetflixData({
@@ -29,14 +30,16 @@ export const ExpContent = (props) => {
 			});
 			setIdList(response);
 		} catch (error) {
-			console.log(error);
+			// error is handled and set by the useNetflixClient hook
 		}
 	};
 
+	/* Runs the fetchExpiringContent method when the offset changes and when the component mounts the first time */
 	useEffect(() => {
 		fetchExpiringContent();
 	}, [offset]);
 
+	/* If the error is set in state by the useNetflixClient hook, this useEffect is fired which opens a popup displaying the error message */
 	useEffect(() => {
 		if (error) {
 			Alert.alert('Error', error, [
@@ -45,13 +48,13 @@ export const ExpContent = (props) => {
 		}
 	}, [error]);
 
+	/* Loads the next 6 expiring items */
 	const onLoadNext = () => {
-		console.log('onNext');
 		setOffset(offset + 6);
 	};
 
+	/* Loads the previous 6 expiring items */
 	const onLoadPrevious = () => {
-		console.log('onPrevious');
 		if (offset !== 0) setOffset(offset - 6);
 	};
 

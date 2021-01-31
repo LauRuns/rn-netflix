@@ -20,14 +20,10 @@ export const LandingScreen = (props) => {
 	useEffect(() => {
 		let getStoredCountry;
 		const getData = async () => {
-			try {
-				getStoredCountry = await AsyncStorage.getItem('countryData');
-				getStoredCountry = JSON.parse(getStoredCountry);
-				if (getStoredCountry) {
-					setStoredCountry(getStoredCountry);
-				}
-			} catch (error) {
-				console.log(error);
+			getStoredCountry = await AsyncStorage.getItem('countryData');
+			getStoredCountry = JSON.parse(getStoredCountry);
+			if (getStoredCountry) {
+				setStoredCountry(getStoredCountry);
 			}
 		};
 		getData();
