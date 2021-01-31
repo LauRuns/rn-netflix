@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react';
+import React, { useReducer, useCallback, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 /* UI elements, components, hooks and styling */
 import { useContextUser } from '../../../shared/context/user-context';
