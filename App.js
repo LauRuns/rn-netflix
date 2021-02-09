@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
 
 /* Context */
 import { AuthContextProvider } from './src/shared/context/auth-context';
@@ -36,6 +37,7 @@ export default function App() {
 		<AuthContextProvider>
 			<UserContextProvider>
 				<FavoritesContextProvider>
+					<StatusBar style="light" />
 					<AppNavigator />
 				</FavoritesContextProvider>
 			</UserContextProvider>
