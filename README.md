@@ -15,7 +15,7 @@ Expo official docs can be found [here](https://expo.io).
 - [Demo](##demo)
   - [Login](###login)
   - [...or Sign Up](###...-or-sign-up)
-- [Available scripts](##available-cripts)
+- [Available scripts](##available-scripts)
 - [Project state](##project-status)
 - [License](##license)
 
@@ -130,6 +130,11 @@ Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload upon saving your edits.<br />
+
+### `npm run lint-check`
+
+Runs a linting check using the eslint.<br />
+A result output is shown in the terminal<br />
 
 ### `npm run build`
 

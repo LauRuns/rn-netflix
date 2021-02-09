@@ -3,19 +3,20 @@ import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 
 /* Context */
-import { AuthContextProvider } from './shared/context/auth-context';
-import { UserContextProvider } from './shared/context/user-context';
-import { FavoritesContextProvider } from './shared/context/favorites-context';
+import { AuthContextProvider } from './src/shared/context/auth-context';
+import { UserContextProvider } from './src/shared/context/user-context';
+import { FavoritesContextProvider } from './src/shared/context/favorites-context';
 
 /* App navigation stacks */
-import { AppNavigator } from './navigation/AppNavigator';
+// import { AppNavigator } from '.src/navigation/AppNavigator';
+import { AppNavigator } from './src/navigation/AppNavigator';
 
 /* Sets fonts for app */
 const fetchFonts = () => {
 	return Font.loadAsync({
-		'roboto-regular': require('./assets/fonts/RobotoCondensed-Regular.ttf'),
-		'roboto-light': require('./assets/fonts/RobotoCondensed-Light.ttf'),
-		'roboto-bold': require('./assets/fonts/RobotoCondensed-Bold.ttf')
+		'roboto-regular': require('./src/assets/fonts/RobotoCondensed-Regular.ttf'),
+		'roboto-light': require('./src/assets/fonts/RobotoCondensed-Light.ttf'),
+		'roboto-bold': require('./src/assets/fonts/RobotoCondensed-Bold.ttf')
 	});
 };
 
