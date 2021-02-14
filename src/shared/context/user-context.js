@@ -1,10 +1,16 @@
-import React, { useState, createContext, useCallback, useEffect } from 'react';
-import { useContext } from 'react';
+import React, {
+	useState,
+	createContext,
+	useCallback,
+	useEffect,
+	useContext
+} from 'react';
+
 import { CONNECTION_STRING } from '@env';
 import AsyncStorage from '@react-native-community/async-storage';
 /* Context and hooks */
-import { useHttpClient } from '../../shared/hooks/http-hook';
-import { useAuthState } from '../../shared/context/auth-context';
+import { useHttpClient } from '../hooks/http-hook';
+import { useAuthState } from './auth-context';
 
 export const UserContext = createContext();
 export const useContextUser = () => {
@@ -25,7 +31,7 @@ export const UserContextProvider = ({ children }) => {
 		setActiveUser({
 			...activeUser,
 			user: {
-				userId: data._id,
+				userId: data.id,
 				userName: data.name,
 				email: data.email,
 				avatar: data.image,

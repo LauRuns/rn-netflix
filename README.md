@@ -3,15 +3,31 @@
 This project was created with the Expo cli. [More on installing the Expo cli from the React Native docs](https://reactnative.dev/docs/environment-setup).
 Expo official docs can be found [here](https://expo.io).
 
+# Contents
+
+- [Description](##description)
+- [This is a study project](##this-is-a-study-project)
+- [Prerequisites](##prerequisites)
+- [How to check if Node is installed?](###how-to-check-if-Node-is-installed?)
+- [Set-up guide](##set-up-guide)
+- [Environment variables](###environment-variables)
+- [Installation](#installation)
+- [Demo](##demo)
+  - [Login](###login)
+  - [...or Sign Up](###...-or-sign-up)
+- [Available scripts](##available-scripts)
+- [Project state](##project-status)
+- [License](##license)
+
 ## Description
 
-This React Native app is part of a school/study project. It uses an API, which is part of the project, for user authentication and persisting userdata. The API can be found on this Github as well.
+This React Native app is part of a school/study project. It uses an API, which is part of the overall project, for user authentication and fetching userdata. The API can be found [here](https://github.com/LauRuns/netflix-api) on this Github.
 The app focusses on presenting the user which Netflix content will be deleted and which new content has been added. For this, the app uses a third party API from [Rapidapi](https://rapidapi.com/unogs/api/unogsng) to search and fetch all the content. The user is able to query the API through this app.
-Furthermore, the user is able to save Netflix content items to a list of favorites.
+Furthermore, the user is able to save Netflix content items to a list of favorites which is presented in the app.
 
 ## This is a study project
 
-This is just a project for my study. Therefore teachers/instructors will receive a seperate file containing all API-keys and will not need to go through the section: Set-up guide.
+This is just a project for my study. Therefore teachers/instructors will receive a seperate file containing all API-keys and will not need to go through the section: [Set-up guide](##set-up-guide).
 
 ## Prerequisites
 
@@ -51,7 +67,7 @@ Create a `.env` file in the root folder and enter all environment variables as l
 - Next you will need to set the `ASSET_URL` which is used to fetch and set the user images/avatar. The `ASSET_URL` does <b>NOT</b> end with `/api`!!<br />
   <img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/rn-setting-env.gif?raw=truegif" alt='Set .env' />
 
-## Installation
+# Installation
 
 Clone the project to your designated folder and run
 
@@ -114,6 +130,11 @@ Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload upon saving your edits.<br />
+
+### `npm run lint-check`
+
+Runs a linting check using the eslint.<br />
+A result output is shown in the terminal<br />
 
 ### `npm run build`
 

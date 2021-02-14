@@ -1,10 +1,9 @@
-import React, { useState, createContext, useCallback } from 'react';
-import { useContext } from 'react';
+import React, { useState, createContext, useCallback, useContext } from 'react';
 import { CONNECTION_STRING } from '@env';
 
 /* Context and hooks */
-import { useHttpClient } from '../../shared/hooks/http-hook';
-import { useAuthState } from '../../shared/context/auth-context';
+import { useHttpClient } from '../hooks/http-hook';
+import { useAuthState } from './auth-context';
 
 export const FavoritesContext = createContext();
 export const useFavorites = () => {
@@ -69,7 +68,7 @@ export const FavoritesContextProvider = ({ children }) => {
 				}
 			);
 			const { netflixid } = response.result;
-			let currentFavs = [...favorites];
+			const currentFavs = [...favorites];
 			const newFavs = currentFavs.filter((item) => +item.nfid !== +netflixid);
 			loadFavoriteItemsHandler(newFavs);
 		} catch (error) {

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Platform, SafeAreaView, Button, View } from 'react-native';
+import { Platform, SafeAreaView, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
 	createDrawerNavigator,
 	DrawerItemList
 } from '@react-navigation/drawer';
+import { IconButton } from '../components/atoms/index';
 
 /* Screens */
 import {
@@ -234,17 +235,24 @@ export const NFAppNavigator = () => {
 								style={{
 									flexDirection: 'column',
 									justifyContent: 'space-between',
-									height: '100%'
+									height: '100%',
+									paddingTop: 50,
+									paddingBottom: 50
 								}}
 							>
 								<View>
 									<DrawerItemList {...props} />
 								</View>
-								<Button
-									title="Logout"
-									color={Colors.primary}
-									onPress={() => logout()}
-								/>
+								<View style={{ alignItems: 'center' }}>
+									<IconButton
+										iconName="log-out-outline"
+										iconSize={24}
+										onPress={() => logout()}
+										textSize={24}
+										btnText="LOGOUT"
+										color={Colors.primary}
+									/>
+								</View>
 							</View>
 						</SafeAreaView>
 					</View>
