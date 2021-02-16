@@ -5,19 +5,21 @@ Expo official docs can be found [here](https://expo.io).
 
 # Contents
 
-- [Description](##description)
-- [This is a study project](##this-is-a-study-project)
-- [Prerequisites](##prerequisites)
-- [How to check if Node is installed?](###how-to-check-if-Node-is-installed?)
-- [Set-up guide](##set-up-guide)
-- [Environment variables](###environment-variables)
+- [Description](#description)
+- [This is a study project](#this-is-a-study-project)
+- [Prerequisites](#prerequisites)
+- [How to check if Node is installed?](#how-to-check-if-Node-is-installed?)
+- [Set-up guide](#set-up-guide)
+- [Environment variables](#environment-variables)
 - [Installation](#installation)
-- [Demo](##demo)
-  - [Login](###login)
-  - [...or Sign Up](###...-or-sign-up)
-- [Available scripts](##available-scripts)
-- [Project state](##project-status)
-- [License](##license)
+- [iOS](#ios)
+- [Android](#android)
+- [Demo](#demo)
+  - [Login](#login)
+  - [...or Sign Up](#...-or-sign-up)
+- [Available scripts](#available-scripts)
+- [Project state](#project-status)
+- [License](#license)
 
 ## Description
 
@@ -61,11 +63,12 @@ This app uses the [unogsNG](https://rapidapi.com/unogs/api/unogsng) API. For thi
 
 ### Environment variables
 
-Create a `.env` file in the root folder and enter all environment variables as listed in the `.env-example.txt` which you find in the root folder.
+Create a `.env` file in the root folder and enter all environment variables as listed in the `env-example.txt` which you find in the root folder.
 
-- You will need to set a connection string at which the app will reach out to the API that is part of this overall project. Make sure that the `CONNECTION_STRING` in both the API and Webapp use the same address and port. A suggested port is given in the `.env.example.txt`
+- You will need to set a connection string at which the app will reach out to the API that is part of this overall project. Make sure that the `CONNECTION_STRING` in both the API and Webapp use the same address and port. A suggested port is given in the `env.example.txt`
 - Next you will need to set the `ASSET_URL` which is used to fetch and set the user images/avatar. The `ASSET_URL` does <b>NOT</b> end with `/api`!!<br />
-  <img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/rn-setting-env.gif?raw=truegif" alt='Set .env' />
+  <img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/rn-setting-env.gif?raw=true" alt='Set .env' />
+- When using a local API to connect with, make sure that when using the Android emulator the `localhost` part of both CONNECTION_STRING and ASSET_URL are replaced by IP: `10.0.2.2`. Otherwise Android emulators running on the same machine are unable to connect to local API's/servers.
 
 # Installation
 
@@ -82,12 +85,10 @@ All the project dependencies will be installed and a `node_modules` folder is cr
 After setting the environment variables and having run the `npm install` command, start the app by running the command:
 
 ```
-npm run start
+npm run start:dev
 ```
 
-A informative message now appears in your terminal.<br />
-<img src="./assets/expo-terminal.png" alt='Expo terminal' width='350'/>
-<br />
+A informative message now appears in your terminal window indicating the application is running. This will automatically open a browser page, if not, the address can be selected as shown below. <br />
 
 ### Get the address from the terminal and open it in the browser
 
@@ -95,16 +96,20 @@ A informative message now appears in your terminal.<br />
 
 <img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/expo-terminal.gif?raw=true" alt='Expo terminal' width='400'/>
 <br />
-In the browser a page now opens which allows you to track any logs or errors from the running application. The logs and/or errors are also displayed in your terminal window. It also allows you to open the app on a emulator.
-<i>Make sure that you have an emulator running.</i>
-<br />
-<img src="https://github.com/LauRuns/readme-gifs/blob/main/rn/expo-page-ios-emulator.gif?raw=true" alt='Expo webpage open iOS' width='400'/>
-<br />
+In the browser a page now be visible which allows you to track any logs or errors from the running application. The logs and/or errors are also displayed in your terminal window.
 
-### Another option is to open the app from the terminal
+### iOS
 
-When in the terminal press `i` to open the app on the iOS emulator and `a` for Android. An emulator needs to be openend first for Android.
-<br />
+- When in the terminal press `i` to open the app on the iOS emulator. Make sure that the `.env` connection string points to `localhost`.
+  <br />
+
+### Android
+
+Android emulators need a different address to connect with a local running API/server.
+
+- Stop the running Native application with `control + c` command in the terminal
+- In de `.env` file, switch `localhost` to IP: `10.0.2.2`
+- Restart the application with `npm run start:dev`
 
 ### Login
 
@@ -124,27 +129,16 @@ The login page for the app should now be open:<br />
 
 In the project directory, you can run:
 
-### `npm run start`
+### `npm run start:dev`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload upon saving your edits.<br />
+Open the iOS or Android emulator as explained in the section [iOS](###ios) or [Android](###android).
+Saved changes wil be reflected in the running application.<br />
 
 ### `npm run lint-check`
 
 Runs a linting check using the eslint.<br />
 A result output is shown in the terminal<br />
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ## Project status
 
